@@ -1,6 +1,7 @@
 # SYNTAX TEST "text.git-commit" "English commit message"
 
 # Please enter the commit message for your changes. Lines starting
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope.metadata.git-commit comment.line.number-sign.git-commit
 # with '#' will be ignored, and an empty message aborts the commit.
 #
 # On branch main
@@ -11,8 +12,11 @@
 #	new file:   apa
 #
 # ------------------------ >8 ------------------------
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.git-commit
 # Do not modify or remove the line above.
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.git-commit
 # Everything below it will be ignored.
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.git-commit
 diff --git apa apa
 # ^^^^^^^^^^^^^^^^ meta.diff.header.command
 new file mode 100644

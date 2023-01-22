@@ -1,6 +1,7 @@
 # SYNTAX TEST "text.git-commit" "Swedish commit message"
 
 # Ange incheckningsmeddelandet för dina ändringar. Rader som inleds
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope.metadata.git-commit comment.line.number-sign.git-commit
 # med "#" kommer ignoreras, och ett tomt meddelande avbryter incheckningen.
 #
 # På grenen main
@@ -11,8 +12,11 @@
 #	ny fil:        apa
 #
 # ------------------------ >8 ------------------------
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.git-commit
 # Raden ovan får inte ändras eller tas bort.
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.git-commit
 # Allt under den kommer tas bort.
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.git-commit
 diff --git apa apa
 # ^^^^^^^^^^^^^^^^ meta.diff.header.command
 new file mode 100644
