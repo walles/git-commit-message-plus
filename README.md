@@ -5,7 +5,7 @@ A git commit message highlighter that should be nicer than the built-in one.
 ## Features
 
 * Comes with tests using <https://github.com/PanAeon/vscode-tmgrammar-test>
-* TODO: Proper `git commit -v` diff highlighting even when running `git` in
+* Proper `git commit -v` diff highlighting even when running `git` in
   not-English.
 * TODO: Mark commit message subject line in bold, it *is* a heading after all.
 * TODO: Mark too long subject lines as errors with hover help and stuff.

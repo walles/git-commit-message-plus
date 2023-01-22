@@ -9,8 +9,8 @@
 	"scopeName": "text.git-commit",
 	"patterns": [
 		{
-			"begin": "\\A(?!# Please enter the commit message)",
-			"end": "^(?=# Please enter the commit message)",
+			"begin": "\\A(?!# .+)",
+			"end": "^(?=# .+)",
 			"name": "meta.scope.message.git-commit",
 			"patterns": [
 				{
@@ -23,8 +23,8 @@
 					]
 				},
 				{
-					"begin": "^(?!# Please enter the commit message)",
-					"end": "^(?=# Please enter the commit message)",
+					"begin": "^(?!# .+)",
+					"end": "^(?=# .+)",
 					"patterns": [
 						{
 							"begin": "\\G",
@@ -50,8 +50,8 @@
 							]
 						},
 						{
-							"begin": "^(?!# Please enter the commit message)",
-							"end": "^(?=# Please enter the commit message)",
+							"begin": "^(?!# .+)",
+							"end": "^(?=# .+)",
 							"patterns": [
 								{
 									"include": "#comment"
@@ -63,7 +63,7 @@
 			]
 		},
 		{
-			"begin": "^(?=# Please enter the commit message)",
+			"begin": "^(?=# .+)",
 			"end": "\\z",
 			"name": "meta.scope.metadata.git-commit",
 			"patterns": [
