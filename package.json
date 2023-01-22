@@ -1,0 +1,19 @@
+{
+  "name": "git-commit-message-plus",
+  "displayName": "Git Commit Message Plus",
+  "description": "FIXME: Put a useful description here",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "grammars": [{
+      "language": "git-commit",
+      "scopeName": "text.git-commit",
+      "path": "./syntaxes/git-commit.tmLanguage.json"
+    }]
+  }
+}
