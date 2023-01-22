@@ -15,3 +15,11 @@ A git commit message highlighter that should be nicer than the built-in one.
 FIXME: Add an animated demo here!
 
 \!\[feature X\]\(images/feature-x.png\)
+
+## Development
+
+To run the unit tests:
+```
+npm install
+./node_modules/.bin/vscode-tmgrammar-test tests/unit/*.test
+```

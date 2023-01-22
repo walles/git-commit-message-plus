@@ -1,3 +1,4 @@
+# SYNTAX TEST "text.git-commit" "Swedish commit message"
 
 # Ange incheckningsmeddelandet för dina ändringar. Rader som inleds
 # med "#" kommer ignoreras, och ett tomt meddelande avbryter incheckningen.
@@ -13,9 +14,12 @@
 # Raden ovan får inte ändras eller tas bort.
 # Allt under den kommer tas bort.
 diff --git apa apa
+# ^^^^^^^^^^^^^^^^ meta.diff.header.command
 new file mode 100644
 index 0000000..1b5b67f
 --- /dev/null
+# ^^^^^^^^^^^ meta.diff.header.from-file
 +++ apa
 @@ -0,0 +1 @@
 +hej
+^^^^ markup.inserted.diff

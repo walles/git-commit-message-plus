@@ -1,0 +1,25 @@
+# SYNTAX TEST "text.git-commit" "English commit message"
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch main
+#
+# Initial commit
+#
+# Changes to be committed:
+#	new file:   apa
+#
+# ------------------------ >8 ------------------------
+# Do not modify or remove the line above.
+# Everything below it will be ignored.
+diff --git apa apa
+# ^^^^^^^^^^^^^^^^ meta.diff.header.command
+new file mode 100644
+index 0000000..1b5b67f
+--- /dev/null
+# ^^^^^^^^^^^ meta.diff.header.from-file
++++ apa
+@@ -0,0 +1 @@
++hej
+^^^^ markup.inserted.diff
