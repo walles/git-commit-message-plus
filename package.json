@@ -10,10 +10,15 @@
     "Programming Languages"
   ],
   "contributes": {
-    "grammars": [{
-      "language": "git-commit",
-      "scopeName": "text.git-commit",
-      "path": "./syntaxes/git-commit.tmLanguage.json"
-    }]
+    "grammars": [
+      {
+        "language": "git-commit",
+        "scopeName": "text.git-commit",
+        "path": "./syntaxes/git-commit.tmLanguage.json"
+      }
+    ]
+  },
+  "devDependencies": {
+    "vscode-tmgrammar-test": "^0.1.1"
   }
 }
