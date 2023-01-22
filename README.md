@@ -4,8 +4,7 @@ A git commit message highlighter that should be nicer than the built-in one.
 
 ## Features
 
-* TODO: Comes with tests using
-  <https://github.com/PanAeon/vscode-tmgrammar-test>
+* Comes with tests using <https://github.com/PanAeon/vscode-tmgrammar-test>
 * TODO: Proper `git commit -v` diff highlighting even when running `git` in
   not-English.
 * TODO: Mark commit message subject line in bold, it *is* a heading after all.
@@ -21,5 +20,5 @@ FIXME: Add an animated demo here!
 To run the unit tests:
 ```
 npm install
-./node_modules/.bin/vscode-tmgrammar-test tests/unit/*.test
+./node_modules/.bin/vscode-tmgrammar-test -g tests/support/diff.tmLanguage.json tests/unit/*.test
 ```
