@@ -19,6 +19,15 @@
     ]
   },
   "devDependencies": {
+    "@vscode/vsce": "^2.16.0",
     "vscode-tmgrammar-test": "^0.1.1"
+  },
+  "scripts": {
+    "package": "vsce package"
+  },
+  "scriptsComment": {
+    "package": [
+      "From: https://stackoverflow.com/a/67430480/473672"
+    ]
   }
 }
