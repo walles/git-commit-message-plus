@@ -34,7 +34,7 @@ npm install && npm test
 
 To install into VSCode:
 
-1. `npm package`
+1. `npm run package`
 1. In VSCode:
    - Click Extensions
    - Click the ... menu in the top right corner
