@@ -17,6 +17,7 @@
   "license": "MIT",
   "scripts": {
     "package": "vsce package",
+    "publish": "vsce publish",
     "test": "vscode-tmgrammar-test -g tests/support/diff.tmLanguage.json tests/unit/*.test"
   },
   "contributes": {

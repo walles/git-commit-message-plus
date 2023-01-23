@@ -39,3 +39,9 @@ To install into VSCode:
    - Click Extensions
    - Click the ... menu in the top right corner
    - Click Install from VSIX...
+
+To publish a new version:
+
+```
+npm run publish
+```
