@@ -1,23 +1,29 @@
 # Git Commit Message Plus
 
-A git commit message highlighter that should be nicer than the built-in one.
+A git commit message highlighter being nicer than the built-in one.
 
 ## Features
 
+- Proper `git commit -v` diff highlighting [even when running `git` in
+  not-English](https://github.com/textmate/git.tmbundle/issues/60).
+
+<!-- FIXME: Add an animated demo here! -->
+
+### Internal
+
 - Comes with tests using <https://github.com/PanAeon/vscode-tmgrammar-test>
-- Proper `git commit -v` diff highlighting even when running `git` in
-  not-English.
-- TODO: Tests are runnable using `npm test`
-- TODO: Mark too long subject lines as errors with hover help and stuff.
-- TODO: No highlighting of too-long subject lines, leave that to the error
+
+### TODO
+
+- Tests are runnable using `npm test`
+- Make an icon
+- `npm test` in CI
+- Mark too long subject lines as errors with hover help and stuff.
+- No highlighting of too-long subject lines, leave that to the error
   reporting ^.
-- TODO: Mark trailing punctuation as an error with hover help and stuff.
-- TODO: Mark any second-line text as an error with hover help and stuff.
-- TODO: Mark commit message subject line in bold, it _is_ a heading after all.
-
-FIXME: Add an animated demo here!
-
-\!\[feature X\]\(images/feature-x.png\)
+- Mark trailing punctuation as an error with hover help and stuff.
+- Mark any second-line text as an error with hover help and stuff.
+- Mark commit message subject line in bold, it _is_ a heading after all.
 
 ## Development
 
