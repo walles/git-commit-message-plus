@@ -15,7 +15,6 @@ A git commit message highlighter being nicer than the built-in one.
 
 ### TODO
 
-- Tests are runnable using `npm test`
 - Make an icon
 - `npm test` in CI
 - Mark too long subject lines as errors with hover help and stuff.
@@ -30,8 +29,7 @@ A git commit message highlighter being nicer than the built-in one.
 To run the unit tests:
 
 ```
-npm install
-./node_modules/.bin/vscode-tmgrammar-test -g tests/support/diff.tmLanguage.json tests/unit/*.test
+npm install && npm test
 ```
 
 To install into VSCode:
