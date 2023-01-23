@@ -15,6 +15,7 @@
     "url": "https://github.com/walles/git-commit-message-plus"
   },
   "license": "MIT",
+  "publisher": "walles",
   "scripts": {
     "package": "vsce package",
     "publish": "vsce publish",
