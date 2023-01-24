@@ -24,6 +24,7 @@ A git commit message highlighter being nicer than the built-in one.
 - No highlighting of too-long subject lines, leave that to the error
   reporting ^.
 - Make an icon
+- Move all tests under the same top subdirectory
 - `npm test` in CI
 - Mark commit message subject line in bold, it _is_ a heading after all.
 - Add a print margin. Can we [configure the default setting for our
