@@ -15,15 +15,16 @@ A git commit message highlighter being nicer than the built-in one.
 
 ### TODO
 
-- Make an icon
-- `npm test` in CI
-- Add a print margin
 - Mark too long subject lines as errors with hover help and stuff.
-- No highlighting of too-long subject lines, leave that to the error
-  reporting ^.
 - Mark trailing punctuation as an error with hover help and stuff.
 - Mark any second-line text as an error with hover help and stuff.
+- No highlighting of too-long subject lines, leave that to the error
+  reporting ^.
+- Make an icon
+- `npm test` in CI
 - Mark commit message subject line in bold, it _is_ a heading after all.
+- Add a print margin. Can we [configure the default setting for our
+  language](https://stackoverflow.com/questions/42607666/how-to-add-a-right-margin-to-the-visual-studio-code-editor)?
 
 ## Development
 
