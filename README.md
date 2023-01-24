@@ -15,9 +15,8 @@ A git commit message highlighter being nicer than the built-in one.
 
 ### TODO
 
-- Add diagnostic. Inspiration from [the
-  docs](https://code.visualstudio.com/api/language-extensions/programmatic-language-features)
-  and from [an extension](https://github.com/gbuktenica/Unicode-Substitutions).
+- Add diagnostic. Inspiration from [the docs][diagnostics-docs] and from [an
+  extension][sample-extension].
   - Mark too long subject lines as errors with hover help and stuff.
   - Mark trailing punctuation as an error with hover help and stuff.
   - Mark any second-line text as an error with hover help and stuff.
@@ -51,3 +50,6 @@ To publish a new version:
 ```
 npm run publish
 ```
+
+[diagnostics-docs]: https://code.visualstudio.com/api/language-extensions/programmatic-language-features#provide-diagnostics
+[sample-extension]: https://github.com/gbuktenica/Unicode-Substitutions
