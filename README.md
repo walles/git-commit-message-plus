@@ -15,9 +15,12 @@ A git commit message highlighter being nicer than the built-in one.
 
 ### TODO
 
-- Mark too long subject lines as errors with hover help and stuff.
-- Mark trailing punctuation as an error with hover help and stuff.
-- Mark any second-line text as an error with hover help and stuff.
+- Add diagnostic. Inspiration from [the
+  docs](https://code.visualstudio.com/api/language-extensions/programmatic-language-features)
+  and from [an extension](https://github.com/gbuktenica/Unicode-Substitutions).
+  - Mark too long subject lines as errors with hover help and stuff.
+  - Mark trailing punctuation as an error with hover help and stuff.
+  - Mark any second-line text as an error with hover help and stuff.
 - No highlighting of too-long subject lines, leave that to the error
   reporting ^.
 - Make an icon
