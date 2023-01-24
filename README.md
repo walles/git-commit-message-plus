@@ -17,6 +17,7 @@ A git commit message highlighter being nicer than the built-in one.
 
 - Make an icon
 - `npm test` in CI
+- Add a print margin
 - Mark too long subject lines as errors with hover help and stuff.
 - No highlighting of too-long subject lines, leave that to the error
   reporting ^.
