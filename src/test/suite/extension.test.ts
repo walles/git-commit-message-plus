@@ -3,13 +3,27 @@ import * as assert from 'assert';
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
-// import * as myExtension from '../../extension';
+import * as extension from '../../extension';
 
-suite('Extension Test Suite', () => {
+class FakeTextDocument implements extension.TextDocumentLite {
+	private readonly lines: string[];
+	readonly lineCount: number;
+
+	constructor(lines: string[]) {
+		this.lines = lines;
+		this.lineCount = lines.length;
+	}
+
+	lineAt(line: number): extension.TextLineLite {
+		return { "text": this.lines[line] };
+	}
+}
+
+suite('Git Commit Message Plus', () => {
 	vscode.window.showInformationMessage('Start all tests.');
 
-	test('Sample test', () => {
-		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
+	test('Empty Text Document', () => {
+		const empty = new FakeTextDocument([]);
+		assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
 	});
 });

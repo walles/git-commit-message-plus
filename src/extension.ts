@@ -5,6 +5,17 @@ import * as vscode from 'vscode';
 const maxSubjectLineLength = 72;
 const maxSubjectLineLengthUrl = vscode.Uri.parse("https://www.gitkraken.com/learn/git/best-practices/git-commit-message");
 
+/** Subset of vscode.TextLine, for simplifying test writing. */
+export interface TextLineLite {
+	text: string;
+}
+
+/** Subset of vscode.TextDocument, for simplifying test writing. */
+export interface TextDocumentLite {
+	lineCount: number;
+	lineAt(line: number): TextLineLite;
+}
+
 let diagnosticCollection: vscode.DiagnosticCollection;
 
 // This method is called when your extension is activated
@@ -35,7 +46,7 @@ export function deactivate() {
 	console.log('Git Commit Message Plus says good bye!');
 }
 
-function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
+function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
 	if (doc.lineCount < 1) {
 		return [];
 	}
@@ -61,3 +72,10 @@ function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
 
 	return returnMe;
 }
+
+// Exports for testing
+//
+// Ref: https://stackoverflow.com/a/65422568/473672
+export const _private = {
+	getDiagnostics
+};
