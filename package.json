@@ -1,7 +1,7 @@
 {
   "name": "git-commit-message-plus",
   "displayName": "Git Commit Message Plus",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Improved Git commit message editing",
   "categories": [
     "Programming Languages",
@@ -27,6 +27,11 @@
     "test": "node ./out/test/runTest.js && vscode-tmgrammar-test -g tests/support/diff.tmLanguage.json tests/unit/*.test",
     "vscode:prepublish": "npm run compile",
     "watch": "tsc -watch -p ./"
+  },
+  "scriptsComment": {
+    "package": [
+      "From: https://stackoverflow.com/a/67430480/473672"
+    ]
   },
   "contributes": {
     "grammars": [
@@ -57,10 +62,5 @@
   },
   "engines": {
     "vscode": "^1.74.0"
-  },
-  "scriptsComment": {
-    "package": [
-      "From: https://stackoverflow.com/a/67430480/473672"
-    ]
   }
 }
