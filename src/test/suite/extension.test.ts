@@ -32,4 +32,19 @@ suite('Git Commit Message Plus', () => {
 		assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
 	});
 
+	test('First line 73 chars', () => {
+		const empty = new FakeTextDocument(['x'.repeat(73)]);
+
+		const expectedRange = new vscode.Range(new vscode.Position(0, 72), new vscode.Position(0, 73));
+		const expected = new vscode.Diagnostic(
+			expectedRange,
+			`Subject line should be at most 72 characters`,
+			vscode.DiagnosticSeverity.Warning
+		);
+		expected.code = {
+			"target": extension._private.maxSubjectLineLengthUrl,
+			"value": "Git Commit Message Structure"
+		};
+		assert.deepStrictEqual(extension._private.getDiagnostics(empty), [expected]);
+	});
 });

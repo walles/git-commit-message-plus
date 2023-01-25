@@ -77,5 +77,6 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
 //
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
-	getDiagnostics
+	getDiagnostics,
+	maxSubjectLineLengthUrl
 };
