@@ -1,0 +1,48 @@
+Attempt to have a linting callback called
+
+# Ange incheckningsmeddelandet för dina ändringar. Rader som inleds
+# med "#" kommer ignoreras, och ett tomt meddelande avbryter incheckningen.
+#
+# Datum:      Wed Jan 25 06:22:20 2023 +0100
+#
+# På grenen johan/diagnostics
+# Din gren och "origin/johan/diagnostics" har divergerat,
+# och har 1 respektive 1 olika incheckningar.
+#   (använd "git pull" för att slå ihop fjärrgrenen med din egen)
+#
+# Ändringar att checka in:
+#	ändrad:        src/extension.ts
+#
+# ------------------------ >8 ------------------------
+# Raden ovan får inte ändras eller tas bort.
+# Allt under den kommer tas bort.
+diff --git src/extension.ts src/extension.ts
+index a4d4b07..dda6fb5 100644
+--- src/extension.ts
++++ src/extension.ts
+@@ -14,7 +14,24 @@ export function activate(context: vscode.ExtensionContext) {
+
+ 	diagnosticCollection = vscode.languages.createDiagnosticCollection('git-commit-message');
+ 	context.subscriptions.push(diagnosticCollection);
++
++	const documentChangeListener = vscode.workspace.onDidChangeTextDocument(event => {
++		const doc = event.document;
++		if (doc.languageId !== 'git-commit') {
++			return;
++		}
++
++		diagnosticCollection.set(doc.uri, getDiagnostics(doc));
++	}, null, context.subscriptions);
++	context.subscriptions.push(documentChangeListener);
+ }
+
+ // This method is called when your extension is deactivated
+-export function deactivate() {}
++export function deactivate() {
++	console.log('Git Commit Message Plus says good bye!');
++}
++
++function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
++	console.log('FIXME: Lint the document!');
++	return [];
++}
