@@ -6,6 +6,7 @@ A git commit message highlighter being nicer than the built-in one.
 
 - Proper `git commit -v` diff highlighting [even when running `git` in
   not-English](https://github.com/textmate/git.tmbundle/issues/60).
+- Show diagnostics for > 72 characters subject lines
 
 <!-- FIXME: Add an animated demo here! -->
 
@@ -17,7 +18,6 @@ A git commit message highlighter being nicer than the built-in one.
 
 - Add diagnostic. Inspiration from [the docs][diagnostics-docs] and from [an
   extension][sample-extension].
-  - Mark too long subject lines as errors with hover help and stuff.
   - Mark trailing punctuation as an error with hover help and stuff.
   - Mark any second-line text as an error with hover help and stuff.
 - No highlighting of too-long subject lines, leave that to the error

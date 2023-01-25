@@ -33,6 +33,20 @@ export function deactivate() {
 }
 
 function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
-	console.log('FIXME: Lint the document!');
-	return [];
+	if (doc.lineCount < 1) {
+		return [];
+	}
+
+	let returnMe: vscode.Diagnostic[] = [];
+
+	// Ref: https://www.gitkraken.com/learn/git/best-practices/git-commit-message
+	const firstLine = doc.lineAt(0).text;
+	if (firstLine.length > 72) {
+		const range = new vscode.Range(new vscode.Position(0, 72), new vscode.Position(0, firstLine.length));
+
+		// FIXME: Present a better + multi line diagnostic message
+		returnMe.push(new vscode.Diagnostic(range, "Subject line too long", vscode.DiagnosticSeverity.Warning));
+	}
+
+	return returnMe;
 }
