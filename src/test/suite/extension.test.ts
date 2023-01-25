@@ -26,4 +26,10 @@ suite('Git Commit Message Plus', () => {
 		const empty = new FakeTextDocument([]);
 		assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
 	});
+
+	test('First line 72 chars', () => {
+		const empty = new FakeTextDocument(['x'.repeat(72)]);
+		assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
+	});
+
 });

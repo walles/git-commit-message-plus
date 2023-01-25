@@ -23,7 +23,8 @@ A git commit message highlighter being nicer than the built-in one.
   - Mark any second-line text as an error with hover help and stuff.
   - Make sure diagnostics are applied to newly opened files, not just on file
     edits
-  - Unit test diagnostics
+  - Write unit tests for the diagnostics
+  - Have unit tests that don't launch VSCode
 - No highlighting of too-long subject lines, leave that to the error
   reporting ^.
 - Make an icon
