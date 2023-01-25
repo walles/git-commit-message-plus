@@ -18,8 +18,12 @@ A git commit message highlighter being nicer than the built-in one.
 
 - Add diagnostic. Inspiration from [the docs][diagnostics-docs] and from [an
   extension][sample-extension].
+  - Mark > 50 chars subject lines on hint level
   - Mark trailing punctuation as an error with hover help and stuff.
   - Mark any second-line text as an error with hover help and stuff.
+  - Make sure diagnostics are applied to newly opened files, not just on file
+    edits
+  - Unit test diagnostics
 - No highlighting of too-long subject lines, leave that to the error
   reporting ^.
 - Make an icon
