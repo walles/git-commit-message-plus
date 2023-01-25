@@ -14,7 +14,24 @@ export function activate(context: vscode.ExtensionContext) {
 
 	diagnosticCollection = vscode.languages.createDiagnosticCollection('git-commit-message');
 	context.subscriptions.push(diagnosticCollection);
+
+	const documentChangeListener = vscode.workspace.onDidChangeTextDocument(event => {
+		const doc = event.document;
+		if (doc.languageId !== 'git-commit') {
+			return;
+		}
+
+		diagnosticCollection.set(doc.uri, getDiagnostics(doc));
+	}, null, context.subscriptions);
+	context.subscriptions.push(documentChangeListener);
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+	console.log('Git Commit Message Plus says good bye!');
+}
+
+function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
+	console.log('FIXME: Lint the document!');
+	return [];
+}
