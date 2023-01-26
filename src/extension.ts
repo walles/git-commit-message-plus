@@ -8,6 +8,9 @@ const subjectLineLengthUrl = vscode.Uri.parse(
 const subjectLinePunctuationUrl = vscode.Uri.parse(
   "https://cbea.ms/git-commit/#end"
 );
+const secondLineBlankUrl = vscode.Uri.parse(
+  "https://cbea.ms/git-commit/#separate"
+);
 
 /** Subset of vscode.TextLine, for simplifying test writing. */
 export interface TextLineLite {
@@ -63,6 +66,11 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
     returnMe.push(...getFirstLine50Diagnostic(firstLine));
     returnMe.push(...getFirstLine72Diagnostic(firstLine));
     returnMe.push(...getFirstLinePunctuationDiagnostic(firstLine));
+  }
+
+  if (doc.lineCount >= 2) {
+    const secondLine = doc.lineAt(1).text;
+    returnMe.push(...getSecondLineDiagnostic(secondLine));
   }
 
   return returnMe;
@@ -162,6 +170,28 @@ function getFirstLinePunctuationDiagnostic(
   return [];
 }
 
+function getSecondLineDiagnostic(secondLine: string): vscode.Diagnostic[] {
+  if (secondLine.length == 0) {
+    return [];
+  }
+
+  if (secondLine.startsWith("#")) {
+    return [];
+  }
+
+  return [
+    diag(
+      1,
+      0,
+      secondLine.length,
+      "Leave the second line blank",
+      vscode.DiagnosticSeverity.Error,
+      secondLineBlankUrl,
+      "Blank Second Line"
+    ),
+  ];
+}
+
 // Exports for testing
 //
 // Ref: https://stackoverflow.com/a/65422568/473672
@@ -171,6 +201,8 @@ export const _private = {
   getFirstLine50Diagnostic,
   getFirstLine72Diagnostic,
   getFirstLinePunctuationDiagnostic,
+  getSecondLineDiagnostic,
   subjectLineLengthUrl,
   subjectLinePunctuationUrl,
+  secondLineBlankUrl,
 };
