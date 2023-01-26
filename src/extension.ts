@@ -142,6 +142,34 @@ function getFirstLinePunctuationDiagnostic(
     ];
   }
 
+  if (firstLine.length >= 1 && firstLine.endsWith(".")) {
+    return [
+      diag(
+        0,
+        firstLine.length - 1,
+        firstLine.length,
+        "Do not end the subject line with a period",
+        vscode.DiagnosticSeverity.Error,
+        subjectLinePunctuationUrl,
+        "Subject Line Punctuation"
+      ),
+    ];
+  }
+
+  if (firstLine.length >= 1 && firstLine.endsWith("!")) {
+    return [
+      diag(
+        0,
+        firstLine.length - 1,
+        firstLine.length,
+        "Do not end the subject line with an exclamation mark",
+        vscode.DiagnosticSeverity.Error,
+        subjectLinePunctuationUrl,
+        "Subject Line Punctuation"
+      ),
+    ];
+  }
+
   return [];
 }
 
