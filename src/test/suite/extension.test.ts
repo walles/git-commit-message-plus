@@ -19,6 +19,20 @@ class FakeTextDocument implements extension.TextDocumentLite {
 	}
 }
 
+function diag(line: number, columnStart: number, columnEnd: number, message: string, severity: vscode.DiagnosticSeverity): vscode.Diagnostic {
+	const range = new vscode.Range(new vscode.Position(line, columnStart), new vscode.Position(line, columnEnd));
+	const returnMe = new vscode.Diagnostic(
+		range,
+		message,
+		severity
+	);
+	returnMe.code = {
+		"target": extension._private.maxSubjectLineLengthUrl,
+		"value": "Git Commit Message Structure"
+	};
+	return returnMe;
+}
+
 suite('Git Commit Message Plus', () => {
 	vscode.window.showInformationMessage('Start all tests.');
 
@@ -27,24 +41,36 @@ suite('Git Commit Message Plus', () => {
 		assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
 	});
 
+	test('First line 50 chars', () => {
+		const doc = new FakeTextDocument(['x'.repeat(50)]);
+		assert.deepStrictEqual(extension._private.getDiagnostics(doc), []);
+	});
+
+	test('First line 51 chars', () => {
+		const doc = new FakeTextDocument(['x'.repeat(51)]);
+
+		const expected = diag(0, 50, 51, `Try keeping the subject to at most 50 characters`, vscode.DiagnosticSeverity.Hint);
+
+		assert.deepStrictEqual(extension._private.getDiagnostics(doc), [expected]);
+	});
+
 	test('First line 72 chars', () => {
-		const empty = new FakeTextDocument(['x'.repeat(72)]);
-		assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
+		const doc = new FakeTextDocument(['x'.repeat(72)]);
+
+		const expected = diag(0, 50, 72, `Try keeping the subject to at most 50 characters`, vscode.DiagnosticSeverity.Hint);
+
+		assert.deepStrictEqual(extension._private.getDiagnostics(doc), [expected]);
 	});
 
 	test('First line 73 chars', () => {
-		const empty = new FakeTextDocument(['x'.repeat(73)]);
 
-		const expectedRange = new vscode.Range(new vscode.Position(0, 72), new vscode.Position(0, 73));
-		const expected = new vscode.Diagnostic(
-			expectedRange,
-			`Subject line should be at most 72 characters`,
-			vscode.DiagnosticSeverity.Warning
-		);
-		expected.code = {
-			"target": extension._private.maxSubjectLineLengthUrl,
-			"value": "Git Commit Message Structure"
-		};
-		assert.deepStrictEqual(extension._private.getDiagnostics(empty), [expected]);
+		const doc = new FakeTextDocument(['x'.repeat(73)]);
+
+		const expected = [
+			diag(0, 50, 72, `Try keeping the subject to at most 50 characters`, vscode.DiagnosticSeverity.Hint),
+			diag(0, 72, 73, `Keep the subject line to at most 72 characters`, vscode.DiagnosticSeverity.Warning),
+		];
+
+		assert.deepStrictEqual(extension._private.getDiagnostics(doc), expected);
 	});
 });
