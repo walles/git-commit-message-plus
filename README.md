@@ -30,6 +30,7 @@ A git commit message highlighter being nicer than the built-in one.
 - Make an icon
 - Move all tests under the same top subdirectory
 - `npm test` in CI
+- Validate code formatting in CI
 - Mark commit message subject line in bold, it _is_ a heading after all.
 - Add a print margin. Can we [configure the default setting for our
   language](https://stackoverflow.com/questions/42607666/how-to-add-a-right-margin-to-the-visual-studio-code-editor)?
