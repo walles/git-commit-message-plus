@@ -19,27 +19,6 @@ class FakeTextDocument implements extension.TextDocumentLite {
   }
 }
 
-function diag(
-  line: number,
-  columnStart: number,
-  columnEnd: number,
-  message: string,
-  severity: vscode.DiagnosticSeverity,
-  target: vscode.Uri,
-  value: string
-): vscode.Diagnostic {
-  const range = new vscode.Range(
-    new vscode.Position(line, columnStart),
-    new vscode.Position(line, columnEnd)
-  );
-  const returnMe = new vscode.Diagnostic(range, message, severity);
-  returnMe.code = {
-    target: target,
-    value: value,
-  };
-  return returnMe;
-}
-
 suite("Git Commit Message Plus", () => {
   vscode.window.showInformationMessage("Start all tests.");
 
@@ -56,7 +35,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test("First line 51 chars", () => {
-    const expected = diag(
+    const expected = extension._private.diag(
       0,
       50,
       72, // We let VSCode do the clipping here, so 72 is expected rather than 51
@@ -80,7 +59,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test("First line 73 chars", () => {
-    const expected = diag(
+    const expected = extension._private.diag(
       0,
       72,
       73,
@@ -97,7 +76,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test('First line ending in "."', () => {
-    const expected = diag(
+    const expected = extension._private.diag(
       0,
       5,
       6,
@@ -114,7 +93,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test('First line ending in "..."', () => {
-    const expected = diag(
+    const expected = extension._private.diag(
       0,
       5,
       8,
@@ -131,7 +110,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test('First line ending in "!"', () => {
-    const expected = diag(
+    const expected = extension._private.diag(
       0,
       5,
       6,

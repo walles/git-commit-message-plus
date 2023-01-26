@@ -68,27 +68,43 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
   return returnMe;
 }
 
+function diag(
+  line: number,
+  columnStart: number,
+  columnEnd: number,
+  message: string,
+  severity: vscode.DiagnosticSeverity,
+  target: vscode.Uri,
+  value: string
+): vscode.Diagnostic {
+  const range = new vscode.Range(
+    new vscode.Position(line, columnStart),
+    new vscode.Position(line, columnEnd)
+  );
+  const returnMe = new vscode.Diagnostic(range, message, severity);
+  returnMe.code = {
+    target: target,
+    value: value,
+  };
+  return returnMe;
+}
+
 function getFirstLine50Diagnostic(firstLine: string): vscode.Diagnostic[] {
   if (firstLine.length <= preferSubjectLineLength) {
     return [];
   }
 
-  const range = new vscode.Range(
-    new vscode.Position(0, preferSubjectLineLength),
-    new vscode.Position(0, maxSubjectLineLength)
-  );
-
-  const diagnostic = new vscode.Diagnostic(
-    range,
-    `Try keeping the subject line to at most ${preferSubjectLineLength} characters`,
-    vscode.DiagnosticSeverity.Information
-  );
-  diagnostic.code = {
-    target: subjectLineLengthUrl,
-    value: "Subject Line Length",
-  };
-
-  return [diagnostic];
+  return [
+    diag(
+      0,
+      preferSubjectLineLength,
+      maxSubjectLineLength,
+      `Try keeping the subject line to at most ${preferSubjectLineLength} characters`,
+      vscode.DiagnosticSeverity.Information,
+      subjectLineLengthUrl,
+      "Subject Line Length"
+    ),
+  ];
 }
 
 function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
@@ -96,22 +112,17 @@ function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
     return [];
   }
 
-  const range = new vscode.Range(
-    new vscode.Position(0, maxSubjectLineLength),
-    new vscode.Position(0, firstLine.length)
-  );
-
-  const diagnostic = new vscode.Diagnostic(
-    range,
-    `Keep the subject line to at most ${maxSubjectLineLength} characters`,
-    vscode.DiagnosticSeverity.Warning
-  );
-  diagnostic.code = {
-    target: subjectLineLengthUrl,
-    value: "Subject Line Length",
-  };
-
-  return [diagnostic];
+  return [
+    diag(
+      0,
+      maxSubjectLineLength,
+      firstLine.length,
+      `Keep the subject line to at most ${maxSubjectLineLength} characters`,
+      vscode.DiagnosticSeverity.Warning,
+      subjectLineLengthUrl,
+      "Subject Line Length"
+    ),
+  ];
 }
 
 function getFirstLinePunctuationDiagnostic(
@@ -124,6 +135,7 @@ function getFirstLinePunctuationDiagnostic(
 //
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
+  diag,
   getDiagnostics,
   getFirstLine50Diagnostic,
   getFirstLine72Diagnostic,
