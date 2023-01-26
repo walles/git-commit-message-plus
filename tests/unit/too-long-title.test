@@ -1,0 +1,5 @@
+# SYNTAX TEST "text.git-commit" "Message with too-long subject line"
+The grammar used to highlight this in red because it is > 50 chars
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid.deprecated.line-too-long.git-commit invalid.illegal.line-too-long.git-commit
+#
+# That has now been replaced with diagnostics provided in extension.ts.

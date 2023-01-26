@@ -38,14 +38,6 @@
 										}
 									},
 									"match": "\\G((fixup|squash)!)\\s*"
-								},
-								{
-									"match": ".{73,}$",
-									"name": "invalid.illegal.line-too-long.git-commit"
-								},
-								{
-									"match": ".{51,}$",
-									"name": "invalid.deprecated.line-too-long.git-commit"
 								}
 							]
 						},
