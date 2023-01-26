@@ -125,4 +125,34 @@ suite("Git Commit Message Plus", () => {
       [expected]
     );
   });
+
+  test("Empty second line", () => {
+    assert.deepStrictEqual(extension._private.getSecondLineDiagnostic(""), []);
+  });
+
+  test("Comment on second line", () => {
+    assert.deepStrictEqual(
+      extension._private.getSecondLineDiagnostic(
+        "# This line is commented out"
+      ),
+      []
+    );
+  });
+
+  test("Not-comment on second line", () => {
+    const expected = extension._private.diag(
+      0,
+      0,
+      5,
+      `Leave the second line blank`,
+      vscode.DiagnosticSeverity.Error,
+      extension._private.secondLineBlankUrl,
+      "Blank Second Line"
+    );
+
+    assert.deepStrictEqual(
+      extension._private.getSecondLineDiagnostic("Hello"),
+      [expected]
+    );
+  });
 });
