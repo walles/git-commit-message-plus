@@ -20,22 +20,18 @@ A git commit message highlighter being nicer than the built-in one.
 
 ### TODO
 
+- No highlighting of too-long subject lines, leave that to the error
+  reporting.
 - Add diagnostic. Inspiration from [the docs][diagnostics-docs] and from [an
   extension][sample-extension].
-  - Mark any second-line text as an error with hover help and stuff.
   - Make sure diagnostics are applied to newly opened files, not just on file
     edits
   - Have unit tests that don't launch VSCode
-  - Run our linting inside of a promise?
-- No highlighting of too-long subject lines, leave that to the error
-  reporting ^.
+- Mark commit message subject line in bold, it _is_ a heading after all.
 - Make an icon
 - Move all tests under the same top subdirectory
 - `npm test` in CI
 - Validate code formatting in CI
-- Mark commit message subject line in bold, it _is_ a heading after all.
-- Add a print margin. Can we [configure the default setting for our
-  language](https://stackoverflow.com/questions/42607666/how-to-add-a-right-margin-to-the-visual-studio-code-editor)?
 
 ## Development
 
