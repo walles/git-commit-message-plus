@@ -1,7 +1,7 @@
 {
   "name": "git-commit-message-plus",
   "displayName": "Git Commit Message Plus",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Improved Git commit message editing",
   "categories": [
     "Programming Languages",
