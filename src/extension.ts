@@ -1,9 +1,8 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 
+const preferSubjectLineLength = 50;
 const maxSubjectLineLength = 72;
-const maxSubjectLineLengthUrl = vscode.Uri.parse(
+const subjectLineLengthUrl = vscode.Uri.parse(
   "https://www.gitkraken.com/learn/git/best-practices/git-commit-message"
 );
 
@@ -61,9 +60,28 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
   const returnMe: vscode.Diagnostic[] = [];
 
   const firstLine = doc.lineAt(0).text;
+  if (firstLine.length > preferSubjectLineLength) {
+    const range = new vscode.Range(
+      new vscode.Position(0, preferSubjectLineLength),
+      new vscode.Position(0, Math.min(maxSubjectLineLength, firstLine.length))
+    );
+
+    const diagnostic = new vscode.Diagnostic(
+      range,
+      `Try keeping the subject line to at most ${preferSubjectLineLength} characters`,
+      vscode.DiagnosticSeverity.Hint
+    );
+    diagnostic.code = {
+      target: subjectLineLengthUrl,
+      value: "Git Commit Message Structure",
+    };
+
+    returnMe.push(diagnostic);
+  }
+
   if (firstLine.length > maxSubjectLineLength) {
     const range = new vscode.Range(
-      new vscode.Position(0, 72),
+      new vscode.Position(0, maxSubjectLineLength),
       new vscode.Position(0, firstLine.length)
     );
 
@@ -73,7 +91,7 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
       vscode.DiagnosticSeverity.Warning
     );
     diagnostic.code = {
-      target: maxSubjectLineLengthUrl,
+      target: subjectLineLengthUrl,
       value: "Git Commit Message Structure",
     };
 
@@ -88,5 +106,5 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
   getDiagnostics,
-  maxSubjectLineLengthUrl,
+  maxSubjectLineLengthUrl: subjectLineLengthUrl,
 };

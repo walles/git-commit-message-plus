@@ -58,7 +58,7 @@ suite("Git Commit Message Plus", () => {
       0,
       50,
       51,
-      `Try keeping the subject to at most 50 characters`,
+      `Try keeping the subject line to at most 50 characters`,
       vscode.DiagnosticSeverity.Hint
     );
 
@@ -72,7 +72,7 @@ suite("Git Commit Message Plus", () => {
       0,
       50,
       72,
-      `Try keeping the subject to at most 50 characters`,
+      `Try keeping the subject line to at most 50 characters`,
       vscode.DiagnosticSeverity.Hint
     );
 
@@ -87,7 +87,7 @@ suite("Git Commit Message Plus", () => {
         0,
         50,
         72,
-        `Try keeping the subject to at most 50 characters`,
+        `Try keeping the subject line to at most 50 characters`,
         vscode.DiagnosticSeverity.Hint
       ),
       diag(
