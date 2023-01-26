@@ -8,6 +8,7 @@ A git commit message highlighter being nicer than the built-in one.
   not-English](https://github.com/textmate/git.tmbundle/issues/60).
 - Warn about > 72 characters subject lines
 - Hint about > 50 characters subject lines
+- Report trailing punctuation as an error
 
 <!-- FIXME: Add an animated demo here! -->
 
@@ -20,7 +21,6 @@ A git commit message highlighter being nicer than the built-in one.
 
 - Add diagnostic. Inspiration from [the docs][diagnostics-docs] and from [an
   extension][sample-extension].
-  - Mark trailing punctuation as an error with hover help and stuff.
   - Mark any second-line text as an error with hover help and stuff.
   - Make sure diagnostics are applied to newly opened files, not just on file
     edits
