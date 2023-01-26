@@ -63,7 +63,7 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
   if (firstLine.length > preferSubjectLineLength) {
     const range = new vscode.Range(
       new vscode.Position(0, preferSubjectLineLength),
-      new vscode.Position(0, Math.min(maxSubjectLineLength, firstLine.length))
+      new vscode.Position(0, maxSubjectLineLength)
     );
 
     const diagnostic = new vscode.Diagnostic(
