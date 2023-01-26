@@ -22,11 +22,14 @@ A git commit message highlighter being nicer than the built-in one.
 
 ### TODO
 
+- Mark commit message subject line in bold, it _is_ a heading after all. Maybe
+  not-bold it after character 50? And even lowlight characters 73 and onwards?
+- Make an icon
+- The grammar contains the text `Changes to be committed`. Check what that does
+  and make sure it works in Swedish as well.
 - Make sure diagnostics are applied to newly opened files, not just on file
   edits
-- Make an icon
 - Have unit tests that don't launch VSCode
-- Mark commit message subject line in bold, it _is_ a heading after all.
 - Move all tests under the same top subdirectory
 - `npm test` in CI
 - Validate code formatting in CI
