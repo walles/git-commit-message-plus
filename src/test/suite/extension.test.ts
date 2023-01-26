@@ -47,13 +47,13 @@ suite("Git Commit Message Plus", () => {
   });
 
   test("First line 50 chars", () => {
-    const doc = new FakeTextDocument(["x".repeat(50)]);
-    assert.deepStrictEqual(extension._private.getDiagnostics(doc), []);
+    assert.deepStrictEqual(
+      extension._private.getFirstLine50Diagnostic("x".repeat(50)),
+      []
+    );
   });
 
   test("First line 51 chars", () => {
-    const doc = new FakeTextDocument(["x".repeat(51)]);
-
     const expected = diag(
       0,
       50,
@@ -62,43 +62,31 @@ suite("Git Commit Message Plus", () => {
       vscode.DiagnosticSeverity.Information
     );
 
-    assert.deepStrictEqual(extension._private.getDiagnostics(doc), [expected]);
+    assert.deepStrictEqual(
+      extension._private.getFirstLine50Diagnostic("x".repeat(51)),
+      [expected]
+    );
   });
 
   test("First line 72 chars", () => {
-    const doc = new FakeTextDocument(["x".repeat(72)]);
-
-    const expected = diag(
-      0,
-      50,
-      72,
-      `Try keeping the subject line to at most 50 characters`,
-      vscode.DiagnosticSeverity.Information
+    assert.deepStrictEqual(
+      extension._private.getFirstLine72Diagnostic("x".repeat(72)),
+      []
     );
-
-    assert.deepStrictEqual(extension._private.getDiagnostics(doc), [expected]);
   });
 
   test("First line 73 chars", () => {
-    const doc = new FakeTextDocument(["x".repeat(73)]);
+    const expected = diag(
+      0,
+      72,
+      73,
+      `Keep the subject line to at most 72 characters`,
+      vscode.DiagnosticSeverity.Warning
+    );
 
-    const expected = [
-      diag(
-        0,
-        50,
-        72,
-        `Try keeping the subject line to at most 50 characters`,
-        vscode.DiagnosticSeverity.Information
-      ),
-      diag(
-        0,
-        72,
-        73,
-        `Keep the subject line to at most 72 characters`,
-        vscode.DiagnosticSeverity.Warning
-      ),
-    ];
-
-    assert.deepStrictEqual(extension._private.getDiagnostics(doc), expected);
+    assert.deepStrictEqual(
+      extension._private.getFirstLine72Diagnostic("x".repeat(73)),
+      [expected]
+    );
   });
 });

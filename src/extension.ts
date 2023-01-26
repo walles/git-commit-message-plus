@@ -115,5 +115,7 @@ function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
   getDiagnostics,
+  getFirstLine50Diagnostic,
+  getFirstLine72Diagnostic,
   maxSubjectLineLengthUrl: subjectLineLengthUrl,
 };
