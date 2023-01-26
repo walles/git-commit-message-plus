@@ -57,7 +57,7 @@ suite("Git Commit Message Plus", () => {
     const expected = diag(
       0,
       50,
-      51,
+      72, // We let VSCode do the clipping here, so 72 is expected rather than 51
       `Try keeping the subject line to at most 50 characters`,
       vscode.DiagnosticSeverity.Information
     );
