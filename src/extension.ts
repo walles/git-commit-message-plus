@@ -5,6 +5,9 @@ const maxSubjectLineLength = 72;
 const subjectLineLengthUrl = vscode.Uri.parse(
   "https://cbea.ms/git-commit/#limit-50"
 );
+const subjectLinePunctuationUrl = vscode.Uri.parse(
+  "https://cbea.ms/git-commit/#end"
+);
 
 /** Subset of vscode.TextLine, for simplifying test writing. */
 export interface TextLineLite {
@@ -59,6 +62,7 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
     const firstLine = doc.lineAt(0).text;
     returnMe.push(...getFirstLine50Diagnostic(firstLine));
     returnMe.push(...getFirstLine72Diagnostic(firstLine));
+    returnMe.push(...getFirstLinePunctuationDiagnostic(firstLine));
   }
 
   return returnMe;
@@ -110,6 +114,12 @@ function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
   return [diagnostic];
 }
 
+function getFirstLinePunctuationDiagnostic(
+  firstLine: string
+): vscode.Diagnostic[] {
+  return [];
+}
+
 // Exports for testing
 //
 // Ref: https://stackoverflow.com/a/65422568/473672
@@ -117,5 +127,7 @@ export const _private = {
   getDiagnostics,
   getFirstLine50Diagnostic,
   getFirstLine72Diagnostic,
-  maxSubjectLineLengthUrl: subjectLineLengthUrl,
+  getFirstLinePunctuationDiagnostic,
+  subjectLineLengthUrl,
+  subjectLinePunctuationUrl,
 };

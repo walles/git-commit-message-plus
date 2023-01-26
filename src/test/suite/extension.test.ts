@@ -24,7 +24,9 @@ function diag(
   columnStart: number,
   columnEnd: number,
   message: string,
-  severity: vscode.DiagnosticSeverity
+  severity: vscode.DiagnosticSeverity,
+  target: vscode.Uri,
+  value: string
 ): vscode.Diagnostic {
   const range = new vscode.Range(
     new vscode.Position(line, columnStart),
@@ -32,8 +34,8 @@ function diag(
   );
   const returnMe = new vscode.Diagnostic(range, message, severity);
   returnMe.code = {
-    target: extension._private.maxSubjectLineLengthUrl,
-    value: "Subject Line Length",
+    target: target,
+    value: value,
   };
   return returnMe;
 }
@@ -59,7 +61,9 @@ suite("Git Commit Message Plus", () => {
       50,
       72, // We let VSCode do the clipping here, so 72 is expected rather than 51
       `Try keeping the subject line to at most 50 characters`,
-      vscode.DiagnosticSeverity.Information
+      vscode.DiagnosticSeverity.Information,
+      extension._private.subjectLineLengthUrl,
+      "Subject Line Length"
     );
 
     assert.deepStrictEqual(
@@ -81,11 +85,64 @@ suite("Git Commit Message Plus", () => {
       72,
       73,
       `Keep the subject line to at most 72 characters`,
-      vscode.DiagnosticSeverity.Warning
+      vscode.DiagnosticSeverity.Warning,
+      extension._private.subjectLineLengthUrl,
+      "Subject Line Length"
     );
 
     assert.deepStrictEqual(
       extension._private.getFirstLine72Diagnostic("x".repeat(73)),
+      [expected]
+    );
+  });
+
+  test('First line ending in "."', () => {
+    const expected = diag(
+      0,
+      5,
+      6,
+      `Do not end the subject line with a period`,
+      vscode.DiagnosticSeverity.Warning,
+      extension._private.subjectLinePunctuationUrl,
+      "Subject Line Punctuation"
+    );
+
+    assert.deepStrictEqual(
+      extension._private.getFirstLinePunctuationDiagnostic("Hello."),
+      [expected]
+    );
+  });
+
+  test('First line ending in "..."', () => {
+    const expected = diag(
+      0,
+      5,
+      8,
+      `Do not end the subject line with an ellipsis`,
+      vscode.DiagnosticSeverity.Warning,
+      extension._private.subjectLinePunctuationUrl,
+      "Subject Line Punctuation"
+    );
+
+    assert.deepStrictEqual(
+      extension._private.getFirstLinePunctuationDiagnostic("Hello..."),
+      [expected]
+    );
+  });
+
+  test('First line ending in "!"', () => {
+    const expected = diag(
+      0,
+      5,
+      6,
+      `Do not end the subject line with an exclamation mark`,
+      vscode.DiagnosticSeverity.Warning,
+      extension._private.subjectLinePunctuationUrl,
+      "Subject Line Punctuation"
+    );
+
+    assert.deepStrictEqual(
+      extension._private.getFirstLinePunctuationDiagnostic("Hello!"),
       [expected]
     );
   });
