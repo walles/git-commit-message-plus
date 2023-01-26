@@ -25,6 +25,7 @@ A git commit message highlighter being nicer than the built-in one.
   - Make sure diagnostics are applied to newly opened files, not just on file
     edits
   - Have unit tests that don't launch VSCode
+  - Run our linting inside of a promise?
 - No highlighting of too-long subject lines, leave that to the error
   reporting ^.
 - Make an icon
