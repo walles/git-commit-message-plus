@@ -128,6 +128,20 @@ function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
 function getFirstLinePunctuationDiagnostic(
   firstLine: string
 ): vscode.Diagnostic[] {
+  if (firstLine.length >= 3 && firstLine.endsWith("...")) {
+    return [
+      diag(
+        0,
+        firstLine.length - 3,
+        firstLine.length,
+        "Do not end the subject line with an ellipsis",
+        vscode.DiagnosticSeverity.Error,
+        subjectLinePunctuationUrl,
+        "Subject Line Punctuation"
+      ),
+    ];
+  }
+
   return [];
 }
 

@@ -81,7 +81,7 @@ suite("Git Commit Message Plus", () => {
       5,
       6,
       `Do not end the subject line with a period`,
-      vscode.DiagnosticSeverity.Warning,
+      vscode.DiagnosticSeverity.Error,
       extension._private.subjectLinePunctuationUrl,
       "Subject Line Punctuation"
     );
@@ -98,7 +98,7 @@ suite("Git Commit Message Plus", () => {
       5,
       8,
       `Do not end the subject line with an ellipsis`,
-      vscode.DiagnosticSeverity.Warning,
+      vscode.DiagnosticSeverity.Error,
       extension._private.subjectLinePunctuationUrl,
       "Subject Line Punctuation"
     );
@@ -115,7 +115,7 @@ suite("Git Commit Message Plus", () => {
       5,
       6,
       `Do not end the subject line with an exclamation mark`,
-      vscode.DiagnosticSeverity.Warning,
+      vscode.DiagnosticSeverity.Error,
       extension._private.subjectLinePunctuationUrl,
       "Subject Line Punctuation"
     );
