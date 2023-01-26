@@ -108,7 +108,7 @@ function getFirstLine50Diagnostic(firstLine: string): vscode.Diagnostic[] {
       preferSubjectLineLength,
       maxSubjectLineLength,
       `Try keeping the subject line to at most ${preferSubjectLineLength} characters`,
-      vscode.DiagnosticSeverity.Information,
+      vscode.DiagnosticSeverity.Warning,
       subjectLineLengthUrl,
       "Subject Line Length"
     ),
@@ -126,7 +126,7 @@ function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
       maxSubjectLineLength,
       firstLine.length,
       `Keep the subject line to at most ${maxSubjectLineLength} characters`,
-      vscode.DiagnosticSeverity.Warning,
+      vscode.DiagnosticSeverity.Error,
       subjectLineLengthUrl,
       "Subject Line Length"
     ),

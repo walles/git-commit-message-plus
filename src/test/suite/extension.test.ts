@@ -40,7 +40,7 @@ suite("Git Commit Message Plus", () => {
       50,
       72, // We let VSCode do the clipping here, so 72 is expected rather than 51
       `Try keeping the subject line to at most 50 characters`,
-      vscode.DiagnosticSeverity.Information,
+      vscode.DiagnosticSeverity.Warning,
       extension._private.subjectLineLengthUrl,
       "Subject Line Length"
     );
@@ -64,7 +64,7 @@ suite("Git Commit Message Plus", () => {
       72,
       73,
       `Keep the subject line to at most 72 characters`,
-      vscode.DiagnosticSeverity.Warning,
+      vscode.DiagnosticSeverity.Error,
       extension._private.subjectLineLengthUrl,
       "Subject Line Length"
     );
