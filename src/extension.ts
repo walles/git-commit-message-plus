@@ -125,51 +125,40 @@ function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
   ];
 }
 
+function getFirstLinePunctuationDiagnosticHelper(
+  firstLine: string,
+  badSuffix: string,
+  suffixDescription: string
+): vscode.Diagnostic | null {
+  if (!firstLine.endsWith(badSuffix)) {
+    return null;
+  }
+
+  return diag(
+    0,
+    firstLine.length - badSuffix.length,
+    firstLine.length,
+    "Do not end the subject line with " + suffixDescription,
+    vscode.DiagnosticSeverity.Error,
+    subjectLinePunctuationUrl,
+    "Subject Line Punctuation"
+  );
+}
+
 function getFirstLinePunctuationDiagnostic(
   firstLine: string
 ): vscode.Diagnostic[] {
-  if (firstLine.length >= 3 && firstLine.endsWith("...")) {
-    return [
-      diag(
-        0,
-        firstLine.length - 3,
-        firstLine.length,
-        "Do not end the subject line with an ellipsis",
-        vscode.DiagnosticSeverity.Error,
-        subjectLinePunctuationUrl,
-        "Subject Line Punctuation"
-      ),
-    ];
+  const d =
+    getFirstLinePunctuationDiagnosticHelper(firstLine, "...", "an ellipsis") ||
+    getFirstLinePunctuationDiagnosticHelper(firstLine, ".", "a period") ||
+    getFirstLinePunctuationDiagnosticHelper(
+      firstLine,
+      "!",
+      "an exclamation mark"
+    );
+  if (d != null) {
+    return [d];
   }
-
-  if (firstLine.length >= 1 && firstLine.endsWith(".")) {
-    return [
-      diag(
-        0,
-        firstLine.length - 1,
-        firstLine.length,
-        "Do not end the subject line with a period",
-        vscode.DiagnosticSeverity.Error,
-        subjectLinePunctuationUrl,
-        "Subject Line Punctuation"
-      ),
-    ];
-  }
-
-  if (firstLine.length >= 1 && firstLine.endsWith("!")) {
-    return [
-      diag(
-        0,
-        firstLine.length - 1,
-        firstLine.length,
-        "Do not end the subject line with an exclamation mark",
-        vscode.DiagnosticSeverity.Error,
-        subjectLinePunctuationUrl,
-        "Subject Line Punctuation"
-      ),
-    ];
-  }
-
   return [];
 }
 
