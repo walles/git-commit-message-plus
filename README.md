@@ -22,6 +22,7 @@ A git commit message highlighter being nicer than the built-in one.
 
 ### TODO
 
+- Warn about not-capitalized subject lines
 - Mark commit message subject line in bold, it _is_ a heading after all. Maybe
   not-bold it after character 50? And even lowlight characters 73 and onwards?
 - Make an icon
@@ -49,6 +50,8 @@ To install into VSCode:
    - Click Extensions
    - Click the ... menu in the top right corner
    - Click Install from VSIX...
+
+To check highlighting in VSCode: "Developer: Inspect Editor Tokens and Scopes"
 
 To publish a new version:
 
