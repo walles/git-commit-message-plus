@@ -5,6 +5,9 @@ const maxSubjectLineLength = 72;
 const subjectLineLengthUrl = vscode.Uri.parse(
   "https://cbea.ms/git-commit/#limit-50"
 );
+const subjectLinePunctuationUrl = vscode.Uri.parse(
+  "https://cbea.ms/git-commit/#end"
+);
 
 /** Subset of vscode.TextLine, for simplifying test writing. */
 export interface TextLineLite {
@@ -59,8 +62,30 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
     const firstLine = doc.lineAt(0).text;
     returnMe.push(...getFirstLine50Diagnostic(firstLine));
     returnMe.push(...getFirstLine72Diagnostic(firstLine));
+    returnMe.push(...getFirstLinePunctuationDiagnostic(firstLine));
   }
 
+  return returnMe;
+}
+
+function diag(
+  line: number,
+  columnStart: number,
+  columnEnd: number,
+  message: string,
+  severity: vscode.DiagnosticSeverity,
+  target: vscode.Uri,
+  value: string
+): vscode.Diagnostic {
+  const range = new vscode.Range(
+    new vscode.Position(line, columnStart),
+    new vscode.Position(line, columnEnd)
+  );
+  const returnMe = new vscode.Diagnostic(range, message, severity);
+  returnMe.code = {
+    target: target,
+    value: value,
+  };
   return returnMe;
 }
 
@@ -69,22 +94,17 @@ function getFirstLine50Diagnostic(firstLine: string): vscode.Diagnostic[] {
     return [];
   }
 
-  const range = new vscode.Range(
-    new vscode.Position(0, preferSubjectLineLength),
-    new vscode.Position(0, maxSubjectLineLength)
-  );
-
-  const diagnostic = new vscode.Diagnostic(
-    range,
-    `Try keeping the subject line to at most ${preferSubjectLineLength} characters`,
-    vscode.DiagnosticSeverity.Information
-  );
-  diagnostic.code = {
-    target: subjectLineLengthUrl,
-    value: "Subject Line Length",
-  };
-
-  return [diagnostic];
+  return [
+    diag(
+      0,
+      preferSubjectLineLength,
+      maxSubjectLineLength,
+      `Try keeping the subject line to at most ${preferSubjectLineLength} characters`,
+      vscode.DiagnosticSeverity.Information,
+      subjectLineLengthUrl,
+      "Subject Line Length"
+    ),
+  ];
 }
 
 function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
@@ -92,30 +112,76 @@ function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
     return [];
   }
 
-  const range = new vscode.Range(
-    new vscode.Position(0, maxSubjectLineLength),
-    new vscode.Position(0, firstLine.length)
-  );
+  return [
+    diag(
+      0,
+      maxSubjectLineLength,
+      firstLine.length,
+      `Keep the subject line to at most ${maxSubjectLineLength} characters`,
+      vscode.DiagnosticSeverity.Warning,
+      subjectLineLengthUrl,
+      "Subject Line Length"
+    ),
+  ];
+}
 
-  const diagnostic = new vscode.Diagnostic(
-    range,
-    `Keep the subject line to at most ${maxSubjectLineLength} characters`,
-    vscode.DiagnosticSeverity.Warning
-  );
-  diagnostic.code = {
-    target: subjectLineLengthUrl,
-    value: "Subject Line Length",
-  };
+function getFirstLinePunctuationDiagnostic(
+  firstLine: string
+): vscode.Diagnostic[] {
+  if (firstLine.length >= 3 && firstLine.endsWith("...")) {
+    return [
+      diag(
+        0,
+        firstLine.length - 3,
+        firstLine.length,
+        "Do not end the subject line with an ellipsis",
+        vscode.DiagnosticSeverity.Error,
+        subjectLinePunctuationUrl,
+        "Subject Line Punctuation"
+      ),
+    ];
+  }
 
-  return [diagnostic];
+  if (firstLine.length >= 1 && firstLine.endsWith(".")) {
+    return [
+      diag(
+        0,
+        firstLine.length - 1,
+        firstLine.length,
+        "Do not end the subject line with a period",
+        vscode.DiagnosticSeverity.Error,
+        subjectLinePunctuationUrl,
+        "Subject Line Punctuation"
+      ),
+    ];
+  }
+
+  if (firstLine.length >= 1 && firstLine.endsWith("!")) {
+    return [
+      diag(
+        0,
+        firstLine.length - 1,
+        firstLine.length,
+        "Do not end the subject line with an exclamation mark",
+        vscode.DiagnosticSeverity.Error,
+        subjectLinePunctuationUrl,
+        "Subject Line Punctuation"
+      ),
+    ];
+  }
+
+  return [];
 }
 
 // Exports for testing
 //
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
+  diag,
   getDiagnostics,
   getFirstLine50Diagnostic,
   getFirstLine72Diagnostic,
-  maxSubjectLineLengthUrl: subjectLineLengthUrl,
+  getFirstLinePunctuationDiagnostic,
+  subjectLineLengthUrl,
+  subjectLinePunctuationUrl,
 };
