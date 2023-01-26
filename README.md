@@ -9,6 +9,7 @@ A git commit message highlighter being nicer than the built-in one.
 - Warn about > 72 characters subject lines
 - Hint about > 50 characters subject lines
 - Report errors for trailing punctuation
+- Report errors for non-blank second lines
 
 <!-- FIXME: Add an animated demo here! -->
 

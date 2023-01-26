@@ -141,7 +141,7 @@ suite("Git Commit Message Plus", () => {
 
   test("Not-comment on second line", () => {
     const expected = extension._private.diag(
-      0,
+      1,
       0,
       5,
       `Leave the second line blank`,

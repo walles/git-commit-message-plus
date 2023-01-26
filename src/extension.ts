@@ -171,7 +171,25 @@ function getFirstLinePunctuationDiagnostic(
 }
 
 function getSecondLineDiagnostic(secondLine: string): vscode.Diagnostic[] {
-  return [];
+  if (secondLine.length == 0) {
+    return [];
+  }
+
+  if (secondLine.startsWith("#")) {
+    return [];
+  }
+
+  return [
+    diag(
+      1,
+      0,
+      secondLine.length,
+      "Leave the second line blank",
+      vscode.DiagnosticSeverity.Error,
+      secondLineBlankUrl,
+      "Blank Second Line"
+    ),
+  ];
 }
 
 // Exports for testing
