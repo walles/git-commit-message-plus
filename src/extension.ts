@@ -53,52 +53,61 @@ export function deactivate() {
 }
 
 function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
-  if (doc.lineCount < 1) {
-    return [];
-  }
-
   const returnMe: vscode.Diagnostic[] = [];
 
-  const firstLine = doc.lineAt(0).text;
-  if (firstLine.length > preferSubjectLineLength) {
-    const range = new vscode.Range(
-      new vscode.Position(0, preferSubjectLineLength),
-      new vscode.Position(0, maxSubjectLineLength)
-    );
-
-    const diagnostic = new vscode.Diagnostic(
-      range,
-      `Try keeping the subject line to at most ${preferSubjectLineLength} characters`,
-      vscode.DiagnosticSeverity.Information
-    );
-    diagnostic.code = {
-      target: subjectLineLengthUrl,
-      value: "Subject Line Length",
-    };
-
-    returnMe.push(diagnostic);
-  }
-
-  if (firstLine.length > maxSubjectLineLength) {
-    const range = new vscode.Range(
-      new vscode.Position(0, maxSubjectLineLength),
-      new vscode.Position(0, firstLine.length)
-    );
-
-    const diagnostic = new vscode.Diagnostic(
-      range,
-      `Keep the subject line to at most ${maxSubjectLineLength} characters`,
-      vscode.DiagnosticSeverity.Warning
-    );
-    diagnostic.code = {
-      target: subjectLineLengthUrl,
-      value: "Subject Line Length",
-    };
-
-    returnMe.push(diagnostic);
+  if (doc.lineCount >= 1) {
+    const firstLine = doc.lineAt(0).text;
+    returnMe.push(...getFirstLine50Diagnostic(firstLine));
+    returnMe.push(...getFirstLine72Diagnostic(firstLine));
   }
 
   return returnMe;
+}
+
+function getFirstLine50Diagnostic(firstLine: string): vscode.Diagnostic[] {
+  if (firstLine.length <= preferSubjectLineLength) {
+    return [];
+  }
+
+  const range = new vscode.Range(
+    new vscode.Position(0, preferSubjectLineLength),
+    new vscode.Position(0, maxSubjectLineLength)
+  );
+
+  const diagnostic = new vscode.Diagnostic(
+    range,
+    `Try keeping the subject line to at most ${preferSubjectLineLength} characters`,
+    vscode.DiagnosticSeverity.Information
+  );
+  diagnostic.code = {
+    target: subjectLineLengthUrl,
+    value: "Subject Line Length",
+  };
+
+  return [diagnostic];
+}
+
+function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
+  if (firstLine.length <= maxSubjectLineLength) {
+    return [];
+  }
+
+  const range = new vscode.Range(
+    new vscode.Position(0, maxSubjectLineLength),
+    new vscode.Position(0, firstLine.length)
+  );
+
+  const diagnostic = new vscode.Diagnostic(
+    range,
+    `Keep the subject line to at most ${maxSubjectLineLength} characters`,
+    vscode.DiagnosticSeverity.Warning
+  );
+  diagnostic.code = {
+    target: subjectLineLengthUrl,
+    value: "Subject Line Length",
+  };
+
+  return [diagnostic];
 }
 
 // Exports for testing
