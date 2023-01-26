@@ -69,7 +69,7 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
     const diagnostic = new vscode.Diagnostic(
       range,
       `Try keeping the subject line to at most ${preferSubjectLineLength} characters`,
-      vscode.DiagnosticSeverity.Hint
+      vscode.DiagnosticSeverity.Information
     );
     diagnostic.code = {
       target: subjectLineLengthUrl,

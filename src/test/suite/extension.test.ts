@@ -59,7 +59,7 @@ suite("Git Commit Message Plus", () => {
       50,
       51,
       `Try keeping the subject line to at most 50 characters`,
-      vscode.DiagnosticSeverity.Hint
+      vscode.DiagnosticSeverity.Information
     );
 
     assert.deepStrictEqual(extension._private.getDiagnostics(doc), [expected]);
@@ -73,7 +73,7 @@ suite("Git Commit Message Plus", () => {
       50,
       72,
       `Try keeping the subject line to at most 50 characters`,
-      vscode.DiagnosticSeverity.Hint
+      vscode.DiagnosticSeverity.Information
     );
 
     assert.deepStrictEqual(extension._private.getDiagnostics(doc), [expected]);
@@ -88,7 +88,7 @@ suite("Git Commit Message Plus", () => {
         50,
         72,
         `Try keeping the subject line to at most 50 characters`,
-        vscode.DiagnosticSeverity.Hint
+        vscode.DiagnosticSeverity.Information
       ),
       diag(
         0,
