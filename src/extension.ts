@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 const preferSubjectLineLength = 50;
 const maxSubjectLineLength = 72;
 const subjectLineLengthUrl = vscode.Uri.parse(
-  "https://www.gitkraken.com/learn/git/best-practices/git-commit-message"
+  "https://cbea.ms/git-commit/#limit-50"
 );
 
 /** Subset of vscode.TextLine, for simplifying test writing. */
@@ -73,7 +73,7 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
     );
     diagnostic.code = {
       target: subjectLineLengthUrl,
-      value: "Git Commit Message Structure",
+      value: "Subject Line Length",
     };
 
     returnMe.push(diagnostic);
@@ -92,7 +92,7 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
     );
     diagnostic.code = {
       target: subjectLineLengthUrl,
-      value: "Git Commit Message Structure",
+      value: "Subject Line Length",
     };
 
     returnMe.push(diagnostic);

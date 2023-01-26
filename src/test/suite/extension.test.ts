@@ -33,7 +33,7 @@ function diag(
   const returnMe = new vscode.Diagnostic(range, message, severity);
   returnMe.code = {
     target: extension._private.maxSubjectLineLengthUrl,
-    value: "Git Commit Message Structure",
+    value: "Subject Line Length",
   };
   return returnMe;
 }
