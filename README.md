@@ -10,6 +10,8 @@ A git commit message highlighter being nicer than the built-in one.
 - Hint about > 50 characters subject lines
 - Report errors for trailing punctuation
 - Report errors for non-blank second lines
+- No colorization of too-long subject lines, that is instead done by the error
+  reporting.
 
 <!-- FIXME: Add an animated demo here! -->
 
@@ -20,15 +22,11 @@ A git commit message highlighter being nicer than the built-in one.
 
 ### TODO
 
-- No highlighting of too-long subject lines, leave that to the error
-  reporting.
-- Add diagnostic. Inspiration from [the docs][diagnostics-docs] and from [an
-  extension][sample-extension].
-  - Make sure diagnostics are applied to newly opened files, not just on file
-    edits
-  - Have unit tests that don't launch VSCode
-- Mark commit message subject line in bold, it _is_ a heading after all.
+- Make sure diagnostics are applied to newly opened files, not just on file
+  edits
 - Make an icon
+- Have unit tests that don't launch VSCode
+- Mark commit message subject line in bold, it _is_ a heading after all.
 - Move all tests under the same top subdirectory
 - `npm test` in CI
 - Validate code formatting in CI
