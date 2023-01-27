@@ -2,6 +2,8 @@
 
 A git commit message highlighter being nicer than the built-in one.
 
+Highlighting inspiration from <https://cbea.ms/git-commit>.
+
 ## Features
 
 - Proper `git commit -v` diff highlighting [even when running `git` in
@@ -11,10 +13,11 @@ A git commit message highlighter being nicer than the built-in one.
 - Report not-capitalized subject lines as errors
 - Report errors for trailing punctuation
 - Report errors for non-blank second lines
-- No colorization of too-long subject lines, that is instead done by the error
-  reporting.
+- No colorization of too-long subject lines, use diagnostics for that instead
 
 <!-- FIXME: Add an animated demo here! -->
+
+![Highlighted Git commit message](images/screenshot.png)
 
 ### Internal
 
