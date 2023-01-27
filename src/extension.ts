@@ -8,6 +8,9 @@ const subjectLineLengthUrl = vscode.Uri.parse(
 const subjectLinePunctuationUrl = vscode.Uri.parse(
   "https://cbea.ms/git-commit/#end"
 );
+const subjectLineCapitalizationUrl = vscode.Uri.parse(
+  "https://cbea.ms/git-commit/#capitalize"
+);
 const secondLineBlankUrl = vscode.Uri.parse(
   "https://cbea.ms/git-commit/#separate"
 );
@@ -66,6 +69,7 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
     returnMe.push(...getFirstLine50Diagnostic(firstLine));
     returnMe.push(...getFirstLine72Diagnostic(firstLine));
     returnMe.push(...getFirstLinePunctuationDiagnostic(firstLine));
+    returnMe.push(...getFirstLineCapsDiagnostic(firstLine));
   }
 
   if (doc.lineCount >= 2) {
@@ -170,6 +174,32 @@ function getFirstLinePunctuationDiagnostic(
   return [];
 }
 
+function getFirstLineCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
+  if (firstLine.length < 1) {
+    return [];
+  }
+
+  const firstChar = firstLine.charAt(0);
+  if (
+    firstChar == firstChar.toLowerCase() &&
+    firstChar != firstChar.toUpperCase()
+  ) {
+    return [
+      diag(
+        0,
+        0,
+        1,
+        "First line should start with a Capital Letter",
+        vscode.DiagnosticSeverity.Error,
+        subjectLineCapitalizationUrl,
+        "Subject Line Capitalization"
+      ),
+    ];
+  }
+
+  return [];
+}
+
 function getSecondLineDiagnostic(secondLine: string): vscode.Diagnostic[] {
   if (secondLine.length == 0) {
     return [];
@@ -201,8 +231,10 @@ export const _private = {
   getFirstLine50Diagnostic,
   getFirstLine72Diagnostic,
   getFirstLinePunctuationDiagnostic,
+  getFirstLineCapsDiagnostic,
   getSecondLineDiagnostic,
   subjectLineLengthUrl,
   subjectLinePunctuationUrl,
+  subjectLineCapitalizationUrl,
   secondLineBlankUrl,
 };

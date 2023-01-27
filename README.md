@@ -6,8 +6,9 @@ A git commit message highlighter being nicer than the built-in one.
 
 - Proper `git commit -v` diff highlighting [even when running `git` in
   not-English](https://github.com/textmate/git.tmbundle/issues/60).
-- Warn about > 72 characters subject lines
-- Hint about > 50 characters subject lines
+- Report > 72 characters subject lines as errors
+- Report > 50 characters subject lines as warnings
+- Report not-capitalized subject lines as errors
 - Report errors for trailing punctuation
 - Report errors for non-blank second lines
 - No colorization of too-long subject lines, that is instead done by the error
@@ -22,9 +23,9 @@ A git commit message highlighter being nicer than the built-in one.
 
 ### TODO
 
-- Warn about not-capitalized subject lines
 - Mark commit message subject line in bold, it _is_ a heading after all. Maybe
   not-bold it after character 50? And even lowlight characters 73 and onwards?
+- Add Quick Fixes for some of our diagnostics
 - Make an icon
 - The grammar contains the text `Changes to be committed`. Check what that does
   and make sure it works in Swedish as well.

@@ -136,6 +136,23 @@ suite("Git Commit Message Plus", () => {
     );
   });
 
+  test("First line not capitalized", () => {
+    const expected = extension._private.diag(
+      0,
+      0,
+      1,
+      `First line should start with a Capital Letter`,
+      vscode.DiagnosticSeverity.Error,
+      extension._private.subjectLineCapitalizationUrl,
+      "Subject Line Capitalization"
+    );
+
+    assert.deepStrictEqual(
+      extension._private.getFirstLineCapsDiagnostic("hello"),
+      [expected]
+    );
+  });
+
   test("Empty second line", () => {
     assert.deepStrictEqual(extension._private.getSecondLineDiagnostic(""), []);
   });
