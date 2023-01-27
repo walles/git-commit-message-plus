@@ -22,8 +22,18 @@ class FakeTextDocument implements extension.TextDocumentLite {
 suite("Git Commit Message Plus", () => {
   vscode.window.showInformationMessage("Start all tests.");
 
-  test("Empty Text Document", () => {
+  test("Empty Commit Message", () => {
     const empty = new FakeTextDocument([]);
+    assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
+  });
+
+  test("Good Commit Message", () => {
+    const empty = new FakeTextDocument([
+      "Fnord the Blorgs before releasing them",
+      "",
+      "Before this change, the splurgs sometimes died and had to be zonkered by",
+      "the Guardians.",
+    ]);
     assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
   });
 
