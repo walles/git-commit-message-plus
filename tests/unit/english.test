@@ -9,8 +9,10 @@
 # Initial commit
 #
 # Changes to be committed:
-# ^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git-commit
+# ^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.metadata.git-commit
+# <-- comment.line.number-sign.git-commit
 #	new file:   apa
+# <-- comment.line.number-sign.git-commit
 #	^^^^^^^^ keyword.other.file-type.git-commit
 #	            ^^^ string.unquoted.filename.git-commit
 #

@@ -14,7 +14,6 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 - Report errors for trailing punctuation
 - Report errors for non-blank second lines
 - Highlight file names and what's happening to them
-- No colorization of too-long subject lines, use diagnostics for that instead
 
 <!-- FIXME: Add an animated demo here! -->
 

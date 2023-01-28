@@ -24,9 +24,9 @@
 			"patterns": [
 				{
 					"comment": "Changes to be committed:",
-					"match": "^# .+:$",
-					"name": "markup.heading.git-commit",
-					"patterns": [ { "include": "#comment" } ]
+					"match": "^# (.+:)$",
+					"name": "comment.line.number-sign.git-commit",
+					"captures": { "1": { "name": "markup.heading.metadata.git-commit" } }
 				},
 				{
 					"comment": "Files and what is happening to them",
