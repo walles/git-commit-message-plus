@@ -21,7 +21,18 @@
 			"name": "meta.scope.metadata.git-commit",
 			"begin": "^(?=#)",
 			"end": "(?!^#)",
-			"patterns": [ { "include": "#comment" } ]
+			"patterns": [
+				{
+					"comment": "Files and what is happening to them",
+					"match": "^#\\t([^:]+): *(.*)$",
+					"name": "comment.line.number-sign.git-commit",
+					"captures": {
+						"1": { "name": "keyword.other.file-type.git-commit" },
+						"2": { "name": "string.unquoted.filename.git-commit" }
+					}
+				},
+				{ "include": "#comment" }
+			]
 		}
 	],
 	"repository": {
