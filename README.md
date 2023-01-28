@@ -26,14 +26,16 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ### TODO
 
-- Mark commit message subject line as `markup.heading`, it _is_ a heading after
-  all. Maybe plain after character 50? And then `markup.strikethrough` for
-  characters 73 and onwards?
-- Highlight more stuff in the Git metadata
+- Mark commit message subject line with:
+  - `meta.scope.subject.git-commit`
+  - `meta.scope.subject-after-50.git-commit`
+  - `meta.scope.subject-after-72.git-commit`
 - Add Quick Fixes for some of our diagnostics
+- Update the screenshot
 - Make an icon
 - Make sure diagnostics are applied to newly opened files, not just on file
   edits
+- Highlight current branch name in the Git metadata
 - Have unit tests that don't launch VSCode
 - Move all tests under the same top subdirectory
 - `npm test` in CI
