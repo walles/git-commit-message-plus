@@ -10,8 +10,8 @@
 #
 # Ändringar att checka in:
 #	ny fil:        apa
-# ^^^^^^ keyword.other.file-type.git-commit
-#                ^^^ string.unquoted.filename.git-commit
+#	^^^^^^ keyword.other.file-type.git-commit
+#	               ^^^ string.unquoted.filename.git-commit
 #
 # ------------------------ >8 ------------------------
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.git-commit
