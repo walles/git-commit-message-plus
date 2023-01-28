@@ -25,7 +25,7 @@
     "package": "vsce package",
     "publish": "vsce publish",
     "pretest": "npm run compile && npm run lint",
-    "test": "node ./out/test/runTest.js && vscode-tmgrammar-test -g tests/support/diff.tmLanguage.json tests/unit/*.test",
+    "test": "vscode-tmgrammar-test -g tests/support/diff.tmLanguage.json tests/unit/*.test && node ./out/test/runTest.js",
     "vscode:prepublish": "npm run compile",
     "watch": "tsc -watch -p ./"
   },
