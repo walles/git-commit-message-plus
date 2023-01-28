@@ -31,14 +31,11 @@
 						"2": { "name": "string.unquoted.filename.git-commit" }
 					}
 				},
-				{ "include": "#comment" }
+				{
+					"name": "comment.line.number-sign.git-commit",
+					"match": "^#.*$"
+				}
 			]
 		}
-	],
-	"repository": {
-		"comment": {
-			"name": "comment.line.number-sign.git-commit",
-			"match": "^#.*$"
-		}
-	}
+	]
 }
