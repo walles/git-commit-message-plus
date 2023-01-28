@@ -31,6 +31,7 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
   - `meta.scope.subject-after-50.git-commit`
   - `meta.scope.subject-after-72.git-commit`
 - Add Quick Fixes for some of our diagnostics
+- Warn about not running `git commit -v`?
 - Update the screenshot
 - Make an icon
 - Make sure diagnostics are applied to newly opened files, not just on file
