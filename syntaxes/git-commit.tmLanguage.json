@@ -23,13 +23,7 @@
 			"end": "(?!^#)",
 			"patterns": [
 				{
-					"comment": "Changes to be committed:",
-					"match": "^# (.+:)$",
-					"name": "comment.line.number-sign.git-commit",
-					"captures": { "1": { "name": "markup.heading.metadata.git-commit" } }
-				},
-				{
-					"comment": "Files and what is happening to them",
+					"comment": "What is happening with which files",
 					"match": "^#\\t([^:]+): *(.*)$",
 					"name": "comment.line.number-sign.git-commit",
 					"captures": {
