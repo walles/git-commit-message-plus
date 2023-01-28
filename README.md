@@ -13,6 +13,7 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 - Report not-capitalized subject lines as errors
 - Report errors for trailing punctuation
 - Report errors for non-blank second lines
+- Highlight file names and what's happening to them
 - No colorization of too-long subject lines, use diagnostics for that instead
 
 <!-- FIXME: Add an animated demo here! -->
@@ -26,12 +27,12 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ### TODO
 
-- Mark commit message subject line in bold, it _is_ a heading after all. Maybe
-  not-bold it after character 50? And even lowlight characters 73 and onwards?
+- Mark commit message subject line as `markup.heading`, it _is_ a heading after
+  all. Maybe plain after character 50? And then `markup.strikethrough` for
+  characters 73 and onwards?
+- Highlight more stuff in the Git metadata
 - Add Quick Fixes for some of our diagnostics
 - Make an icon
-- The grammar contains the text `Changes to be committed`. Check what that does
-  and make sure it works in Swedish as well.
 - Make sure diagnostics are applied to newly opened files, not just on file
   edits
 - Have unit tests that don't launch VSCode
@@ -63,5 +64,5 @@ To publish a new version:
 npm run publish
 ```
 
-[diagnostics-docs]: https://code.visualstudio.com/api/language-extensions/programmatic-language-features#provide-diagnostics
-[sample-extension]: https://github.com/gbuktenica/Unicode-Substitutions
+
+[git-rebase]: https://github.com/microsoft/vscode/blob/b5aa3e0a3d3cdac2c44c022182ca2f238949a444/extensions/git-base/package.json#L60-L73

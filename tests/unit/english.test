@@ -10,6 +10,8 @@
 #
 # Changes to be committed:
 #	new file:   apa
+#	^^^^^^^^ keyword.other.file-type.git-commit
+#	            ^^^ string.unquoted.filename.git-commit
 #
 # ------------------------ >8 ------------------------
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.git-commit
