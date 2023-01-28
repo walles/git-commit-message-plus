@@ -11,6 +11,9 @@
     "git",
     "commit"
   ],
+  "bugs": {
+    "url": "https://github.com/walles/git-commit-message-plus/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/walles/git-commit-message-plus"
@@ -19,8 +22,8 @@
   "publisher": "walles",
   "main": "./out/extension.js",
   "scripts": {
-    "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "compile": "tsc -p ./",
+    "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "lint": "eslint src --ext ts",
     "package": "vsce package",
     "publish": "vsce publish",
