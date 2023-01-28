@@ -9,6 +9,7 @@
 # Initial commit
 #
 # Changes to be committed:
+# ^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git-commit
 #	new file:   apa
 #	^^^^^^^^ keyword.other.file-type.git-commit
 #	            ^^^ string.unquoted.filename.git-commit

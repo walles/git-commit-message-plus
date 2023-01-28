@@ -9,6 +9,7 @@
 # Första incheckning
 #
 # Ändringar att checka in:
+# ^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git-commit
 #	ny fil:        apa
 #	^^^^^^ keyword.other.file-type.git-commit
 #	               ^^^ string.unquoted.filename.git-commit
