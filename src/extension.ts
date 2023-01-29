@@ -75,6 +75,7 @@ function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
   if (doc.lineCount >= 2) {
     const secondLine = doc.lineAt(1).text;
     returnMe.push(...getSecondLineDiagnostic(secondLine));
+    returnMe.push(...getNoDiffDiagnostic(doc));
   }
 
   return returnMe;
@@ -86,18 +87,19 @@ function diag(
   columnEnd: number,
   message: string,
   severity: vscode.DiagnosticSeverity,
-  target: vscode.Uri,
-  value: string
+  code:
+    | {
+        value: string | number;
+        target: vscode.Uri;
+      }
+    | undefined
 ): vscode.Diagnostic {
   const range = new vscode.Range(
     new vscode.Position(line, columnStart),
     new vscode.Position(line, columnEnd)
   );
   const returnMe = new vscode.Diagnostic(range, message, severity);
-  returnMe.code = {
-    target: target,
-    value: value,
-  };
+  returnMe.code = code;
   return returnMe;
 }
 
@@ -113,8 +115,10 @@ function getFirstLine50Diagnostic(firstLine: string): vscode.Diagnostic[] {
       maxSubjectLineLength,
       `Try keeping the subject line to at most ${preferSubjectLineLength} characters`,
       vscode.DiagnosticSeverity.Warning,
-      subjectLineLengthUrl,
-      "Subject Line Length"
+      {
+        target: subjectLineLengthUrl,
+        value: "Subject Line Length",
+      }
     ),
   ];
 }
@@ -131,8 +135,7 @@ function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
       firstLine.length,
       `Keep the subject line to at most ${maxSubjectLineLength} characters`,
       vscode.DiagnosticSeverity.Error,
-      subjectLineLengthUrl,
-      "Subject Line Length"
+      { target: subjectLineLengthUrl, value: "Subject Line Length" }
     ),
   ];
 }
@@ -152,8 +155,7 @@ function getFirstLinePunctuationDiagnosticHelper(
     firstLine.length,
     "Do not end the subject line with " + suffixDescription,
     vscode.DiagnosticSeverity.Error,
-    subjectLinePunctuationUrl,
-    "Subject Line Punctuation"
+    { target: subjectLinePunctuationUrl, value: "Subject Line Punctuation" }
   );
 }
 
@@ -191,8 +193,10 @@ function getFirstLineCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
         1,
         "First line should start with a Capital Letter",
         vscode.DiagnosticSeverity.Error,
-        subjectLineCapitalizationUrl,
-        "Subject Line Capitalization"
+        {
+          target: subjectLineCapitalizationUrl,
+          value: "Subject Line Capitalization",
+        }
       ),
     ];
   }
@@ -216,8 +220,36 @@ function getSecondLineDiagnostic(secondLine: string): vscode.Diagnostic[] {
       secondLine.length,
       "Leave the second line blank",
       vscode.DiagnosticSeverity.Error,
-      secondLineBlankUrl,
-      "Blank Second Line"
+      { target: secondLineBlankUrl, value: "Blank Second Line" }
+    ),
+  ];
+}
+
+function getNoDiffDiagnostic(doc: TextDocumentLite): vscode.Diagnostic[] {
+  if (doc.lineCount < 2) {
+    return [];
+  }
+
+  let lastNonEmptyLineNumber = doc.lineCount - 1;
+  let lastNonEmptyLine = doc.lineAt(lastNonEmptyLineNumber);
+  if (lastNonEmptyLine.text.length == 0) {
+    lastNonEmptyLineNumber = doc.lineCount - 2;
+    lastNonEmptyLine = doc.lineAt(lastNonEmptyLineNumber);
+  }
+
+  if (!lastNonEmptyLine.text.startsWith("#")) {
+    // Not a comment, probably a diff
+    return [];
+  }
+
+  return [
+    diag(
+      lastNonEmptyLineNumber,
+      0,
+      lastNonEmptyLine.text.length,
+      "Run `git commit -v` to see diffs below this line",
+      vscode.DiagnosticSeverity.Information,
+      undefined
     ),
   ];
 }
@@ -233,6 +265,7 @@ export const _private = {
   getFirstLinePunctuationDiagnostic,
   getFirstLineCapsDiagnostic,
   getSecondLineDiagnostic,
+  getNoDiffDiagnostic,
   subjectLineLengthUrl,
   subjectLinePunctuationUrl,
   subjectLineCapitalizationUrl,

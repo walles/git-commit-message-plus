@@ -27,14 +27,19 @@ suite("Git Commit Message Plus", () => {
     assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
   });
 
+  test("Subject but no metadata", () => {
+    const subjectOnly = new FakeTextDocument(["Subject line"]);
+    assert.deepStrictEqual(extension._private.getDiagnostics(subjectOnly), []);
+  });
+
   test("Good Commit Message", () => {
-    const empty = new FakeTextDocument([
+    const message = new FakeTextDocument([
       "Fnord the Blorgs before releasing them",
       "",
       "Before this change, the splurgs sometimes died and had to be zonkered by",
       "the Guardians.",
     ]);
-    assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
+    assert.deepStrictEqual(extension._private.getDiagnostics(message), []);
   });
 
   test("First line 50 chars", () => {
@@ -51,8 +56,10 @@ suite("Git Commit Message Plus", () => {
       72, // We let VSCode do the clipping here, so 72 is expected rather than 51
       `Try keeping the subject line to at most 50 characters`,
       vscode.DiagnosticSeverity.Warning,
-      extension._private.subjectLineLengthUrl,
-      "Subject Line Length"
+      {
+        target: extension._private.subjectLineLengthUrl,
+        value: "Subject Line Length",
+      }
     );
 
     assert.deepStrictEqual(
@@ -75,8 +82,10 @@ suite("Git Commit Message Plus", () => {
       73,
       `Keep the subject line to at most 72 characters`,
       vscode.DiagnosticSeverity.Error,
-      extension._private.subjectLineLengthUrl,
-      "Subject Line Length"
+      {
+        target: extension._private.subjectLineLengthUrl,
+        value: "Subject Line Length",
+      }
     );
 
     assert.deepStrictEqual(
@@ -92,8 +101,10 @@ suite("Git Commit Message Plus", () => {
       6,
       `Do not end the subject line with a period`,
       vscode.DiagnosticSeverity.Error,
-      extension._private.subjectLinePunctuationUrl,
-      "Subject Line Punctuation"
+      {
+        target: extension._private.subjectLinePunctuationUrl,
+        value: "Subject Line Punctuation",
+      }
     );
 
     assert.deepStrictEqual(
@@ -109,8 +120,10 @@ suite("Git Commit Message Plus", () => {
       8,
       `Do not end the subject line with an ellipsis`,
       vscode.DiagnosticSeverity.Error,
-      extension._private.subjectLinePunctuationUrl,
-      "Subject Line Punctuation"
+      {
+        target: extension._private.subjectLinePunctuationUrl,
+        value: "Subject Line Punctuation",
+      }
     );
 
     assert.deepStrictEqual(
@@ -126,8 +139,10 @@ suite("Git Commit Message Plus", () => {
       6,
       `Do not end the subject line with an exclamation mark`,
       vscode.DiagnosticSeverity.Error,
-      extension._private.subjectLinePunctuationUrl,
-      "Subject Line Punctuation"
+      {
+        target: extension._private.subjectLinePunctuationUrl,
+        value: "Subject Line Punctuation",
+      }
     );
 
     assert.deepStrictEqual(
@@ -143,8 +158,10 @@ suite("Git Commit Message Plus", () => {
       1,
       `First line should start with a Capital Letter`,
       vscode.DiagnosticSeverity.Error,
-      extension._private.subjectLineCapitalizationUrl,
-      "Subject Line Capitalization"
+      {
+        target: extension._private.subjectLineCapitalizationUrl,
+        value: "Subject Line Capitalization",
+      }
     );
 
     assert.deepStrictEqual(
@@ -173,12 +190,36 @@ suite("Git Commit Message Plus", () => {
       5,
       `Leave the second line blank`,
       vscode.DiagnosticSeverity.Error,
-      extension._private.secondLineBlankUrl,
-      "Blank Second Line"
+      {
+        target: extension._private.secondLineBlankUrl,
+        value: "Blank Second Line",
+      }
     );
 
     assert.deepStrictEqual(
       extension._private.getSecondLineDiagnostic("Hello"),
+      [expected]
+    );
+  });
+
+  test("No diff", () => {
+    const withoutDiff = new FakeTextDocument([
+      "Fnord the Blorgs before releasing them",
+      "# Git: bla bla",
+      "",
+    ]);
+
+    const expected = extension._private.diag(
+      1,
+      0,
+      withoutDiff.lineAt(1).text.length,
+      "Run `git commit -v` to see diffs below this line",
+      vscode.DiagnosticSeverity.Information,
+      undefined
+    );
+
+    assert.deepStrictEqual(
+      extension._private.getNoDiffDiagnostic(withoutDiff),
       [expected]
     );
   });

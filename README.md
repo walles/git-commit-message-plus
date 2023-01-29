@@ -8,6 +8,7 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 - Proper `git commit -v` diff highlighting [even when running `git` in
   not-English](https://github.com/textmate/git.tmbundle/issues/60).
+- Inform about `git commit -v` if it isn't being used
 - Report > 72 characters subject lines as errors
 - Report > 50 characters subject lines as warnings
 - Report not-capitalized subject lines as errors
@@ -26,7 +27,6 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ### TODO
 
-- Warn about not running `git commit -v`?
 - Mark commit message subject line with:
   - DONE: `meta.scope.subject.git-commit`
   - `meta.scope.subject-after-50.git-commit`
