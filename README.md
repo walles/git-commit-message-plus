@@ -65,6 +65,3 @@ To publish a new version:
 ```
 npm run publish
 ```
-
-
-[git-rebase]: https://github.com/microsoft/vscode/blob/b5aa3e0a3d3cdac2c44c022182ca2f238949a444/extensions/git-base/package.json#L60-L73
