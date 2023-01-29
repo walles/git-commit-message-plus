@@ -6,15 +6,15 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ## Features
 
+- Inform about `git commit -v` if it isn't being used
 - Proper `git commit -v` diff highlighting [even when running `git` in
   not-English](https://github.com/textmate/git.tmbundle/issues/60).
-- Inform about `git commit -v` if it isn't being used
+- Highlight file names and what's happening to them
 - Report > 72 characters subject lines as errors
 - Report > 50 characters subject lines as warnings
 - Report not-capitalized subject lines as errors
 - Report errors for trailing punctuation
 - Report errors for non-blank second lines
-- Highlight file names and what's happening to them
 
 <!-- FIXME: Add an animated demo here! -->
 
