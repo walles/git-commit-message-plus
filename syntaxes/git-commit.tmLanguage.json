@@ -14,7 +14,24 @@
 			"comment": "User supplied message",
 			"name": "meta.scope.message.git-commit",
 			"begin": "^(?!#)",
-			"end": "^(?=#)"
+			"end": "^(?=#)",
+			"patterns": [
+				{
+					"comment": "Subject line",
+					"match": "\\G.*",
+					"name": "meta.scope.subject.git-commit",
+					"patterns": [
+						{
+							"match": "^.{50}(.*)$",
+							"captures": { "1": { "name": "meta.scope.subject-after-50.git-commit" } }
+						},
+						{
+							"match": "^.{72}(.*)$",
+							"captures": { "1": { "name": "meta.scope.subject-after-72.git-commit" } }
+						}
+					]
+				}
+			]
 		},
 		{
 			"comment": "Git supplied metadata in a number of lines starting with #",
