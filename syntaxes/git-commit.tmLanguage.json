@@ -14,7 +14,13 @@
 			"comment": "User supplied message",
 			"name": "meta.scope.message.git-commit",
 			"begin": "^(?!#)",
-			"end": "^(?=#)"
+			"end": "^(?=#)",
+			"patterns": [
+				{
+					"name": "meta.scope.subject.git-commit",
+					"match": "\\G.*$"
+				}
+			]
 		},
 		{
 			"comment": "Git supplied metadata in a number of lines starting with #",
