@@ -27,16 +27,16 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ### TODO
 
+- Add Quick Fixes for some of our diagnostics
+- Update the screenshot
+- Make an icon
+- Highlight current branch name in the Git metadata
 - Mark commit message subject line with:
   - DONE: `meta.scope.subject.git-commit`
   - `meta.scope.subject-after-50.git-commit`
   - `meta.scope.subject-after-72.git-commit`
-- Add Quick Fixes for some of our diagnostics
-- Update the screenshot
-- Make an icon
 - Make sure diagnostics are applied to newly opened files, not just on file
   edits
-- Highlight current branch name in the Git metadata
 - Have unit tests that don't launch VSCode
 - Move all tests under the same top subdirectory
 - `npm test` in CI
