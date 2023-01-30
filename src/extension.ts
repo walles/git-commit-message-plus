@@ -1,4 +1,6 @@
 import * as vscode from "vscode";
+import * as utils from "./utils";
+import GitCommitCodeActionProvider from "./quickfix";
 
 const preferSubjectLineLength = 50;
 const maxSubjectLineLength = 72;
@@ -31,11 +33,20 @@ let diagnosticCollection: vscode.DiagnosticCollection;
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-  console.log("Git Commit Message Plus says hello!");
-
   diagnosticCollection =
     vscode.languages.createDiagnosticCollection("git-commit-message");
   context.subscriptions.push(diagnosticCollection);
+
+  context.subscriptions.push(
+    vscode.languages.registerCodeActionsProvider(
+      "git-commit",
+      new GitCommitCodeActionProvider(),
+      {
+        providedCodeActionKinds:
+          GitCommitCodeActionProvider.providedCodeActionKinds,
+      }
+    )
+  );
 
   const documentChangeListener = vscode.workspace.onDidChangeTextDocument(
     (event) => {
@@ -182,10 +193,7 @@ function getFirstLineCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
   }
 
   const firstChar = firstLine.charAt(0);
-  if (
-    firstChar == firstChar.toLowerCase() &&
-    firstChar != firstChar.toUpperCase()
-  ) {
+  if (utils.isLower(firstChar)) {
     return [
       diag(
         0,
