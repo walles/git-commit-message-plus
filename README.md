@@ -12,7 +12,7 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 - Highlight file names and what's happening to them
 - Report > 72 characters subject lines as errors
 - Report > 50 characters subject lines as warnings
-- Report not-capitalized subject lines as errors
+- Report not-capitalized subject lines as errors (with Quick Fix)
 - Report errors for trailing punctuation
 - Report errors for non-blank second lines
 
