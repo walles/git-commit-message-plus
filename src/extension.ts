@@ -17,17 +17,6 @@ const secondLineBlankUrl = vscode.Uri.parse(
   "https://cbea.ms/git-commit/#separate"
 );
 
-/** Subset of vscode.TextLine, for simplifying test writing. */
-export interface TextLineLite {
-  text: string;
-}
-
-/** Subset of vscode.TextDocument, for simplifying test writing. */
-export interface TextDocumentLite {
-  lineCount: number;
-  lineAt(line: number): TextLineLite;
-}
-
 let diagnosticCollection: vscode.DiagnosticCollection;
 
 // This method is called when your extension is activated
@@ -72,7 +61,7 @@ export function deactivate() {
   console.log("Git Commit Message Plus says good bye!");
 }
 
-function getDiagnostics(doc: TextDocumentLite): vscode.Diagnostic[] {
+function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
   const returnMe: vscode.Diagnostic[] = [];
 
   if (doc.lineCount >= 1) {
@@ -233,7 +222,7 @@ function getSecondLineDiagnostic(secondLine: string): vscode.Diagnostic[] {
   ];
 }
 
-function getNoDiffDiagnostic(doc: TextDocumentLite): vscode.Diagnostic[] {
+function getNoDiffDiagnostic(doc: vscode.TextDocument): vscode.Diagnostic[] {
   if (doc.lineCount < 2) {
     return [];
   }
