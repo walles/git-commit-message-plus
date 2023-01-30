@@ -195,10 +195,10 @@ suite("Git Commit Message Plus", () => {
     ]);
 
     const expected = extension._private.diag(
-      1,
+      2,
       0,
-      withoutDiff.lineAt(1).text.length,
-      "Run `git commit -v` to see diffs below this line",
+      withoutDiff.lineAt(2).text.length,
+      "Run `git commit -v` to see diffs here",
       vscode.DiagnosticSeverity.Information,
       undefined
     );

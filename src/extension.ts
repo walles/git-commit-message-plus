@@ -238,10 +238,10 @@ function getNoDiffDiagnostic(doc: vscode.TextDocument): vscode.Diagnostic[] {
 
   return [
     diag(
-      lastNonEmptyLineNumber,
+      doc.lineCount - 1, // Place diagnostic on the last line
       0,
-      lastNonEmptyLine.text.length,
-      "Run `git commit -v` to see diffs below this line",
+      doc.lineAt(doc.lineCount - 1).text.length,
+      "Run `git commit -v` to see diffs here",
       vscode.DiagnosticSeverity.Information,
       undefined
     ),
