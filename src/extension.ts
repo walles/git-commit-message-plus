@@ -94,10 +94,7 @@ function diag(
       }
     | undefined
 ): vscode.Diagnostic {
-  const range = new vscode.Range(
-    new vscode.Position(line, columnStart),
-    new vscode.Position(line, columnEnd)
-  );
+  const range = utils.createRange(line, columnStart, columnEnd);
   const returnMe = new vscode.Diagnostic(range, message, severity);
   returnMe.code = code;
   return returnMe;

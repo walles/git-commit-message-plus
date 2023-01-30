@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import * as utils from "../../utils";
 
 export class FakeTextDocument implements vscode.TextDocument {
   private lines: string[];
@@ -80,11 +81,8 @@ class FakeTextLine implements vscode.TextLine {
     this.isEmptyOrWhitespace = line.trim().length == 0;
 
     // NOTE: Only dummy data below this point, improve as needed
-    const dummyPosition = new vscode.Position(lineNumber, 0);
-    const dummyRange = new vscode.Range(dummyPosition, dummyPosition);
-
-    this.range = dummyRange;
-    this.rangeIncludingLineBreak = dummyRange;
+    this.range = utils.createRange(0, 0, 0);
+    this.rangeIncludingLineBreak = utils.createRange(0, 0, 0);
     this.firstNonWhitespaceCharacterIndex = 0;
   }
 }
