@@ -27,11 +27,11 @@ export default class GitCommitCodeActionProvider
     doc: vscode.TextDocument,
     range: vscode.Range | vscode.Selection
   ): vscode.CodeAction[] {
-    const fixPosition = new vscode.Range(
+    const fixRange = new vscode.Range(
       new vscode.Position(0, 0),
-      new vscode.Position(0, 0)
+      new vscode.Position(0, 1)
     );
-    if (!range.contains(fixPosition)) {
+    if (!range.contains(fixRange)) {
       // Not in the right place
       return [];
     }
@@ -53,7 +53,7 @@ export default class GitCommitCodeActionProvider
       vscode.CodeActionKind.QuickFix
     );
     fix.edit = new vscode.WorkspaceEdit();
-    fix.edit.replace(doc.uri, fixPosition, firstChar.toUpperCase());
+    fix.edit.replace(doc.uri, fixRange, firstChar.toUpperCase());
     return [fix];
   }
 }
