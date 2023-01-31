@@ -21,4 +21,22 @@ suite("Quick Fix", () => {
     // FIXME: Actually execute the code action and check that it did the right
     // thing
   });
+
+  test("On second character", () => {
+    const doc = new FakeTextDocument(["this subject has initial lower case"]);
+    const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
+      doc,
+      utils.createRange(0, 1, 1)
+    );
+    assert.deepEqual(actual, []);
+  });
+
+  test("Selection of first to second character", () => {
+    const doc = new FakeTextDocument(["this subject has initial lower case"]);
+    const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
+      doc,
+      utils.createRange(0, 0, 1)
+    );
+    assert.deepEqual(actual, []);
+  });
 });

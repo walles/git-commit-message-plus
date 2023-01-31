@@ -26,7 +26,7 @@ function createUpcaseFirstSubjectCharFix(
   doc: vscode.TextDocument,
   userPosition: vscode.Range | vscode.Selection
 ): vscode.CodeAction[] {
-  const fixRange = utils.createRange(0, 0, 1);
+  const fixRange = utils.createRange(0, 0, 0);
   if (!fixRange.contains(userPosition)) {
     // Not in the right place
     return [];
