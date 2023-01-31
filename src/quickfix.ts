@@ -58,7 +58,46 @@ function createRemoveTrailingPunctuationFix(
   doc: vscode.TextDocument,
   userPosition: vscode.Range | vscode.Selection
 ): vscode.CodeAction[] {
-  return [];
+  const firstLine = doc.lineAt(0).text;
+  if (firstLine.length < 1) {
+    // Nothing on the line => no trailing punctuation
+    return [];
+  }
+
+  const lastChar = firstLine.charAt(firstLine.length - 1);
+  if (lastChar != "." && lastChar != "!") {
+    // Not ending in punctuation, never mind
+    return [];
+  }
+
+  let trailingPunctuationStartIndex = firstLine.length - 1;
+  while (trailingPunctuationStartIndex > 0) {
+    const previousIndex = trailingPunctuationStartIndex - 1;
+    const previousChar = firstLine.charAt(previousIndex);
+    if (previousChar != "." && previousChar != "!") {
+      break;
+    }
+
+    trailingPunctuationStartIndex--;
+  }
+
+  const fixRange = utils.createRange(
+    0,
+    trailingPunctuationStartIndex,
+    firstLine.length
+  );
+  if (!fixRange.contains(userPosition)) {
+    // Not in the right place
+    return [];
+  }
+
+  const fix = new vscode.CodeAction(
+    "Remove trailing punctuation",
+    vscode.CodeActionKind.QuickFix
+  );
+  fix.edit = new vscode.WorkspaceEdit();
+  fix.edit.replace(doc.uri, fixRange, "");
+  return [fix];
 }
 
 // Exports for testing
