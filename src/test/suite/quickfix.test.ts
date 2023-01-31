@@ -24,18 +24,36 @@ suite("Quick Fix", () => {
 
   test("On second character", () => {
     const doc = new FakeTextDocument(["this subject has initial lower case"]);
-    const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
+    const [fix] = quickfix._private.createUpcaseFirstSubjectCharFix(
       doc,
       utils.createRange(0, 1, 1)
     );
-    assert.deepEqual(actual, []);
+    assert.equal(fix.title, "Capitalize subject line");
   });
 
   test("Selection of first to second character", () => {
     const doc = new FakeTextDocument(["this subject has initial lower case"]);
-    const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
+    const [fix] = quickfix._private.createUpcaseFirstSubjectCharFix(
       doc,
       utils.createRange(0, 0, 1)
+    );
+    assert.equal(fix.title, "Capitalize subject line");
+  });
+
+  test("On third character", () => {
+    const doc = new FakeTextDocument(["this subject has initial lower case"]);
+    const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
+      doc,
+      utils.createRange(0, 2, 2)
+    );
+    assert.deepEqual(actual, []);
+  });
+
+  test("Selection of first to third character", () => {
+    const doc = new FakeTextDocument(["this subject has initial lower case"]);
+    const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
+      doc,
+      utils.createRange(0, 0, 2)
     );
     assert.deepEqual(actual, []);
   });
