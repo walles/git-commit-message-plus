@@ -1,0 +1,24 @@
+this title starts with lowercase, is too long and ends with a period.
+
+That will result in the highlighting of:
+* Initial not-caps
+* Warning about the part of the title extending beyond character 50
+* Error marker for the ending period
+* Quick fixes for the trailing period and the leading lowercase char
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch main
+# Changes to be committed:
+#	modified:   hello.txt
+#
+# ------------------------ >8 ------------------------
+# Do not modify or remove the line above.
+# Everything below it will be ignored.
+diff --git hello.txt hello.txt
+index e965047..3e04bb5 100644
+--- hello.txt
++++ hello.txt
+@@ -1 +1,2 @@
+ Hello
++Jello

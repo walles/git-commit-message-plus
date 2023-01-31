@@ -28,7 +28,6 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ### TODO
 
-- Update the screenshot
 - Make an icon
 - Highlight current branch name in the Git metadata
 - Mark commit message subject line with:
