@@ -15,6 +15,7 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 - Report not-capitalized subject lines as errors (with Quick Fix)
 - Report errors for trailing punctuation
 - Report errors for non-blank second lines
+- Quick Fixes for certain diagnostics
 
 <!-- FIXME: Add an animated demo here! -->
 
@@ -27,7 +28,6 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ### TODO
 
-- Add Quick Fixes for some of our diagnostics
 - Update the screenshot
 - Make an icon
 - Highlight current branch name in the Git metadata
