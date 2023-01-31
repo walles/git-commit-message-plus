@@ -17,6 +17,7 @@ export default class GitCommitCodeActionProvider
   ): vscode.CodeAction[] {
     const returnMe: vscode.CodeAction[] = [];
     returnMe.push(...createUpcaseFirstSubjectCharFix(doc, range));
+    returnMe.push(...createRemoveTrailingPunctuationFix(doc, range));
 
     return returnMe;
   }
@@ -53,9 +54,17 @@ function createUpcaseFirstSubjectCharFix(
   return [fix];
 }
 
+function createRemoveTrailingPunctuationFix(
+  doc: vscode.TextDocument,
+  userPosition: vscode.Range | vscode.Selection
+): vscode.CodeAction[] {
+  return [];
+}
+
 // Exports for testing
 //
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
   createUpcaseFirstSubjectCharFix,
+  createRemoveTrailingPunctuationFix,
 };
