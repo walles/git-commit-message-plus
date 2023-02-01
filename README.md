@@ -29,7 +29,6 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 ### TODO
 
 - Make an icon
-- Run the grammar tests in CI
 - Highlight current branch name in the Git metadata
 - Make sure diagnostics are applied to newly opened files, not just on file
   edits
@@ -37,10 +36,10 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
   - DONE: `meta.scope.subject.git-commit`
   - `meta.scope.subject-after-50.git-commit` from character 51 and onwards
   - `meta.scope.subject-after-72.git-commit` from character 73 and onwards
+- Validate code formatting in CI and fail on violations
+- Fail CI on linter warnings
 - Have unit tests that don't launch VSCode
 - Move all tests under the same top subdirectory
-- Run code tests in CI
-- Validate code formatting in CI
 
 ## Development
 

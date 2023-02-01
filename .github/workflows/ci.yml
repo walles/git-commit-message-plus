@@ -1,0 +1,18 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+# Ref:
+# https://code.visualstudio.com/api/working-with-extensions/continuous-integration#github-actions
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+    - run: npm install
+    - run: xvfb-run -a npm test
