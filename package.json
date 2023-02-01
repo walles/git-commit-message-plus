@@ -11,6 +11,7 @@
     "git",
     "commit"
   ],
+  "icon": "images/icon.png",
   "bugs": {
     "url": "https://github.com/walles/git-commit-message-plus/issues"
   },

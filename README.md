@@ -30,7 +30,6 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ### TODO
 
-- Make an icon
 - Highlight current branch name in the Git metadata
 - Mark commit message subject line with:
   - DONE: `meta.scope.subject.git-commit`
