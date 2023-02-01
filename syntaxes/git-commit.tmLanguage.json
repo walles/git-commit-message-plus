@@ -1,4 +1,11 @@
 {
+	"metadata": [
+		"This file is maintained here:",
+		"https://github.com/walles/git-commit-message-plus/blob/main/syntaxes/git-commit.tmLanguage.json",
+		"",
+		"It was originally based on this file, but has been heavily modified:",
+		"https://github.com/microsoft/vscode/blob/e95c74c4c7af876e79ec58df262464467c06df28/extensions/git-base/syntaxes/git-commit.tmLanguage.json"
+	],
 	"name": "Git Commit Message",
 	"scopeName": "text.git-commit",
 	"patterns": [
