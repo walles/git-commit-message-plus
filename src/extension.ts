@@ -39,26 +39,42 @@ export function activate(context: vscode.ExtensionContext) {
 
   const documentChangeListener = vscode.workspace.onDidChangeTextDocument(
     (event) => {
-      const doc = event.document;
-      if (doc.languageId !== "git-commit") {
-        return;
-      }
-
-      diagnosticCollection.set(doc.uri, getDiagnostics(doc));
+      doLinting(event.document);
     },
     null,
     context.subscriptions
   );
   context.subscriptions.push(documentChangeListener);
 
-  // FIXME: Make sure linting is triggered when we open a commit message, not
-  // just when it changes. I tried to react to onDidOpenTextDocument(), but
-  // documents seem to default to plain-text when loaded so that didn't work.
+  // Call the listeners on initilization for current active text editor
+  //
+  // Inspiration from here:
+  // https://github.com/golang/vscode-go/blob/d28aeac9bb6d98e0c6fdcb74199144cdae31f311/src/goMain.ts
+  if (vscode.window.activeTextEditor) {
+    doLinting(vscode.window.activeTextEditor.document);
+  }
+  vscode.window.onDidChangeActiveTextEditor(
+    (editor) => {
+      if (editor) {
+        doLinting(editor.document);
+      }
+    },
+    null,
+    context.subscriptions
+  );
 }
 
 // This method is called when your extension is deactivated
 export function deactivate() {
   console.log("Git Commit Message Plus says good bye!");
+}
+
+function doLinting(doc: vscode.TextDocument) {
+  if (doc.languageId !== "git-commit") {
+    return;
+  }
+
+  diagnosticCollection.set(doc.uri, getDiagnostics(doc));
 }
 
 function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {

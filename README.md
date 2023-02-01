@@ -30,8 +30,6 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 - Make an icon
 - Highlight current branch name in the Git metadata
-- Make sure diagnostics are applied to newly opened files, not just on file
-  edits
 - Mark commit message subject line with:
   - DONE: `meta.scope.subject.git-commit`
   - `meta.scope.subject-after-50.git-commit` from character 51 and onwards
