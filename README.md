@@ -1,3 +1,5 @@
+![CI Status](https://github.com/walles/git-commit-message-plus/actions/workflows/ci.yml/badge.svg?branch=main)
+
 # Git Commit Message Plus
 
 A git commit message highlighter being nicer than the built-in one.
