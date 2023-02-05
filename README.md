@@ -31,10 +31,6 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 ### TODO
 
 - Highlight current branch name in the Git metadata
-- Mark commit message subject line with:
-  - DONE: `meta.scope.subject.git-commit`
-  - `meta.scope.subject-after-50.git-commit` from character 51 and onwards
-  - `meta.scope.subject-after-72.git-commit` from character 73 and onwards
 - Validate code formatting in CI and fail on violations
 - Fail CI on linter warnings
 - Have unit tests that don't launch VSCode
