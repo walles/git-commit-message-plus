@@ -8,16 +8,17 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ## Features
 
-- Inform about `git commit -v` if it isn't being used
-- Proper `git commit -v` diff highlighting [even when running `git` in
-  not-English](https://github.com/textmate/git.tmbundle/issues/60).
 - Highlight file names and what's happening to them
-- Report > 72 characters subject lines as errors
-- Report > 50 characters subject lines as warnings
-- Report not-capitalized subject lines as errors (with Quick Fix)
-- Report errors for trailing punctuation
-- Report errors for non-blank second lines
 - Quick Fixes for certain diagnostics
+- Inform about `git commit -v` if it isn't being used
+- `git commit -v` diff highlighting [even when running `git` in
+  not-English](https://github.com/textmate/git.tmbundle/issues/60).
+- Diagnostics for:
+  - \> 50 characters subject lines
+  - \> 72 characters subject lines
+  - Not-capitalized subject lines (with Quick Fix)
+  - Trailing punctuation in the subject line (with Quick Fix)
+  - Non-blank second lines
 
 <!-- FIXME: Add an animated demo here! -->
 
