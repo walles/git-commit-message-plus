@@ -2,8 +2,10 @@
 The grammar used to highlight this subject line in red because it is > 50 characters long
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid.deprecated.line-too-long.git-commit invalid.illegal.line-too-long.git-commit
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope.message.git-commit meta.scope.subject.git-commit
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.scope.subject-after-72.git-commit
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.scope.subject-after-50.git-commit
 #                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope.subject-after-50.git-commit
+#                                                                       ^^^^^^^^^^^^^^^^^ meta.scope.subject-after-50.git-commit meta.scope.subject-after-72.git-commit
 Not the subject line
 # ^^^^^^^^^^^^^^^^^^ meta.scope.message.git-commit
 # ^^^^^^^^^^^^^^^^^^ - meta.scope.subject.git-commit

@@ -25,8 +25,11 @@
 			"patterns": [
 				{
 					"name": "meta.scope.subject.git-commit",
-					"match": "\\G.{0,50}(.*)$",
-					"captures": { "1": { "name": "meta.scope.subject-after-50.git-commit" } }
+					"match": "\\G.{0,50}(.{0,22}(.*))$",
+					"captures": {
+						"1": { "name": "meta.scope.subject-after-50.git-commit" },
+						"2": { "name": "meta.scope.subject-after-72.git-commit" }
+					}
 				}
 			]
 		},
