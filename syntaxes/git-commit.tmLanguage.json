@@ -24,6 +24,7 @@
 			"end": "^(?=#)",
 			"patterns": [
 				{
+					"comment": "Mark > 50 lines as deprecated, > 72 as illegal",
 					"name": "meta.scope.subject.git-commit",
 					"match": "\\G.{0,50}(.{0,22}(.*))$",
 					"captures": {
@@ -39,6 +40,18 @@
 			"begin": "^(?=#)",
 			"end": "(?!^#)",
 			"patterns": [
+				{
+					"match": "^#\\t(modified|renamed):.*$",
+					"name": "markup.changed.git-commit"
+				},
+				{
+					"match": "^#\\tnew file:.*$",
+					"name": "markup.inserted.git-commit"
+				},
+				{
+					"match": "^#\\tdeleted:.*$",
+					"name": "markup.deleted.git-commit"
+				},
 				{
 					"comment": "What is happening with which files",
 					"match": "^#\\t([^:]+): *(.*)$",
