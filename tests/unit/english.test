@@ -9,10 +9,22 @@
 # Initial commit
 #
 # Changes to be committed:
+#	deleted:    depa
+# <-- comment.line.number-sign.git-commit
+#	^^^^^^^^^^^^^^^^ markup.deleted.git-commit
+#	^^^^^^^^^^^^^^^ - keyword.other.file-type.git-commit string.unquoted.filename.git-commit
+#	renamed:    hej -> nej
+# <-- comment.line.number-sign.git-commit
+#	^^^^^^^^^^^^^^^^^^^^^^ markup.changed.git-commit
+#	^^^^^^^^^^^^^^^ - keyword.other.file-type.git-commit string.unquoted.filename.git-commit
+#	modified:   mepa
+# <-- comment.line.number-sign.git-commit
+#	^^^^^^^^^^^^^^^^ markup.changed.git-commit
+#	^^^^^^^^^^^^^^^ - keyword.other.file-type.git-commit string.unquoted.filename.git-commit
 #	new file:   apa
 # <-- comment.line.number-sign.git-commit
-#	^^^^^^^^ keyword.other.file-type.git-commit
-#	            ^^^ string.unquoted.filename.git-commit
+#	^^^^^^^^^^^^^^^ markup.inserted.git-commit
+#	^^^^^^^^^^^^^^^ - keyword.other.file-type.git-commit string.unquoted.filename.git-commit
 #
 # ------------------------ >8 ------------------------
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.git-commit
