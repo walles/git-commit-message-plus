@@ -38,32 +38,28 @@
 			"comment": "Git supplied metadata in a number of lines starting with #",
 			"name": "meta.scope.metadata.git-commit",
 			"begin": "^(?=#)",
-			"end": "(?!^#)",
+			"contentName": "comment.line.number-sign.git-commit",
+			"end": "^(?!#)",
 			"patterns": [
 				{
-					"match": "^#\\t(modified|renamed):.*$",
-					"name": "markup.changed.git-commit"
+					"match": "^#\\t((modified|renamed):.*)$",
+					"captures": { "1": { "name": "markup.changed.git-commit" } }
 				},
 				{
-					"match": "^#\\tnew file:.*$",
-					"name": "markup.inserted.git-commit"
+					"match": "^#\\t(new file:.*)$",
+					"captures": { "1": { "name": "markup.inserted.git-commit" } }
 				},
 				{
-					"match": "^#\\tdeleted:.*$",
-					"name": "markup.deleted.git-commit"
+					"match": "^#\\t(deleted.*)$",
+					"captures": { "1": { "name": "markup.deleted.git-commit" } }
 				},
 				{
-					"comment": "What is happening with which files",
+					"comment": "Fallback for non-English git commit template",
 					"match": "^#\\t([^:]+): *(.*)$",
-					"name": "comment.line.number-sign.git-commit",
 					"captures": {
 						"1": { "name": "keyword.other.file-type.git-commit" },
 						"2": { "name": "string.unquoted.filename.git-commit" }
 					}
-				},
-				{
-					"name": "comment.line.number-sign.git-commit",
-					"match": "^#.*$"
 				}
 			]
 		}
