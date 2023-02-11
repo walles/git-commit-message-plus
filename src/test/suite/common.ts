@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-export async function fakeTextDocument(
+export async function createTextDocument(
   contents: string[]
 ): Promise<vscode.TextDocument> {
   return await vscode.workspace.openTextDocument({

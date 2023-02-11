@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { fakeTextDocument } from "./common";
+import { createTextDocument } from "./common";
 
 import * as vscode from "vscode";
 import * as quickfix from "../../quickfix";
@@ -10,7 +10,7 @@ suite("Quick Fix", () => {
 
   suite("Capitalize subject line", () => {
     test("Simple example", async () => {
-      const doc = await fakeTextDocument([
+      const doc = await createTextDocument([
         "this subject has initial lower case",
       ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
@@ -26,7 +26,7 @@ suite("Quick Fix", () => {
     });
 
     test("On second character", async () => {
-      const doc = await fakeTextDocument([
+      const doc = await createTextDocument([
         "this subject has initial lower case",
       ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
@@ -40,7 +40,7 @@ suite("Quick Fix", () => {
     });
 
     test("Selection of first to second character", async () => {
-      const doc = await fakeTextDocument([
+      const doc = await createTextDocument([
         "this subject has initial lower case",
       ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
@@ -54,7 +54,7 @@ suite("Quick Fix", () => {
     });
 
     test("On third character", async () => {
-      const doc = await fakeTextDocument([
+      const doc = await createTextDocument([
         "this subject has initial lower case",
       ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
@@ -65,7 +65,7 @@ suite("Quick Fix", () => {
     });
 
     test("Selection of first to third character", async () => {
-      const doc = await fakeTextDocument([
+      const doc = await createTextDocument([
         "this subject has initial lower case",
       ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
@@ -78,7 +78,7 @@ suite("Quick Fix", () => {
 
   suite("Remove trailing punctuation", () => {
     test("Left of the punctuation", async () => {
-      const doc = await fakeTextDocument([
+      const doc = await createTextDocument([
         "This subject has trailing punctuation.",
       ]);
       const actual = quickfix._private.createRemoveTrailingPunctuationFix(
@@ -94,7 +94,7 @@ suite("Quick Fix", () => {
     });
 
     test("Right of the punctuation", async () => {
-      const doc = await fakeTextDocument([
+      const doc = await createTextDocument([
         "This subject has trailing punctuation.",
       ]);
       const actual = quickfix._private.createRemoveTrailingPunctuationFix(
@@ -108,7 +108,7 @@ suite("Quick Fix", () => {
     });
 
     test("Not touching the punctuation", async () => {
-      const doc = await fakeTextDocument([
+      const doc = await createTextDocument([
         "This subject has trailing punctuation.",
       ]);
       const actual = quickfix._private.createRemoveTrailingPunctuationFix(
