@@ -95,7 +95,16 @@ suite("Quick Fix", () => {
         doc,
         utils.createRange(0, 38, 38)
       );
-      assert.equal(actual[0].title, "Remove trailing punctuation");
+
+      const actualAction = actual[0];
+      assert.equal(actualAction.title, "Remove trailing punctuation");
+
+      // Apply the edit and verify the result
+      if (actualAction.edit == undefined) {
+        assert.fail("No edit in there!");
+      }
+      await vscode.workspace.applyEdit(actualAction.edit);
+      assert.equal(doc.lineAt(0).text, "This subject has trailing punctuation");
     });
 
     test("Not touching the punctuation", async () => {
