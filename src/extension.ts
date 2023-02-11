@@ -97,7 +97,7 @@ function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
   return returnMe;
 }
 
-function diag(
+function createDiagnostic(
   line: number,
   columnStart: number,
   columnEnd: number,
@@ -122,7 +122,7 @@ function getFirstLine50Diagnostic(firstLine: string): vscode.Diagnostic[] {
   }
 
   return [
-    diag(
+    createDiagnostic(
       0,
       preferSubjectLineLength,
       maxSubjectLineLength,
@@ -142,7 +142,7 @@ function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
   }
 
   return [
-    diag(
+    createDiagnostic(
       0,
       maxSubjectLineLength,
       firstLine.length,
@@ -162,7 +162,7 @@ function getFirstLinePunctuationDiagnosticHelper(
     return null;
   }
 
-  return diag(
+  return createDiagnostic(
     0,
     firstLine.length - badSuffix.length,
     firstLine.length,
@@ -197,7 +197,7 @@ function getFirstLineCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
   const firstChar = firstLine.charAt(0);
   if (utils.isLower(firstChar)) {
     return [
-      diag(
+      createDiagnostic(
         0,
         0,
         1,
@@ -224,7 +224,7 @@ function getSecondLineDiagnostic(secondLine: string): vscode.Diagnostic[] {
   }
 
   return [
-    diag(
+    createDiagnostic(
       1,
       0,
       secondLine.length,
@@ -253,7 +253,7 @@ function getNoDiffDiagnostic(doc: vscode.TextDocument): vscode.Diagnostic[] {
   }
 
   return [
-    diag(
+    createDiagnostic(
       doc.lineCount - 1, // Place diagnostic on the last line
       0,
       doc.lineAt(doc.lineCount - 1).text.length,
@@ -268,7 +268,7 @@ function getNoDiffDiagnostic(doc: vscode.TextDocument): vscode.Diagnostic[] {
 //
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
-  diag,
+  createDiagnostic,
   getDiagnostics,
   getFirstLine50Diagnostic,
   getFirstLine72Diagnostic,
