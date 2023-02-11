@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { FakeTextDocument } from "./common";
+import { fakeTextDocument } from "./common";
 
 import * as vscode from "vscode";
 import * as extension from "../../extension";
@@ -7,18 +7,18 @@ import * as extension from "../../extension";
 suite("Git Commit Message Plus", () => {
   vscode.window.showInformationMessage("Start all tests.");
 
-  test("Empty Commit Message", () => {
-    const empty = new FakeTextDocument([]);
+  test("Empty Commit Message", async () => {
+    const empty = await fakeTextDocument([]);
     assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
   });
 
-  test("Subject but no metadata", () => {
-    const subjectOnly = new FakeTextDocument(["Subject line"]);
+  test("Subject but no metadata", async () => {
+    const subjectOnly = await fakeTextDocument(["Subject line"]);
     assert.deepStrictEqual(extension._private.getDiagnostics(subjectOnly), []);
   });
 
-  test("Good Commit Message", () => {
-    const message = new FakeTextDocument([
+  test("Good Commit Message", async () => {
+    const message = await fakeTextDocument([
       "Fnord the Blorgs before releasing them",
       "",
       "Before this change, the splurgs sometimes died and had to be zonkered by",
@@ -187,8 +187,8 @@ suite("Git Commit Message Plus", () => {
     );
   });
 
-  test("No diff", () => {
-    const withoutDiff = new FakeTextDocument([
+  test("No diff", async () => {
+    const withoutDiff = await fakeTextDocument([
       "Fnord the Blorgs before releasing them",
       "# Git: bla bla",
       "",

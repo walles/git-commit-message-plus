@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { FakeTextDocument } from "./common";
+import { fakeTextDocument } from "./common";
 
 import * as vscode from "vscode";
 import * as quickfix from "../../quickfix";
@@ -9,8 +9,10 @@ suite("Quick Fix", () => {
   vscode.window.showInformationMessage("Start all tests.");
 
   suite("Capitalize subject line", () => {
-    test("Simple example", () => {
-      const doc = new FakeTextDocument(["this subject has initial lower case"]);
+    test("Simple example", async () => {
+      const doc = await fakeTextDocument([
+        "this subject has initial lower case",
+      ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
         doc,
         utils.createRange(0, 0, 0)
@@ -23,8 +25,10 @@ suite("Quick Fix", () => {
       // thing
     });
 
-    test("On second character", () => {
-      const doc = new FakeTextDocument(["this subject has initial lower case"]);
+    test("On second character", async () => {
+      const doc = await fakeTextDocument([
+        "this subject has initial lower case",
+      ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
         doc,
         utils.createRange(0, 1, 1)
@@ -32,8 +36,10 @@ suite("Quick Fix", () => {
       assert.equal(actual[0].title, "Capitalize subject line");
     });
 
-    test("Selection of first to second character", () => {
-      const doc = new FakeTextDocument(["this subject has initial lower case"]);
+    test("Selection of first to second character", async () => {
+      const doc = await fakeTextDocument([
+        "this subject has initial lower case",
+      ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
         doc,
         utils.createRange(0, 0, 1)
@@ -41,8 +47,10 @@ suite("Quick Fix", () => {
       assert.equal(actual[0].title, "Capitalize subject line");
     });
 
-    test("On third character", () => {
-      const doc = new FakeTextDocument(["this subject has initial lower case"]);
+    test("On third character", async () => {
+      const doc = await fakeTextDocument([
+        "this subject has initial lower case",
+      ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
         doc,
         utils.createRange(0, 2, 2)
@@ -50,8 +58,10 @@ suite("Quick Fix", () => {
       assert.deepEqual(actual, []);
     });
 
-    test("Selection of first to third character", () => {
-      const doc = new FakeTextDocument(["this subject has initial lower case"]);
+    test("Selection of first to third character", async () => {
+      const doc = await fakeTextDocument([
+        "this subject has initial lower case",
+      ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
         doc,
         utils.createRange(0, 0, 2)
@@ -61,8 +71,8 @@ suite("Quick Fix", () => {
   });
 
   suite("Remove trailing punctuation", () => {
-    test("Left of the punctuation", () => {
-      const doc = new FakeTextDocument([
+    test("Left of the punctuation", async () => {
+      const doc = await fakeTextDocument([
         "This subject has trailing punctuation.",
       ]);
       const actual = quickfix._private.createRemoveTrailingPunctuationFix(
@@ -77,8 +87,8 @@ suite("Quick Fix", () => {
       // thing
     });
 
-    test("Right of the punctuation", () => {
-      const doc = new FakeTextDocument([
+    test("Right of the punctuation", async () => {
+      const doc = await fakeTextDocument([
         "This subject has trailing punctuation.",
       ]);
       const actual = quickfix._private.createRemoveTrailingPunctuationFix(
@@ -88,8 +98,8 @@ suite("Quick Fix", () => {
       assert.equal(actual[0].title, "Remove trailing punctuation");
     });
 
-    test("Not touching the punctuation", () => {
-      const doc = new FakeTextDocument([
+    test("Not touching the punctuation", async () => {
+      const doc = await fakeTextDocument([
         "This subject has trailing punctuation.",
       ]);
       const actual = quickfix._private.createRemoveTrailingPunctuationFix(
