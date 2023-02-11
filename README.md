@@ -34,7 +34,6 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 - Highlight current branch name in the Git metadata
 - Validate code formatting in CI and fail on violations
 - Fail CI on linter warnings
-- Have unit tests that don't launch VSCode
 - Move all tests under the same top subdirectory
 
 ## Development

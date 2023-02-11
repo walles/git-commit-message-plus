@@ -17,12 +17,12 @@ suite("Quick Fix", () => {
         doc,
         utils.createRange(0, 0, 0)
       );
-      assert.equal(actual[0].title, "Capitalize subject line");
 
       // FIXME: Verify the code action points back to the right diagnostic
 
-      // FIXME: Actually execute the code action and check that it did the right
-      // thing
+      assertEditAction(actual, "Capitalize subject line", doc, [
+        "This subject has initial lower case",
+      ]);
     });
 
     test("On second character", async () => {
@@ -33,7 +33,10 @@ suite("Quick Fix", () => {
         doc,
         utils.createRange(0, 1, 1)
       );
-      assert.equal(actual[0].title, "Capitalize subject line");
+
+      assertEditAction(actual, "Capitalize subject line", doc, [
+        "This subject has initial lower case",
+      ]);
     });
 
     test("Selection of first to second character", async () => {
@@ -44,7 +47,10 @@ suite("Quick Fix", () => {
         doc,
         utils.createRange(0, 0, 1)
       );
-      assert.equal(actual[0].title, "Capitalize subject line");
+
+      assertEditAction(actual, "Capitalize subject line", doc, [
+        "This subject has initial lower case",
+      ]);
     });
 
     test("On third character", async () => {
@@ -79,12 +85,12 @@ suite("Quick Fix", () => {
         doc,
         utils.createRange(0, 37, 37)
       );
-      assert.equal(actual[0].title, "Remove trailing punctuation");
 
       // FIXME: Verify the code action points back to the right diagnostic
 
-      // FIXME: Actually execute the code action and check that it did the right
-      // thing
+      assertEditAction(actual, "Remove trailing punctuation", doc, [
+        "This subject has trailing punctuation",
+      ]);
     });
 
     test("Right of the punctuation", async () => {
@@ -96,15 +102,9 @@ suite("Quick Fix", () => {
         utils.createRange(0, 38, 38)
       );
 
-      const actualAction = actual[0];
-      assert.equal(actualAction.title, "Remove trailing punctuation");
-
-      // Apply the edit and verify the result
-      if (actualAction.edit == undefined) {
-        assert.fail("No edit in there!");
-      }
-      await vscode.workspace.applyEdit(actualAction.edit);
-      assert.equal(doc.lineAt(0).text, "This subject has trailing punctuation");
+      assertEditAction(actual, "Remove trailing punctuation", doc, [
+        "This subject has trailing punctuation",
+      ]);
     });
 
     test("Not touching the punctuation", async () => {
@@ -117,8 +117,34 @@ suite("Quick Fix", () => {
       );
       assert.deepEqual(actual, []);
     });
-
-    // FIXME: Figure out how to actually run a code action. Then try it on
-    // different lines to see how it holds up.
   });
 });
+
+/**
+ * Assert we have exactly one code action, and that after applying it the doc
+ * has the expected contents.
+ */
+async function assertEditAction(
+  codeActions: vscode.CodeAction[],
+  expectedTitle: string,
+  doc: vscode.TextDocument,
+  expectedLinesAfterApply: string[]
+) {
+  assert.equal(codeActions.length, 1);
+
+  const action = codeActions[0];
+  assert.equal(action.title, expectedTitle);
+
+  // Apply the edit and verify the result
+  if (action.edit == undefined) {
+    assert.fail("Code action has no WorkspaceEdit");
+  }
+
+  await vscode.workspace.applyEdit(action.edit);
+
+  const actualLines = [];
+  for (let i = 0; i < doc.lineCount; i++) {
+    actualLines.push(doc.lineAt(i).text);
+  }
+  assert.equal(actualLines, expectedLinesAfterApply);
+}
