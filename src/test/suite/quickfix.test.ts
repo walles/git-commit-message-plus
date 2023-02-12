@@ -20,7 +20,7 @@ suite("Quick Fix", () => {
 
       // FIXME: Verify the code action points back to the right diagnostic
 
-      assertEditAction(actual, "Capitalize subject line", doc, [
+      await assertEditAction(actual, "Capitalize subject line", doc, [
         "This subject has initial lower case",
       ]);
     });
@@ -34,7 +34,7 @@ suite("Quick Fix", () => {
         utils.createRange(0, 1, 1)
       );
 
-      assertEditAction(actual, "Capitalize subject line", doc, [
+      await assertEditAction(actual, "Capitalize subject line", doc, [
         "This subject has initial lower case",
       ]);
     });
@@ -48,7 +48,7 @@ suite("Quick Fix", () => {
         utils.createRange(0, 0, 1)
       );
 
-      assertEditAction(actual, "Capitalize subject line", doc, [
+      await assertEditAction(actual, "Capitalize subject line", doc, [
         "This subject has initial lower case",
       ]);
     });
@@ -74,6 +74,34 @@ suite("Quick Fix", () => {
       );
       assert.deepEqual(actual, []);
     });
+
+    test("[JIRA-123] with JIRA prefix", async () => {
+      const doc = await createTextDocument(["[JIRA-123] with JIRA prefix"]);
+      const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
+        doc,
+        utils.createRange(0, 11, 11)
+      );
+
+      // FIXME: Verify the code action points back to the right diagnostic
+
+      await assertEditAction(actual, "Capitalize subject line", doc, [
+        "[JIRA-123] With JIRA prefix",
+      ]);
+    });
+
+    test("JIRA-123: with JIRA prefix", async () => {
+      const doc = await createTextDocument(["JIRA-123: with JIRA prefix"]);
+      const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
+        doc,
+        utils.createRange(0, 10, 10)
+      );
+
+      // FIXME: Verify the code action points back to the right diagnostic
+
+      await assertEditAction(actual, "Capitalize subject line", doc, [
+        "JIRA-123: With JIRA prefix",
+      ]);
+    });
   });
 
   suite("Remove trailing punctuation", () => {
@@ -88,7 +116,7 @@ suite("Quick Fix", () => {
 
       // FIXME: Verify the code action points back to the right diagnostic
 
-      assertEditAction(actual, "Remove trailing punctuation", doc, [
+      await assertEditAction(actual, "Remove trailing punctuation", doc, [
         "This subject has trailing punctuation",
       ]);
     });
@@ -102,7 +130,7 @@ suite("Quick Fix", () => {
         utils.createRange(0, 38, 38)
       );
 
-      assertEditAction(actual, "Remove trailing punctuation", doc, [
+      await assertEditAction(actual, "Remove trailing punctuation", doc, [
         "This subject has trailing punctuation",
       ]);
     });
@@ -146,5 +174,5 @@ async function assertEditAction(
   for (let i = 0; i < doc.lineCount; i++) {
     actualLines.push(doc.lineAt(i).text);
   }
-  assert.equal(actualLines, expectedLinesAfterApply);
+  assert.deepEqual(actualLines, expectedLinesAfterApply);
 }
