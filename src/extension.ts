@@ -79,8 +79,8 @@ export function deactivate() {
   console.log("Git Commit Message Plus says good bye!");
 }
 
-function getCurrentGitBranch(uri: vscode.Uri): string | undefined {
-  console.log("Git branch requested for document", uri);
+function getCurrentGitBranch(docUri: vscode.Uri): string | undefined {
+  console.debug("Git branch requested for document", docUri);
 
   const extension = vscode.extensions.getExtension<GitExtension>("vscode.git");
   if (!extension) {
@@ -95,25 +95,25 @@ function getCurrentGitBranch(uri: vscode.Uri): string | undefined {
   // "1" == "Get version 1 of the API". Version one seems to be the latest when I
   // type this.
   const git = extension.exports.getAPI(1);
-  const repository = git.getRepository(uri);
+  const repository = git.getRepository(docUri);
   if (!repository) {
-    console.warn("No Git repository for current document", uri);
+    console.warn("No Git repository for current document", docUri);
     return undefined;
   }
 
   const currentBranch = repository.state.HEAD;
   if (!currentBranch) {
-    console.warn("No HEAD branch for current document", uri);
+    console.warn("No HEAD branch for current document", docUri);
     return undefined;
   }
 
   const branchName = currentBranch.name;
   if (!branchName) {
-    console.warn("Current branch has no name", uri, currentBranch);
+    console.warn("Current branch has no name", docUri, currentBranch);
     return undefined;
   }
 
-  console.log("Current branch name", branchName);
+  console.debug("Current branch name", branchName);
   return branchName;
 }
 
