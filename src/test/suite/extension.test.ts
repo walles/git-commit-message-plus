@@ -5,8 +5,6 @@ import * as vscode from "vscode";
 import * as extension from "../../extension";
 
 suite("Git Commit Message Plus", () => {
-  vscode.window.showInformationMessage("Start all tests.");
-
   test("Empty Commit Message", async () => {
     const empty = await createTextDocument([]);
     assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
@@ -151,6 +149,48 @@ suite("Git Commit Message Plus", () => {
 
     assert.deepStrictEqual(
       extension._private.getFirstLineCapsDiagnostic("hello"),
+      [expected]
+    );
+  });
+
+  test("[JIRA-123] First line not capitalized", () => {
+    const expected = extension._private.createDiagnostic(
+      0,
+      12,
+      13,
+      `First line should start with a Capital Letter`,
+      vscode.DiagnosticSeverity.Error,
+      {
+        target: extension._private.subjectLineCapitalizationUrl,
+        value: "Subject Line Capitalization",
+      }
+    );
+
+    assert.deepStrictEqual(
+      extension._private.getFirstLineCapsDiagnostic(
+        "[JIRA-123] First line not capitalized"
+      ),
+      [expected]
+    );
+  });
+
+  test("jira-123: First line not capitalized", () => {
+    const expected = extension._private.createDiagnostic(
+      0,
+      11,
+      12,
+      `First line should start with a Capital Letter`,
+      vscode.DiagnosticSeverity.Error,
+      {
+        target: extension._private.subjectLineCapitalizationUrl,
+        value: "Subject Line Capitalization",
+      }
+    );
+
+    assert.deepStrictEqual(
+      extension._private.getFirstLineCapsDiagnostic(
+        "jira-123: First line not capitalized"
+      ),
       [expected]
     );
   });

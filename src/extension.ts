@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import * as utils from "./utils";
 import GitCommitCodeActionProvider from "./quickfix";
+import getJiraDiagnostics from "./jira";
 
 const preferSubjectLineLength = 50;
 const maxSubjectLineLength = 72;
@@ -86,6 +87,7 @@ function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
     returnMe.push(...getFirstLine72Diagnostic(firstLine));
     returnMe.push(...getFirstLinePunctuationDiagnostic(firstLine));
     returnMe.push(...getFirstLineCapsDiagnostic(firstLine));
+    returnMe.push(...getJiraDiagnostics(doc));
   }
 
   if (doc.lineCount >= 2) {
