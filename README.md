@@ -31,6 +31,9 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ### TODO
 
+- Add quick fixes for JIRA issue capitalization
+- Warn about branch name vs subject line JIRA issue ID mismatches
+- Add quick fixes for branch name vs subject line JIRA issue ID mismatches
 - Highlight current branch name in the Git metadata
 - Validate code formatting in CI and fail on violations
 - Fail CI on linter warnings

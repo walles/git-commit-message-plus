@@ -3,10 +3,9 @@ import { createTextDocument } from "./common";
 
 import * as vscode from "vscode";
 import * as extension from "../../extension";
+import * as utils from "../../utils";
 
 suite("Git Commit Message Plus", () => {
-  vscode.window.showInformationMessage("Start all tests.");
-
   test("Empty Commit Message", async () => {
     const empty = await createTextDocument([]);
     assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
@@ -35,7 +34,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test("First line 51 chars", () => {
-    const expected = extension._private.createDiagnostic(
+    const expected = utils.createDiagnostic(
       0,
       50,
       72, // We let VSCode do the clipping here, so 72 is expected rather than 51
@@ -61,7 +60,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test("First line 73 chars", () => {
-    const expected = extension._private.createDiagnostic(
+    const expected = utils.createDiagnostic(
       0,
       72,
       73,
@@ -80,7 +79,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test('First line ending in "."', () => {
-    const expected = extension._private.createDiagnostic(
+    const expected = utils.createDiagnostic(
       0,
       5,
       6,
@@ -99,7 +98,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test('First line ending in "..."', () => {
-    const expected = extension._private.createDiagnostic(
+    const expected = utils.createDiagnostic(
       0,
       5,
       8,
@@ -118,7 +117,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test('First line ending in "!"', () => {
-    const expected = extension._private.createDiagnostic(
+    const expected = utils.createDiagnostic(
       0,
       5,
       6,
@@ -137,7 +136,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test("First line not capitalized", () => {
-    const expected = extension._private.createDiagnostic(
+    const expected = utils.createDiagnostic(
       0,
       0,
       1,
@@ -151,6 +150,48 @@ suite("Git Commit Message Plus", () => {
 
     assert.deepStrictEqual(
       extension._private.getFirstLineCapsDiagnostic("hello"),
+      [expected]
+    );
+  });
+
+  test("[JIRA-123] First line not capitalized", () => {
+    const expected = utils.createDiagnostic(
+      0,
+      11,
+      12,
+      `First line should start with a Capital Letter`,
+      vscode.DiagnosticSeverity.Error,
+      {
+        target: extension._private.subjectLineCapitalizationUrl,
+        value: "Subject Line Capitalization",
+      }
+    );
+
+    assert.deepStrictEqual(
+      extension._private.getFirstLineCapsDiagnostic(
+        "[JIRA-123] first line not capitalized"
+      ),
+      [expected]
+    );
+  });
+
+  test("jira-123: First line not capitalized", () => {
+    const expected = utils.createDiagnostic(
+      0,
+      10,
+      11,
+      `First line should start with a Capital Letter`,
+      vscode.DiagnosticSeverity.Error,
+      {
+        target: extension._private.subjectLineCapitalizationUrl,
+        value: "Subject Line Capitalization",
+      }
+    );
+
+    assert.deepStrictEqual(
+      extension._private.getFirstLineCapsDiagnostic(
+        "jira-123: first line not capitalized"
+      ),
       [expected]
     );
   });
@@ -169,7 +210,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test("Not-comment on second line", () => {
-    const expected = extension._private.createDiagnostic(
+    const expected = utils.createDiagnostic(
       1,
       0,
       5,
@@ -194,7 +235,7 @@ suite("Git Commit Message Plus", () => {
       "",
     ]);
 
-    const expected = extension._private.createDiagnostic(
+    const expected = utils.createDiagnostic(
       2,
       0,
       withoutDiff.lineAt(2).text.length,

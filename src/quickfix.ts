@@ -27,19 +27,29 @@ function createUpcaseFirstSubjectCharFix(
   doc: vscode.TextDocument,
   userPosition: vscode.Range | vscode.Selection
 ): vscode.CodeAction[] {
-  const fixRange = utils.createRange(0, 0, 1);
+  if (doc.lineCount < 1) {
+    return [];
+  }
+  const firstLine = doc.lineAt(0).text;
+
+  const jiraIssueId = utils.findJiraIssueId(firstLine);
+  const fixRange = utils.createRange(
+    0,
+    jiraIssueId.firstIndexAfter,
+    jiraIssueId.firstIndexAfter + 1
+  );
+
   if (!fixRange.contains(userPosition)) {
     // Not in the right place
     return [];
   }
 
-  const firstLine = doc.lineAt(0);
-  if (firstLine.text.length == 0) {
+  if (firstLine.length <= jiraIssueId.firstIndexAfter) {
     // No first char to replace
     return [];
   }
 
-  const firstChar = firstLine.text.charAt(0);
+  const firstChar = firstLine.charAt(jiraIssueId.firstIndexAfter);
   if (!utils.isLower(firstChar)) {
     // Not lower case, never mind
     return [];
