@@ -57,10 +57,18 @@ function getJiraCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
   ];
 }
 
+export function createUpcaseJiraIdFix(
+  doc: vscode.TextDocument,
+  userPosition: vscode.Range | vscode.Selection
+): vscode.CodeAction[] {
+  return [];
+}
+
 // Exports for testing
 //
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
   jiraCapsUrl,
   getJiraCapsDiagnostic,
+  createUpcaseJiraIdFix,
 };

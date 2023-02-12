@@ -33,6 +33,7 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 ### TODO
 
 - Add quick fixes for JIRA issue capitalization
+- Suggest JIRA prefix code completion based on branch name
 - Warn about branch name vs subject line JIRA issue ID mismatches
 - Add quick fixes for branch name vs subject line JIRA issue ID mismatches
 - Highlight current branch name in the Git metadata
