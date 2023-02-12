@@ -1,8 +1,8 @@
 import * as assert from "assert";
 
 import * as vscode from "vscode";
-import * as extension from "../../extension";
 import * as jira from "../../jira";
+import * as utils from "../../utils";
 
 suite("Git Commit Message Plus", () => {
   test("Find issue ID", () => {
@@ -26,7 +26,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test("[Jira-123] JIRA issue ID capitalization", () => {
-    const expected = extension._private.createDiagnostic(
+    const expected = utils.createDiagnostic(
       0,
       1,
       5,
@@ -45,7 +45,7 @@ suite("Git Commit Message Plus", () => {
   });
 
   test("jira-123: JIRA issue ID capitalization", () => {
-    const expected = extension._private.createDiagnostic(
+    const expected = utils.createDiagnostic(
       0,
       0,
       4,

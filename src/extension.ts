@@ -99,32 +99,13 @@ function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
   return returnMe;
 }
 
-function createDiagnostic(
-  line: number,
-  columnStart: number,
-  columnEnd: number,
-  message: string,
-  severity: vscode.DiagnosticSeverity,
-  code:
-    | {
-        value: string | number;
-        target: vscode.Uri;
-      }
-    | undefined
-): vscode.Diagnostic {
-  const range = utils.createRange(line, columnStart, columnEnd);
-  const returnMe = new vscode.Diagnostic(range, message, severity);
-  returnMe.code = code;
-  return returnMe;
-}
-
 function getFirstLine50Diagnostic(firstLine: string): vscode.Diagnostic[] {
   if (firstLine.length <= preferSubjectLineLength) {
     return [];
   }
 
   return [
-    createDiagnostic(
+    utils.createDiagnostic(
       0,
       preferSubjectLineLength,
       maxSubjectLineLength,
@@ -144,7 +125,7 @@ function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
   }
 
   return [
-    createDiagnostic(
+    utils.createDiagnostic(
       0,
       maxSubjectLineLength,
       firstLine.length,
@@ -164,7 +145,7 @@ function getFirstLinePunctuationDiagnosticHelper(
     return null;
   }
 
-  return createDiagnostic(
+  return utils.createDiagnostic(
     0,
     firstLine.length - badSuffix.length,
     firstLine.length,
@@ -199,7 +180,7 @@ function getFirstLineCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
   const firstChar = firstLine.charAt(0);
   if (utils.isLower(firstChar)) {
     return [
-      createDiagnostic(
+      utils.createDiagnostic(
         0,
         0,
         1,
@@ -226,7 +207,7 @@ function getSecondLineDiagnostic(secondLine: string): vscode.Diagnostic[] {
   }
 
   return [
-    createDiagnostic(
+    utils.createDiagnostic(
       1,
       0,
       secondLine.length,
@@ -255,7 +236,7 @@ function getNoDiffDiagnostic(doc: vscode.TextDocument): vscode.Diagnostic[] {
   }
 
   return [
-    createDiagnostic(
+    utils.createDiagnostic(
       doc.lineCount - 1, // Place diagnostic on the last line
       0,
       doc.lineAt(doc.lineCount - 1).text.length,
@@ -270,7 +251,6 @@ function getNoDiffDiagnostic(doc: vscode.TextDocument): vscode.Diagnostic[] {
 //
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
-  createDiagnostic,
   getDiagnostics,
   getFirstLine50Diagnostic,
   getFirstLine72Diagnostic,

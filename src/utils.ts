@@ -14,3 +14,22 @@ export function createRange(
     new vscode.Position(line, lastColumn)
   );
 }
+
+export function createDiagnostic(
+  line: number,
+  columnStart: number,
+  columnEnd: number,
+  message: string,
+  severity: vscode.DiagnosticSeverity,
+  code:
+    | {
+        value: string | number;
+        target: vscode.Uri;
+      }
+    | undefined
+): vscode.Diagnostic {
+  const range = createRange(line, columnStart, columnEnd);
+  const returnMe = new vscode.Diagnostic(range, message, severity);
+  returnMe.code = code;
+  return returnMe;
+}
