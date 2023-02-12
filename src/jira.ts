@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as utils from "./utils";
+import * as extension from "./extension";
 
 const jiraCapsUrl = vscode.Uri.parse(
   "https://confluence.atlassian.com/adminjiraserver/changing-the-project-key-format-938847081.html"
@@ -14,17 +15,34 @@ export default function getJiraDiagnostics(
 
   const firstLine = doc.lineAt(0).text;
   const returnMe: vscode.Diagnostic[] = [];
+
   returnMe.push(...getJiraCapsDiagnostic(firstLine));
-
-  // FIXME: Get the current branch name (if available)
-
-  // FIXME: Extract a JIRA ticket ID from the branch name (if there seems to be
-  // one)
-
-  // FIXME: Warn if the branch ticket ID isn't the same as the subject line
-  // ticket id
+  returnMe.push(
+    ...getJiraBranchIdMismatchDiagnostic(extension.gitBranch, firstLine)
+  );
 
   return returnMe;
+}
+
+function getJiraIssueIdFromBranchName(branchName: string): string | undefined {
+  const match = branchName.match(/^([a-zA-Z]+-[0-9]+)/);
+  if (!match) {
+    return undefined;
+  }
+
+  const jiraIssueId = match[1].toUpperCase();
+  if (jiraIssueId.length === branchName.length) {
+    // All JIRA issue id, no tail, return it!
+    return jiraIssueId;
+  }
+
+  const charAfterIssueId = branchName.charAt(jiraIssueId.length);
+  if (" _.-/".includes(charAfterIssueId)) {
+    // JIRA issue ID properly terminated, return it!
+    return jiraIssueId;
+  }
+
+  return undefined;
 }
 
 /**
@@ -53,6 +71,37 @@ function getJiraCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
         value: "JIRA issue ID format",
         target: jiraCapsUrl,
       }
+    ),
+  ];
+}
+
+function getJiraBranchIdMismatchDiagnostic(
+  gitBranch: string | undefined,
+  firstLine: string
+): vscode.Diagnostic[] {
+  const docIssueId = utils.findJiraIssueId(firstLine);
+  if (docIssueId.id === "") {
+    return [];
+  }
+
+  if (!gitBranch) {
+    return [];
+  }
+
+  const branchIssueId = getJiraIssueIdFromBranchName(gitBranch);
+  if (docIssueId.id.toUpperCase() === branchIssueId) {
+    // Text and branch match, done!
+    return [];
+  }
+
+  return [
+    utils.createDiagnostic(
+      0,
+      docIssueId.startIndex,
+      docIssueId.startIndex + docIssueId.id.length,
+      `JIRA issue ID should match the branch name: ${branchIssueId}`,
+      vscode.DiagnosticSeverity.Error,
+      undefined
     ),
   ];
 }
@@ -98,6 +147,8 @@ export function createUpcaseJiraIdFix(
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
   jiraCapsUrl,
+  getJiraIssueIdFromBranchName,
   getJiraCapsDiagnostic,
+  getJiraBranchIdMismatchDiagnostic,
   createUpcaseJiraIdFix,
 };
