@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import * as utils from "./utils";
 import GitCommitCodeActionProvider from "./quickfix";
 import getJiraDiagnostics from "./jira";
+import { GitExtension } from "./git";
 
 const preferSubjectLineLength = 50;
 const maxSubjectLineLength = 72;
@@ -56,18 +57,17 @@ export function activate(context: vscode.ExtensionContext) {
   // https://github.com/golang/vscode-go/blob/d28aeac9bb6d98e0c6fdcb74199144cdae31f311/src/goMain.ts
   if (vscode.window.activeTextEditor) {
     const editor = vscode.window.activeTextEditor;
-    if (editor !== undefined) {
+    if (editor && editor.document.languageId === "git-commit") {
       gitBranch = getCurrentGitBranch(editor.document.uri);
       doLinting(editor.document);
     }
   }
   vscode.window.onDidChangeActiveTextEditor(
     (editor) => {
-      if (!editor) {
-        return;
+      if (editor && editor.document.languageId === "git-commit") {
+        gitBranch = getCurrentGitBranch(editor.document.uri);
+        doLinting(editor.document);
       }
-      gitBranch = getCurrentGitBranch(editor.document.uri);
-      doLinting(editor.document);
     },
     null,
     context.subscriptions
@@ -77,6 +77,44 @@ export function activate(context: vscode.ExtensionContext) {
 // This method is called when your extension is deactivated
 export function deactivate() {
   console.log("Git Commit Message Plus says good bye!");
+}
+
+function getCurrentGitBranch(uri: vscode.Uri): string | undefined {
+  console.log("Git branch requested for document", uri);
+
+  const extension = vscode.extensions.getExtension<GitExtension>("vscode.git");
+  if (!extension) {
+    console.warn("Git extension not available");
+    return undefined;
+  }
+  if (!extension.isActive) {
+    console.warn("Git extension not active");
+    return undefined;
+  }
+
+  // "1" == "Get version 1 of the API". Version one seems to be the latest when I
+  // type this.
+  const git = extension.exports.getAPI(1);
+  const repository = git.getRepository(uri);
+  if (!repository) {
+    console.warn("No Git repository for current document", uri);
+    return undefined;
+  }
+
+  const currentBranch = repository.state.HEAD;
+  if (!currentBranch) {
+    console.warn("No HEAD branch for current document", uri);
+    return undefined;
+  }
+
+  const branchName = currentBranch.name;
+  if (!branchName) {
+    console.warn("Current branch has no name", uri, currentBranch);
+    return undefined;
+  }
+
+  console.log("Current branch name", branchName);
+  return branchName;
 }
 
 function doLinting(doc: vscode.TextDocument) {
