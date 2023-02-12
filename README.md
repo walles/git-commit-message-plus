@@ -19,6 +19,7 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
   - Not-capitalized subject lines (with Quick Fix)
   - Trailing punctuation in the subject line (with Quick Fix)
   - Not-capitalized JIRA issue IDs (with Quick Fix)
+  - JIRA issue ID conflicting with branch name
   - Non-blank second lines
 
 <!-- FIXME: Add an animated demo here! -->
@@ -32,7 +33,6 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ### TODO
 
-- Warn about branch name vs subject line JIRA issue ID mismatches
 - Suggest JIRA prefix code completion based on branch name
 - Add quick fixes for branch name vs subject line JIRA issue ID mismatches
 - Highlight current branch name in the Git metadata

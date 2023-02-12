@@ -74,6 +74,25 @@ suite("JIRA Prefix Warnings", () => {
       undefined
     );
   });
+
+  test("JIRA-123: But the branch has JIRA-234", () => {
+    const expected = utils.createDiagnostic(
+      0,
+      0,
+      8,
+      `JIRA issue ID should match the branch name: JIRA-234`,
+      vscode.DiagnosticSeverity.Error,
+      undefined
+    );
+
+    assert.deepStrictEqual(
+      jira._private.getJiraBranchIdMismatchDiagnostic(
+        "jira-234",
+        "JIRA-123: But the branch has JIRA-234"
+      ),
+      [expected]
+    );
+  });
 });
 
 suite("Quick Fix", () => {

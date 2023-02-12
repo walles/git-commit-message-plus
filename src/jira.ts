@@ -17,7 +17,9 @@ export default function getJiraDiagnostics(
   const returnMe: vscode.Diagnostic[] = [];
 
   returnMe.push(...getJiraCapsDiagnostic(firstLine));
-  returnMe.push(...getJiraBranchIdMismatchDiagnostic(firstLine));
+  returnMe.push(
+    ...getJiraBranchIdMismatchDiagnostic(extension.gitBranch, firstLine)
+  );
 
   return returnMe;
 }
@@ -74,6 +76,7 @@ function getJiraCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
 }
 
 function getJiraBranchIdMismatchDiagnostic(
+  gitBranch: string | undefined,
   firstLine: string
 ): vscode.Diagnostic[] {
   const docIssueId = utils.findJiraIssueId(firstLine);
@@ -81,7 +84,6 @@ function getJiraBranchIdMismatchDiagnostic(
     return [];
   }
 
-  const gitBranch = extension.gitBranch;
   if (!gitBranch) {
     return [];
   }
@@ -97,7 +99,7 @@ function getJiraBranchIdMismatchDiagnostic(
       0,
       docIssueId.startIndex,
       docIssueId.startIndex + docIssueId.id.length,
-      `JIRA issue ID should match the branch: ${branchIssueId}`,
+      `JIRA issue ID should match the branch name: ${branchIssueId}`,
       vscode.DiagnosticSeverity.Error,
       undefined
     ),
@@ -147,5 +149,6 @@ export const _private = {
   jiraCapsUrl,
   getJiraIssueIdFromBranchName,
   getJiraCapsDiagnostic,
+  getJiraBranchIdMismatchDiagnostic,
   createUpcaseJiraIdFix,
 };
