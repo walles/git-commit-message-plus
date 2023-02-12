@@ -20,6 +20,9 @@ const secondLineBlankUrl = vscode.Uri.parse(
 
 let diagnosticCollection: vscode.DiagnosticCollection;
 
+// Global variable updated on switching to new editors
+let gitBranch: string | undefined = undefined;
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -52,13 +55,19 @@ export function activate(context: vscode.ExtensionContext) {
   // Inspiration from here:
   // https://github.com/golang/vscode-go/blob/d28aeac9bb6d98e0c6fdcb74199144cdae31f311/src/goMain.ts
   if (vscode.window.activeTextEditor) {
-    doLinting(vscode.window.activeTextEditor.document);
+    const editor = vscode.window.activeTextEditor;
+    if (editor !== undefined) {
+      gitBranch = getCurrentGitBranch(editor.document.uri);
+      doLinting(editor.document);
+    }
   }
   vscode.window.onDidChangeActiveTextEditor(
     (editor) => {
-      if (editor) {
-        doLinting(editor.document);
+      if (!editor) {
+        return;
       }
+      gitBranch = getCurrentGitBranch(editor.document.uri);
+      doLinting(editor.document);
     },
     null,
     context.subscriptions
