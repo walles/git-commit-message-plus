@@ -18,6 +18,7 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
   - \> 72 characters subject lines
   - Not-capitalized subject lines (with Quick Fix)
   - Trailing punctuation in the subject line (with Quick Fix)
+  - Not-capitalized JIRA issue IDs
   - Non-blank second lines
 
 <!-- FIXME: Add an animated demo here! -->
