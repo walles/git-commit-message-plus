@@ -28,7 +28,7 @@ export default function getJiraDiagnostics(
 }
 
 /**
- * Warn if JIRA ticket identifier isn't in ALL CAPS ("dev-1234" should be
+ * Warn if JIRA ticket identifier isn't in CAPS ("dev-1234" should be
  * "DEV-1234")
  */
 function getJiraCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
@@ -47,7 +47,7 @@ function getJiraCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
       0,
       issueId.startIndex,
       issueId.startIndex + issueId.id.length,
-      `JIRA issue ID should be in ALL CAPS: ${allCaps}`,
+      `JIRA issue ID should be in CAPS: ${allCaps}`,
       vscode.DiagnosticSeverity.Warning,
       {
         value: "JIRA issue ID format",

@@ -10,7 +10,7 @@ suite("JIRA Prefix Warnings", () => {
       0,
       1,
       9,
-      `JIRA issue ID should be in ALL CAPS: JIRA-123`,
+      `JIRA issue ID should be in CAPS: JIRA-123`,
       vscode.DiagnosticSeverity.Warning,
       {
         target: jira._private.jiraCapsUrl,
@@ -29,7 +29,7 @@ suite("JIRA Prefix Warnings", () => {
       0,
       0,
       8,
-      `JIRA issue ID should be in ALL CAPS: JIRA-123`,
+      `JIRA issue ID should be in CAPS: JIRA-123`,
       vscode.DiagnosticSeverity.Warning,
       {
         target: jira._private.jiraCapsUrl,
