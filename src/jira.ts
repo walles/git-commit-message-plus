@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { createDiagnostic } from "./utils";
 
 const jiraCapsUrl = vscode.Uri.parse(
   "https://confluence.atlassian.com/adminjiraserver/changing-the-project-key-format-938847081.html"
@@ -64,7 +65,29 @@ function findIssueId(firstLine: string): JiraIssueIdPrefix {
  * "DEV-1234")
  */
 function getJiraCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
-  return [];
+  const issueId = findIssueId(firstLine);
+  if (issueId.id === "") {
+    return [];
+  }
+
+  const allCaps = issueId.id.toUpperCase();
+  if (issueId.id === allCaps) {
+    return [];
+  }
+
+  return [
+    createDiagnostic(
+      0,
+      issueId.startIndex,
+      issueId.startIndex + issueId.id.length,
+      `JIRA issue ID should be in ALL CAPS: ${allCaps}`,
+      vscode.DiagnosticSeverity.Warning,
+      {
+        value: "JIRA issue ID format",
+        target: jiraCapsUrl,
+      }
+    ),
+  ];
 }
 
 // Exports for testing

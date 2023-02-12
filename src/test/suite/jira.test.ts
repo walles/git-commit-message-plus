@@ -29,8 +29,8 @@ suite("Git Commit Message Plus", () => {
     const expected = utils.createDiagnostic(
       0,
       1,
-      5,
-      `JIRA issue ID should be in ALL CAPS`,
+      9,
+      `JIRA issue ID should be in ALL CAPS: JIRA-123`,
       vscode.DiagnosticSeverity.Warning,
       {
         target: jira._private.jiraCapsUrl,
@@ -48,8 +48,8 @@ suite("Git Commit Message Plus", () => {
     const expected = utils.createDiagnostic(
       0,
       0,
-      4,
-      `JIRA issue ID should be in ALL CAPS`,
+      8,
+      `JIRA issue ID should be in ALL CAPS: JIRA-123`,
       vscode.DiagnosticSeverity.Warning,
       {
         target: jira._private.jiraCapsUrl,
