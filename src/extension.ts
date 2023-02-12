@@ -173,17 +173,18 @@ function getFirstLinePunctuationDiagnostic(
 }
 
 function getFirstLineCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
-  if (firstLine.length < 1) {
+  const jiraPrefix = utils.findJiraIssueId(firstLine);
+  if (firstLine.length <= jiraPrefix.firstIndexAfter) {
     return [];
   }
+  const firstChar = firstLine.charAt(jiraPrefix.firstIndexAfter);
 
-  const firstChar = firstLine.charAt(0);
   if (utils.isLower(firstChar)) {
     return [
       utils.createDiagnostic(
         0,
-        0,
-        1,
+        jiraPrefix.firstIndexAfter,
+        jiraPrefix.firstIndexAfter + 1,
         "First line should start with a Capital Letter",
         vscode.DiagnosticSeverity.Error,
         {
