@@ -44,7 +44,7 @@ suite("JIRA Prefix Warnings", () => {
     );
   });
 
-  test("Get JIRA ticket from branch name", () => {
+  test("Get JIRA issue ID from branch name", () => {
     assert.equal(jira._private.getJiraIssueIdFromBranchName(""), undefined);
     assert.equal(
       jira._private.getJiraIssueIdFromBranchName("jira-1234"),
@@ -122,5 +122,81 @@ suite("Quick Fix", () => {
     await assertEditAction(actual, "Convert JIRA issue ID to CAPS", doc, [
       "JIRA-123: Should be capsed",
     ]);
+  });
+
+  test("JIRA-123: Should match branch issue ID", async () => {
+    const doc = await createTextDocument([
+      "JIRA-123: Should match branch issue ID",
+    ]);
+    const actual = jira._private.createBranchIssueIdFix(
+      "jira-234",
+      doc,
+      utils.createRange(0, 5, 5)
+    );
+
+    // FIXME: Verify the code action points back to the right diagnostic
+
+    await assertEditAction(actual, "Set issue ID from branch: JIRA-234", doc, [
+      "JIRA-234: Should match branch issue ID",
+    ]);
+  });
+
+  test("JIRA-234: Already matching the branch issue ID", async () => {
+    const doc = await createTextDocument([
+      "JIRA-234: Should match branch issue ID",
+    ]);
+    const actual = jira._private.createBranchIssueIdFix(
+      "jira-234",
+      doc,
+      utils.createRange(0, 5, 5)
+    );
+
+    // Nothing to change
+    assert.deepEqual(actual, []);
+  });
+
+  test("[JIRA-123] Should match branch issue ID", async () => {
+    const doc = await createTextDocument([
+      "[JIRA-123] Should match branch issue ID",
+    ]);
+    const actual = jira._private.createBranchIssueIdFix(
+      "jira-234",
+      doc,
+      utils.createRange(0, 5, 5)
+    );
+
+    // FIXME: Verify the code action points back to the right diagnostic
+
+    await assertEditAction(actual, "Set issue ID from branch: JIRA-234", doc, [
+      "[JIRA-234] Should match branch issue ID",
+    ]);
+  });
+
+  test("[JIRA-234] Already matching the branch issue ID", async () => {
+    const doc = await createTextDocument([
+      "[JIRA-234] Should match branch issue ID",
+    ]);
+    const actual = jira._private.createBranchIssueIdFix(
+      "jira-234",
+      doc,
+      utils.createRange(0, 5, 5)
+    );
+
+    // Nothing to change
+    assert.deepEqual(actual, []);
+  });
+
+  test("[jira-234] Matching branch but wrong case", async () => {
+    const doc = await createTextDocument([
+      "[jira-234] Matching branch but wrong case",
+    ]);
+    const actual = jira._private.createBranchIssueIdFix(
+      "jira-234",
+      doc,
+      utils.createRange(0, 5, 5)
+    );
+
+    // Nothing to change, let createUpcaseJiraIdFix() take care of this case
+    assert.deepEqual(actual, []);
   });
 });

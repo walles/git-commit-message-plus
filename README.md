@@ -4,9 +4,9 @@
 
 A git commit message highlighter being nicer than the built-in one.
 
-Highlighting inspiration from <https://cbea.ms/git-commit>.
-
 ## Features
+
+Help for [writing good Git commit messages](https://cbea.ms/git-commit):
 
 - Highlight file names and what's happening to them
 - Quick Fixes for certain diagnostics
@@ -19,7 +19,7 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
   - Not-capitalized subject lines (with Quick Fix)
   - Trailing punctuation in the subject line (with Quick Fix)
   - Not-capitalized JIRA issue IDs (with Quick Fix)
-  - JIRA issue ID conflicting with branch name
+  - JIRA issue ID conflicting with branch name (with Quick Fix)
   - Non-blank second lines
 
 <!-- FIXME: Add an animated demo here! -->
@@ -33,7 +33,6 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ### TODO
 
-- Add quick fixes for branch name vs subject line JIRA issue ID mismatches
 - Suggest JIRA prefix code completion based on branch name
 - Highlight current branch name in the Git metadata
 - Validate code formatting in CI and fail on violations

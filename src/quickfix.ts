@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
-import { createUpcaseJiraIdFix } from "./jira";
+import { gitBranch } from "./extension";
+import { createBranchIssueIdFix, createUpcaseJiraIdFix } from "./jira";
 import * as utils from "./utils";
 
 // Inspired by:
@@ -19,6 +20,7 @@ export default class GitCommitCodeActionProvider
     const returnMe: vscode.CodeAction[] = [];
     returnMe.push(...createUpcaseFirstSubjectCharFix(doc, range));
     returnMe.push(...createRemoveTrailingPunctuationFix(doc, range));
+    returnMe.push(...createBranchIssueIdFix(gitBranch, doc, range));
     returnMe.push(...createUpcaseJiraIdFix(doc, range));
 
     return returnMe;

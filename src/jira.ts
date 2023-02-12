@@ -46,8 +46,7 @@ function getJiraIssueIdFromBranchName(branchName: string): string | undefined {
 }
 
 /**
- * Warn if JIRA ticket identifier isn't in CAPS ("dev-1234" should be
- * "DEV-1234")
+ * Warn if JIRA issue ID isn't in CAPS ("dev-1234" should be "DEV-1234")
  */
 function getJiraCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
   const issueId = utils.findJiraIssueId(firstLine);
@@ -142,6 +141,55 @@ export function createUpcaseJiraIdFix(
   return [fix];
 }
 
+export function createBranchIssueIdFix(
+  branchName: string | undefined,
+  doc: vscode.TextDocument,
+  userPosition: vscode.Range | vscode.Selection
+): vscode.CodeAction[] {
+  if (!branchName) {
+    return [];
+  }
+  const branchIssue = getJiraIssueIdFromBranchName(branchName);
+  if (!branchIssue) {
+    return [];
+  }
+
+  if (doc.lineCount < 1) {
+    return [];
+  }
+  const firstLine = doc.lineAt(0).text;
+
+  const docIssue = utils.findJiraIssueId(firstLine);
+  if (docIssue.id === "") {
+    // No JIRA issue in the doc, never mind
+    return [];
+  }
+  if (docIssue.id.toUpperCase() === branchIssue) {
+    // Already done, never mind. If casing doesn't match then let's leave that
+    // to createUpcaseJiraIdFix().
+    return [];
+  }
+
+  const fixRange = utils.createRange(
+    0,
+    docIssue.startIndex,
+    docIssue.startIndex + docIssue.id.length
+  );
+
+  if (!fixRange.contains(userPosition)) {
+    // Not in the right place
+    return [];
+  }
+
+  const fix = new vscode.CodeAction(
+    `Set issue ID from branch: ${branchIssue}`,
+    vscode.CodeActionKind.QuickFix
+  );
+  fix.edit = new vscode.WorkspaceEdit();
+  fix.edit.replace(doc.uri, fixRange, branchIssue);
+  return [fix];
+}
+
 // Exports for testing
 //
 // Ref: https://stackoverflow.com/a/65422568/473672
@@ -151,4 +199,5 @@ export const _private = {
   getJiraCapsDiagnostic,
   getJiraBranchIdMismatchDiagnostic,
   createUpcaseJiraIdFix,
+  createBranchIssueIdFix,
 };
