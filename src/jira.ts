@@ -61,7 +61,36 @@ export function createUpcaseJiraIdFix(
   doc: vscode.TextDocument,
   userPosition: vscode.Range | vscode.Selection
 ): vscode.CodeAction[] {
-  return [];
+  if (doc.lineCount < 1) {
+    return [];
+  }
+  const firstLine = doc.lineAt(0).text;
+
+  const issue = utils.findJiraIssueId(firstLine);
+  const fixRange = utils.createRange(
+    0,
+    issue.startIndex,
+    issue.startIndex + issue.id.length
+  );
+
+  if (!fixRange.contains(userPosition)) {
+    // Not in the right place
+    return [];
+  }
+
+  const upcased = issue.id.toUpperCase();
+  if (issue.id === upcased) {
+    // Already upper case, never mind
+    return [];
+  }
+
+  const fix = new vscode.CodeAction(
+    "Convert JIRA issue ID to CAPS",
+    vscode.CodeActionKind.QuickFix
+  );
+  fix.edit = new vscode.WorkspaceEdit();
+  fix.edit.replace(doc.uri, fixRange, upcased);
+  return [fix];
 }
 
 // Exports for testing

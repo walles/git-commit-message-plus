@@ -18,7 +18,7 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
   - \> 72 characters subject lines
   - Not-capitalized subject lines (with Quick Fix)
   - Trailing punctuation in the subject line (with Quick Fix)
-  - Not-capitalized JIRA issue IDs
+  - Not-capitalized JIRA issue IDs (with Quick Fix)
   - Non-blank second lines
 
 <!-- FIXME: Add an animated demo here! -->
@@ -32,7 +32,6 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ### TODO
 
-- Add quick fixes for JIRA issue capitalization
 - Suggest JIRA prefix code completion based on branch name
 - Warn about branch name vs subject line JIRA issue ID mismatches
 - Add quick fixes for branch name vs subject line JIRA issue ID mismatches
