@@ -45,32 +45,32 @@ suite("JIRA Prefix Warnings", () => {
   });
 
   test("Get JIRA ticket from branch name", () => {
-    assert.equal(jira._private.getJiraTicketFromBranchName(""), undefined);
+    assert.equal(jira._private.getJiraIssueIdFromBranchName(""), undefined);
     assert.equal(
-      jira._private.getJiraTicketFromBranchName("jira-1234"),
+      jira._private.getJiraIssueIdFromBranchName("jira-1234"),
       "JIRA-1234"
     );
     assert.equal(
-      jira._private.getJiraTicketFromBranchName("Jira-1234-fluff"),
+      jira._private.getJiraIssueIdFromBranchName("Jira-1234-fluff"),
       "JIRA-1234"
     );
     assert.equal(
-      jira._private.getJiraTicketFromBranchName("JIRA-1234/fluff"),
+      jira._private.getJiraIssueIdFromBranchName("JIRA-1234/fluff"),
       "JIRA-1234"
     );
     assert.equal(
-      jira._private.getJiraTicketFromBranchName("jira-1234.fluff"),
+      jira._private.getJiraIssueIdFromBranchName("jira-1234.fluff"),
       "JIRA-1234"
     );
     assert.equal(
-      jira._private.getJiraTicketFromBranchName("jira-1234fluff"),
+      jira._private.getJiraIssueIdFromBranchName("jira-1234fluff"),
       undefined
     );
 
     // Non-English chars not allowed:
     // https://confluence.atlassian.com/adminjiraserver/changing-the-project-key-format-938847081.html
     assert.equal(
-      jira._private.getJiraTicketFromBranchName("jorå-1234.fluff"),
+      jira._private.getJiraIssueIdFromBranchName("jorå-1234.fluff"),
       undefined
     );
   });

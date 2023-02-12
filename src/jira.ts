@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as utils from "./utils";
+import * as extension from "./extension";
 
 const jiraCapsUrl = vscode.Uri.parse(
   "https://confluence.atlassian.com/adminjiraserver/changing-the-project-key-format-938847081.html"
@@ -14,18 +15,14 @@ export default function getJiraDiagnostics(
 
   const firstLine = doc.lineAt(0).text;
   const returnMe: vscode.Diagnostic[] = [];
+
   returnMe.push(...getJiraCapsDiagnostic(firstLine));
-
-  // FIXME: Extract a JIRA ticket ID from the branch name (if there seems to be
-  // one)
-
-  // FIXME: Warn if the branch ticket ID isn't the same as the subject line
-  // ticket id
+  returnMe.push(...getJiraBranchIdMismatchDiagnostic(firstLine));
 
   return returnMe;
 }
 
-function getJiraTicketFromBranchName(branchName: string): string | undefined {
+function getJiraIssueIdFromBranchName(branchName: string): string | undefined {
   const match = branchName.match(/^([a-zA-Z]+-[0-9]+)/);
   if (!match) {
     return undefined;
@@ -76,6 +73,37 @@ function getJiraCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
   ];
 }
 
+function getJiraBranchIdMismatchDiagnostic(
+  firstLine: string
+): vscode.Diagnostic[] {
+  const docIssueId = utils.findJiraIssueId(firstLine);
+  if (docIssueId.id === "") {
+    return [];
+  }
+
+  const gitBranch = extension.gitBranch;
+  if (!gitBranch) {
+    return [];
+  }
+
+  const branchIssueId = getJiraIssueIdFromBranchName(gitBranch);
+  if (docIssueId.id.toUpperCase() === branchIssueId) {
+    // Text and branch match, done!
+    return [];
+  }
+
+  return [
+    utils.createDiagnostic(
+      0,
+      docIssueId.startIndex,
+      docIssueId.startIndex + docIssueId.id.length,
+      `JIRA issue ID should match the branch: ${branchIssueId}`,
+      vscode.DiagnosticSeverity.Error,
+      undefined
+    ),
+  ];
+}
+
 export function createUpcaseJiraIdFix(
   doc: vscode.TextDocument,
   userPosition: vscode.Range | vscode.Selection
@@ -117,7 +145,7 @@ export function createUpcaseJiraIdFix(
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
   jiraCapsUrl,
-  getJiraTicketFromBranchName,
+  getJiraIssueIdFromBranchName,
   getJiraCapsDiagnostic,
   createUpcaseJiraIdFix,
 };
