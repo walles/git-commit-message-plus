@@ -136,7 +136,7 @@ async function assertEditAction(
   assert.equal(action.title, expectedTitle);
 
   // Apply the edit and verify the result
-  if (action.edit == undefined) {
+  if (!action.edit) {
     assert.fail("Code action has no WorkspaceEdit");
   }
 

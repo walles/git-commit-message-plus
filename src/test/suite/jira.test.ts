@@ -9,16 +9,20 @@ suite("Git Commit Message Plus", () => {
     assert.deepStrictEqual(jira._private.findIssueId("[Jira-123] Hello"), {
       startIndex: 1,
       firstIndexAfter: 11,
-      issueId: "Jira-123",
+      id: "Jira-123",
     });
 
     assert.deepStrictEqual(jira._private.findIssueId("jira-123: Hello"), {
       startIndex: 0,
       firstIndexAfter: 10,
-      issueId: "jira-123",
+      id: "jira-123",
     });
 
-    assert.equal(jira._private.findIssueId("Hello"), undefined);
+    assert.deepStrictEqual(jira._private.findIssueId("Hello"), {
+      startIndex: 0,
+      firstIndexAfter: 0,
+      id: "",
+    });
   });
 
   test("[Jira-123] JIRA issue ID capitalization", () => {

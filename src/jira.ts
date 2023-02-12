@@ -4,6 +4,12 @@ const jiraCapsUrl = vscode.Uri.parse(
   "https://confluence.atlassian.com/adminjiraserver/changing-the-project-key-format-938847081.html"
 );
 
+/** JIRA-123: */
+const jiraPrefixWithColon = /^()([a-zA-Z]{2,}-[0-9]+): +/;
+
+/** [JIRA-123] */
+const jiraPrefixWithBrackets = /^(\[)([a-zA-Z]{2,}-[0-9]+)\] +/;
+
 interface JiraIssueIdPrefix {
   /** 0 for "JIRA-123: ..." and 1 for "[JIRA-123] ..." */
   startIndex: number;
@@ -12,7 +18,7 @@ interface JiraIssueIdPrefix {
   firstIndexAfter: number;
 
   /** Example: "JIRA-123" */
-  issueId: string;
+  id: string;
 }
 
 export default function getJiraDiagnostics(
@@ -37,8 +43,20 @@ export default function getJiraDiagnostics(
   return returnMe;
 }
 
-function findIssueId(firstLine: string): JiraIssueIdPrefix | undefined {
-  return undefined;
+function findIssueId(firstLine: string): JiraIssueIdPrefix {
+  let match = firstLine.match(jiraPrefixWithColon);
+  if (!match) {
+    match = firstLine.match(jiraPrefixWithBrackets);
+  }
+  if (!match) {
+    return { startIndex: 0, firstIndexAfter: 0, id: "" };
+  }
+
+  return {
+    startIndex: match[1].length,
+    firstIndexAfter: match[0].length,
+    id: match[2],
+  };
 }
 
 /**
