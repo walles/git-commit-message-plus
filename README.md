@@ -33,8 +33,8 @@ Highlighting inspiration from <https://cbea.ms/git-commit>.
 
 ### TODO
 
-- Suggest JIRA prefix code completion based on branch name
 - Add quick fixes for branch name vs subject line JIRA issue ID mismatches
+- Suggest JIRA prefix code completion based on branch name
 - Highlight current branch name in the Git metadata
 - Validate code formatting in CI and fail on violations
 - Fail CI on linter warnings
