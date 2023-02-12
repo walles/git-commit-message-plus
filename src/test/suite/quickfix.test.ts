@@ -1,13 +1,10 @@
 import * as assert from "assert";
-import { createTextDocument } from "./common";
+import { assertEditAction, createTextDocument } from "./common";
 
-import * as vscode from "vscode";
 import * as quickfix from "../../quickfix";
 import * as utils from "../../utils";
 
 suite("Quick Fix", () => {
-  vscode.window.showInformationMessage("Start all tests.");
-
   suite("Capitalize subject line", () => {
     test("Simple example", async () => {
       const doc = await createTextDocument([
@@ -147,32 +144,3 @@ suite("Quick Fix", () => {
     });
   });
 });
-
-/**
- * Assert we have exactly one code action, and that after applying it the doc
- * has the expected contents.
- */
-async function assertEditAction(
-  codeActions: vscode.CodeAction[],
-  expectedTitle: string,
-  doc: vscode.TextDocument,
-  expectedLinesAfterApply: string[]
-) {
-  assert.equal(codeActions.length, 1);
-
-  const action = codeActions[0];
-  assert.equal(action.title, expectedTitle);
-
-  // Apply the edit and verify the result
-  if (!action.edit) {
-    assert.fail("Code action has no WorkspaceEdit");
-  }
-
-  await vscode.workspace.applyEdit(action.edit);
-
-  const actualLines = [];
-  for (let i = 0; i < doc.lineCount; i++) {
-    actualLines.push(doc.lineAt(i).text);
-  }
-  assert.deepEqual(actualLines, expectedLinesAfterApply);
-}
