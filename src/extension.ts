@@ -22,7 +22,7 @@ const secondLineBlankUrl = vscode.Uri.parse(
 let diagnosticCollection: vscode.DiagnosticCollection;
 
 // Global variable updated on switching to new editors
-let gitBranch: string | undefined = undefined;
+export let gitBranch: string | undefined = undefined;
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed

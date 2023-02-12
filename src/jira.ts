@@ -16,8 +16,6 @@ export default function getJiraDiagnostics(
   const returnMe: vscode.Diagnostic[] = [];
   returnMe.push(...getJiraCapsDiagnostic(firstLine));
 
-  // FIXME: Get the current branch name (if available)
-
   // FIXME: Extract a JIRA ticket ID from the branch name (if there seems to be
   // one)
 
@@ -25,6 +23,27 @@ export default function getJiraDiagnostics(
   // ticket id
 
   return returnMe;
+}
+
+function getJiraTicketFromBranchName(branchName: string): string | undefined {
+  const match = branchName.match(/^([a-zA-Z]+-[0-9]+)/);
+  if (!match) {
+    return undefined;
+  }
+
+  const jiraIssueId = match[1].toUpperCase();
+  if (jiraIssueId.length === branchName.length) {
+    // All JIRA issue id, no tail, return it!
+    return jiraIssueId;
+  }
+
+  const charAfterIssueId = branchName.charAt(jiraIssueId.length);
+  if (" _.-/".includes(charAfterIssueId)) {
+    // JIRA issue ID properly terminated, return it!
+    return jiraIssueId;
+  }
+
+  return undefined;
 }
 
 /**
@@ -98,6 +117,7 @@ export function createUpcaseJiraIdFix(
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
   jiraCapsUrl,
+  getJiraTicketFromBranchName,
   getJiraCapsDiagnostic,
   createUpcaseJiraIdFix,
 };
