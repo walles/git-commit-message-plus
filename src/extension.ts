@@ -44,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.languages.registerInlineCompletionItemProvider(
+    vscode.languages.registerCompletionItemProvider(
       "git-commit",
       new GitCommitCompletionsProvider()
     )
