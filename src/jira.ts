@@ -24,27 +24,6 @@ export default function getJiraDiagnostics(
   return returnMe;
 }
 
-function getJiraIssueIdFromBranchName(branchName: string): string | undefined {
-  const match = branchName.match(/^([a-zA-Z]+-[0-9]+)/);
-  if (!match) {
-    return undefined;
-  }
-
-  const jiraIssueId = match[1].toUpperCase();
-  if (jiraIssueId.length === branchName.length) {
-    // All JIRA issue id, no tail, return it!
-    return jiraIssueId;
-  }
-
-  const charAfterIssueId = branchName.charAt(jiraIssueId.length);
-  if (" _.-/".includes(charAfterIssueId)) {
-    // JIRA issue ID properly terminated, return it!
-    return jiraIssueId;
-  }
-
-  return undefined;
-}
-
 /**
  * Warn if JIRA issue ID isn't in CAPS ("dev-1234" should be "DEV-1234")
  */
@@ -87,7 +66,7 @@ function getJiraBranchIdMismatchDiagnostic(
     return [];
   }
 
-  const branchIssueId = getJiraIssueIdFromBranchName(gitBranch);
+  const branchIssueId = utils.getJiraIssueIdFromBranchName(gitBranch);
   if (docIssueId.id.toUpperCase() === branchIssueId) {
     // Text and branch match, done!
     return [];
@@ -149,7 +128,7 @@ export function createBranchIssueIdFix(
   if (!branchName) {
     return [];
   }
-  const branchIssue = getJiraIssueIdFromBranchName(branchName);
+  const branchIssue = utils.getJiraIssueIdFromBranchName(branchName);
   if (!branchIssue) {
     return [];
   }
@@ -195,7 +174,6 @@ export function createBranchIssueIdFix(
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
   jiraCapsUrl,
-  getJiraIssueIdFromBranchName,
   getJiraCapsDiagnostic,
   getJiraBranchIdMismatchDiagnostic,
   createUpcaseJiraIdFix,
