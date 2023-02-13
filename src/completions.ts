@@ -6,6 +6,7 @@ import {
   CompletionItem,
   CompletionList,
 } from "vscode";
+import { gitBranch } from "./extension";
 
 export default class GitCommitCompletionsProvider
   implements CompletionItemProvider
@@ -14,13 +15,10 @@ export default class GitCommitCompletionsProvider
     document: TextDocument,
     position: Position
   ): ProviderResult<CompletionItem[] | CompletionList<CompletionItem>> {
-    if (position.line != 0) {
-      return [];
+    if (gitBranch) {
+      return getBranchIssueCompletion(document, position, gitBranch);
     }
-    if (position.character != 0) {
-      return [];
-    }
-    return [new CompletionItem("johangris"), new CompletionItem("kalasgris")];
+    return [];
   }
 
   resolveCompletionItem?(item: CompletionItem): ProviderResult<CompletionItem> {
@@ -28,3 +26,24 @@ export default class GitCommitCompletionsProvider
     return item;
   }
 }
+
+function getBranchIssueCompletion(
+  doc: TextDocument,
+  position: Position,
+  branch: string
+): CompletionItem[] {
+  if (position.line != 0) {
+    return [];
+  }
+  if (position.character != 0) {
+    return [];
+  }
+  return [new CompletionItem("johangris"), new CompletionItem("kalasgris")];
+}
+
+// Exports for testing
+//
+// Ref: https://stackoverflow.com/a/65422568/473672
+export const _private = {
+  getBranchIssueCompletion,
+};
