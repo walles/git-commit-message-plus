@@ -34,6 +34,11 @@ Help for [writing good Git commit messages](https://cbea.ms/git-commit):
 ### TODO
 
 - Suggest JIRA prefix code completion based on branch name
+  - Decide on an inline completions provider or a completions provider
+    - Will try inline completions first
+- Verify that the completion is active on first entering the editor. The
+  opposite would be if we'd have to type a character and then delete it again to
+  get our completion.
 - Highlight current branch name in the Git metadata
 - Validate code formatting in CI and fail on violations
 - Fail CI on linter warnings

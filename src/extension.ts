@@ -3,6 +3,7 @@ import * as utils from "./utils";
 import GitCommitCodeActionProvider from "./quickfix";
 import getJiraDiagnostics from "./jira";
 import { GitExtension } from "./git";
+import GitCommitCompletionsProvider from "./completions";
 
 const preferSubjectLineLength = 50;
 const maxSubjectLineLength = 72;
@@ -39,6 +40,13 @@ export function activate(context: vscode.ExtensionContext) {
         providedCodeActionKinds:
           GitCommitCodeActionProvider.providedCodeActionKinds,
       }
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.languages.registerInlineCompletionItemProvider(
+      "git-commit",
+      new GitCommitCompletionsProvider()
     )
   );
 
