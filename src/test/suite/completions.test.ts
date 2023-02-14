@@ -31,6 +31,13 @@ suite("JIRA Issue ID Completions From Branch Name", () => {
     ]);
   });
 
+  test("Line: j| Hello", async () => {
+    // User went back to retroactively add a JIRA ticket number at the start
+    assert.deepEqual(await getCompletion("j", 1), [
+      completions.completion("JIRA-123: ", 0, 2),
+    ]);
+  });
+
   test("Line: k", async () => {
     assert.deepEqual(await getCompletion("k", 1), []);
   });
@@ -42,9 +49,37 @@ suite("JIRA Issue ID Completions From Branch Name", () => {
     ]);
   });
 
-  test("Line: [apa-321] Hello", async () => {
+  test("Line: apa-321: ", async () => {
+    // Wrong ticket number in range, offer to fix it
+    assert.deepEqual(await getCompletion("apa-321: ", 9), [
+      completions.completion("JIRA-123: ", 0, 9),
+    ]);
+  });
+
+  test("Line: [apa-321] Hello|", async () => {
     // Wrong ticket number out of range, don't touch it
     assert.deepEqual(await getCompletion("[apa-321] Hello", 15), []);
+  });
+
+  test("Line: [apa-321] |Hello", async () => {
+    // Wrong ticket number in range, don't touch it
+    assert.deepEqual(await getCompletion("[apa-321] Hello", 10), [
+      completions.completion("[JIRA-123] ", 0, 9),
+    ]);
+  });
+
+  test("Line: apa-3|21: Hello", async () => {
+    // Replace the right part
+    assert.deepEqual(await getCompletion("apa-321: Hello", 5), [
+      completions.completion("JIRA-123: ", 0, 9),
+    ]);
+  });
+
+  test("Line: apa-54321: ", async () => {
+    // Wrong ticket number in range, offer to fix it, which will make it shorter
+    assert.deepEqual(await getCompletion("apa-54321: ", 11), [
+      completions.completion("JIRA-123: ", 0, 11),
+    ]);
   });
 });
 

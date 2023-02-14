@@ -50,6 +50,40 @@ function getBranchIssueCompletion(
     ];
   }
 
+  const completions: vscode.CompletionItem[] = [];
+  completions.push(
+    ...getColonCompletion(firstLine, position.character, issueId)
+  );
+  // FIXME: completions.push(...getBracketsCompletion(firstLine, position.character, issueId));
+
+  return completions;
+}
+
+function getColonCompletion(
+  firstLine: string,
+  character: number,
+  issueId: string
+): vscode.CompletionItem[] {
+  const issueIdColon = issueId + ": ";
+
+  // Is the user on their way to typing "JIRA-123: "? With the correct issue ID?
+  const isTypingFreshly = character === firstLine.length;
+  if (isTypingFreshly) {
+    const typedSoFar = firstLine;
+    const issueIdPrefix = issueId.substring(0, typedSoFar.length);
+
+    if (typedSoFar.toLowerCase() == issueIdPrefix.toLowerCase()) {
+      // FIXME: If the user only has the final space left, don't suggest anything
+
+      return [completion(issueIdColon, 0, typedSoFar.length)];
+    }
+  }
+
+  // FIXME: Has the user gone back to the start and started to type
+  // "JIRA-123: "? With the correct issue ID?
+
+  // FIXME: Are we touching a not-perfect issue ID that the user has already typed?
+
   return [];
 }
 
