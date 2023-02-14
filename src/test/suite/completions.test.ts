@@ -43,9 +43,9 @@ suite("JIRA Issue ID Completions From Branch Name", () => {
   testLine("[JIRA-123|", [completions.completion("[JIRA-123] ", 0, 8)]);
   testLine("[jira-123]|", []);
 
-  testLine("[jir|]", [completions.completion("[JIRA-123] ", 0, 3)]);
-  testLine("[JIR|]", [completions.completion("[JIRA-123] ", 0, 3)]);
-  testLine("[jira-123|]", [completions.completion("[JIRA-123] ", 0, 8)]);
+  testLine("[jir|]", [completions.completion("[JIRA-123] ", 0, 4)]);
+  testLine("[JIR|]", [completions.completion("[JIRA-123] ", 0, 4)]);
+  testLine("[jira-123|]", [completions.completion("[JIRA-123] ", 0, 9)]);
   testLine("[JIRA-123|]", []);
   testLine("[jira-123]|", []);
 });
