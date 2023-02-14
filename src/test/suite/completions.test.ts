@@ -27,13 +27,24 @@ function testLine(line: string, expectedCompletions: vscode.CompletionItem[]) {
 
 suite("JIRA Issue ID Completions From Branch Name", () => {
   testLine("|", [completions.completion("JIRA-123: ", 0, 0)]);
+
   testLine("jir|", [completions.completion("JIRA-123: ", 0, 2)]);
   testLine("JIR|", [completions.completion("JIRA-123: ", 0, 2)]);
   testLine("jira-123|", [completions.completion("JIRA-123: ", 0, 7)]);
   testLine("JIRA-123|", []);
   testLine("jira-123:|", []);
 
-  // FIXME: Add tests for bracketed issue IDs as well
+  testLine("[jir|", [completions.completion("[JIRA-123] ", 0, 3)]);
+  testLine("[JIR|", [completions.completion("[JIRA-123] ", 0, 3)]);
+  testLine("[jira-123|", [completions.completion("[JIRA-123] ", 0, 8)]);
+  testLine("[JIRA-123|", []);
+  testLine("[jira-123]|", []);
+
+  testLine("[jir|]", [completions.completion("[JIRA-123] ", 0, 3)]);
+  testLine("[JIR|]", [completions.completion("[JIRA-123] ", 0, 3)]);
+  testLine("[jira-123|]", [completions.completion("[JIRA-123] ", 0, 8)]);
+  testLine("[JIRA-123|]", []);
+  testLine("[jira-123]|", []);
 });
 
 async function getCompletion(
