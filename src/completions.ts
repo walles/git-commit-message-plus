@@ -59,6 +59,10 @@ function getColonCompletion(
 ): vscode.CompletionItem[] {
   const issueIdColon = issueId + ": ";
 
+  if (firstLine.length === 0) {
+    return [completion(issueIdColon, 0, 0)];
+  }
+
   if (character !== firstLine.length) {
     // Not at the end of the line, never mind
     return [];
@@ -68,7 +72,11 @@ function getColonCompletion(
   const issueIdPrefix = issueId.substring(0, typedSoFar.length);
 
   if (typedSoFar.toLowerCase() == issueIdPrefix.toLowerCase()) {
-    return [completion(issueIdColon, 0, Math.max(0, typedSoFar.length - 1))];
+    if (typedSoFar === issueId) {
+      return [];
+    }
+
+    return [completion(issueIdColon, 0, typedSoFar.length - 1)];
   }
 
   return [];
