@@ -68,7 +68,7 @@ function getColonCompletion(
   const issueIdPrefix = issueId.substring(0, typedSoFar.length);
 
   if (typedSoFar.toLowerCase() == issueIdPrefix.toLowerCase()) {
-    return [completion(issueIdColon, 0, typedSoFar.length)];
+    return [completion(issueIdColon, 0, Math.max(0, typedSoFar.length - 1))];
   }
 
   return [];
