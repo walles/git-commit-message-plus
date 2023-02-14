@@ -47,6 +47,9 @@ function getBranchIssueCompletion(
   completions.push(
     ...getColonCompletion(firstLine, position.character, issueId)
   );
+  completions.push(
+    ...getBracketedCompletion(firstLine, position.character, issueId)
+  );
   // FIXME: completions.push(...getBracketsCompletion(firstLine, position.character, issueId));
 
   return completions;
@@ -54,7 +57,7 @@ function getBranchIssueCompletion(
 
 function getColonCompletion(
   firstLine: string,
-  character: number,
+  cursorPosition: number,
   issueId: string
 ): vscode.CompletionItem[] {
   const issueIdColon = issueId + ": ";
@@ -63,7 +66,7 @@ function getColonCompletion(
     return [completion(issueIdColon, 0, 0)];
   }
 
-  if (character !== firstLine.length) {
+  if (cursorPosition !== firstLine.length) {
     // Not at the end of the line, never mind
     return [];
   }
@@ -77,6 +80,43 @@ function getColonCompletion(
     }
 
     return [completion(issueIdColon, 0, typedSoFar.length - 1)];
+  }
+
+  return [];
+}
+
+function getBracketedCompletion(
+  firstLine: string,
+  cursorPosition: number,
+  issueId: string
+): vscode.CompletionItem[] {
+  const bracketedIssueId = `[${issueId}] `;
+
+  if (firstLine.length === 0) {
+    return [completion(bracketedIssueId, 0, 0)];
+  }
+  if (firstLine.charAt(0) !== "[") {
+    return [];
+  }
+
+  let requiredCursorPosition = firstLine.length;
+  if (firstLine.charAt(firstLine.length - 1) === "]") {
+    // Ignore trailing ]
+    requiredCursorPosition -= 1;
+  }
+  if (cursorPosition != requiredCursorPosition) {
+    // Not at the end of the line, never mind
+    return [];
+  }
+
+  const typedSoFar = firstLine.substring(0, cursorPosition);
+  const bracketedIssueIdPrefix = bracketedIssueId.substring(
+    0,
+    typedSoFar.length
+  );
+
+  if (typedSoFar.toLowerCase() == bracketedIssueIdPrefix.toLowerCase()) {
+    return [completion(bracketedIssueId, 0, firstLine.length - 1)];
   }
 
   return [];
