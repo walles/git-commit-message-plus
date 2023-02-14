@@ -12,7 +12,7 @@ function testLine(line: string, expectedCompletions: vscode.CompletionItem[]) {
   test("Line: " + line, async () => {
     const cursorPosition = line.indexOf("|");
     assert.ok(
-      cursorPosition > 0,
+      cursorPosition >= 0,
       "Must put a | in the line to mark the cursor position"
     );
 
