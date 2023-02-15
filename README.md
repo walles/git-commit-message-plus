@@ -36,10 +36,6 @@ Help for [writing good Git commit messages](https://cbea.ms/git-commit):
 
 ### TODO
 
-- Test doing `git commit` in a `jira-123` branch, then type "j" as the first
-  letter. Verify that we get a suggestion. I have a feeling completion doesn't
-  activate properly.
-- Add a Quick fix for switching between [] and : style JIRA issue ID prefixes
 - Highlight current branch name in the Git metadata
 - Validate code formatting in CI and fail on violations
 - Fail CI on linter warnings
