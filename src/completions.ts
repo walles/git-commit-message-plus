@@ -116,7 +116,7 @@ function getBracketedCompletion(
   );
 
   if (typedSoFar.toLowerCase() == bracketedIssueIdPrefix.toLowerCase()) {
-    return [completion(bracketedIssueId, 0, firstLine.length - 1)];
+    return [completion(bracketedIssueId, 0, firstLine.length)];
   }
 
   return [];
