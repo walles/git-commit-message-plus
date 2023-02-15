@@ -66,3 +66,26 @@ export function findJiraIssueId(firstLine: string): JiraIssueIdPrefix {
     id: match[2],
   };
 }
+
+export function getJiraIssueIdFromBranchName(
+  branchName: string
+): string | undefined {
+  const match = branchName.match(/^([a-zA-Z]+-[0-9]+)/);
+  if (!match) {
+    return undefined;
+  }
+
+  const jiraIssueId = match[1].toUpperCase();
+  if (jiraIssueId.length === branchName.length) {
+    // All JIRA issue id, no tail, return it!
+    return jiraIssueId;
+  }
+
+  const charAfterIssueId = branchName.charAt(jiraIssueId.length);
+  if (" _.-/".includes(charAfterIssueId)) {
+    // JIRA issue ID properly terminated, return it!
+    return jiraIssueId;
+  }
+
+  return undefined;
+}

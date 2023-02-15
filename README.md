@@ -20,6 +20,7 @@ Help for [writing good Git commit messages](https://cbea.ms/git-commit):
   - \> 72 characters subject lines
   - Not-capitalized subject lines (with Quick Fix)
   - Trailing punctuation in the subject line (with Quick Fix)
+  - Code completion for JIRA issue IDs based on branch name
   - Not-capitalized JIRA issue IDs (with Quick Fix)
   - JIRA issue ID conflicting with branch name (with Quick Fix)
   - Non-blank second lines
@@ -35,7 +36,10 @@ Help for [writing good Git commit messages](https://cbea.ms/git-commit):
 
 ### TODO
 
-- Suggest JIRA prefix code completion based on branch name
+- Test doing `git commit` in a `jira-123` branch, then type "j" as the first
+  letter. Verify that we get a suggestion. I have a feeling completion doesn't
+  activate properly.
+- Add a Quick fix for switching between [] and : style JIRA issue ID prefixes
 - Highlight current branch name in the Git metadata
 - Validate code formatting in CI and fail on violations
 - Fail CI on linter warnings
