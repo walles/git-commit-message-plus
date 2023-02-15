@@ -15,12 +15,12 @@ Help for [writing good Git commit messages](https://cbea.ms/git-commit):
 - Inform about `git commit -v` if it isn't being used
 - `git commit -v` diff highlighting [even when running `git` in
   not-English](https://github.com/textmate/git.tmbundle/issues/60).
+- Code completion for JIRA issue IDs based on branch name
 - Diagnostics for:
   - \> 50 characters subject lines
   - \> 72 characters subject lines
   - Not-capitalized subject lines (with Quick Fix)
   - Trailing punctuation in the subject line (with Quick Fix)
-  - Code completion for JIRA issue IDs based on branch name
   - Not-capitalized JIRA issue IDs (with Quick Fix)
   - JIRA issue ID conflicting with branch name (with Quick Fix)
   - Non-blank second lines
