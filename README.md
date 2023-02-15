@@ -4,6 +4,8 @@
 
 A git commit message highlighter being nicer than the built-in one.
 
+Report issues here: <https://github.com/walles/git-commit-message-plus/issues>
+
 ## Features
 
 Help for [writing good Git commit messages](https://cbea.ms/git-commit):
