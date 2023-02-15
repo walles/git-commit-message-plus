@@ -51,7 +51,7 @@ suite("JIRA Issue ID Completions From Branch Name", () => {
   // that the "correct" numbers left a trailing ] character after picking the
   // completion.
 
-  testLine("[|]", [completions.completion("[JIRA-123] ", 0, 3)]);
+  testLine("[|]", [completions.completion("[JIRA-123] ", 0, 2)]);
   testLine("[jir|]", [completions.completion("[JIRA-123] ", 0, 5)]);
   testLine("[JIR|]", [completions.completion("[JIRA-123] ", 0, 5)]);
   testLine("[jira-123|]", [completions.completion("[JIRA-123] ", 0, 10)]);
