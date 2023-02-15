@@ -37,16 +37,25 @@ suite("JIRA Issue ID Completions From Branch Name", () => {
   testLine("JIRA-123|", []);
   testLine("jira-123:|", []);
 
-  testLine("[jir|", [completions.completion("[JIRA-123] ", 0, 3)]);
-  testLine("[JIR|", [completions.completion("[JIRA-123] ", 0, 3)]);
-  testLine("[jira-123|", [completions.completion("[JIRA-123] ", 0, 8)]);
-  testLine("[JIRA-123|", [completions.completion("[JIRA-123] ", 0, 8)]);
+  // NOTE: See next NOTE for why these ranges seem one too long, they are
+  // produced by the same code. And having these ranges work fine.
+
+  testLine("[jir|", [completions.completion("[JIRA-123] ", 0, 4)]);
+  testLine("[JIR|", [completions.completion("[JIRA-123] ", 0, 4)]);
+  testLine("[jira-123|", [completions.completion("[JIRA-123] ", 0, 9)]);
+  testLine("[JIRA-123|", [completions.completion("[JIRA-123] ", 0, 9)]);
   testLine("[jira-123]|", []);
 
-  testLine("[jir|]", [completions.completion("[JIRA-123] ", 0, 4)]);
-  testLine("[JIR|]", [completions.completion("[JIRA-123] ", 0, 4)]);
-  testLine("[jira-123|]", [completions.completion("[JIRA-123] ", 0, 9)]);
-  testLine("[JIRA-123|]", [completions.completion("[JIRA-123] ", 0, 9)]);
+  // NOTE: All the ends of these ranges seem to be one too much, but the reason
+  // is that when testing this manually running VSCode v1.75.1 it turned out
+  // that the "correct" numbers left a trailing ] character after picking the
+  // completion.
+
+  testLine("[|]", [completions.completion("[JIRA-123] ", 0, 3)]);
+  testLine("[jir|]", [completions.completion("[JIRA-123] ", 0, 5)]);
+  testLine("[JIR|]", [completions.completion("[JIRA-123] ", 0, 5)]);
+  testLine("[jira-123|]", [completions.completion("[JIRA-123] ", 0, 10)]);
+  testLine("[JIRA-123|]", [completions.completion("[JIRA-123] ", 0, 10)]);
   testLine("[jira-123]|", []);
 });
 
