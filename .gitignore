@@ -1,5 +1,5 @@
 /out/
 /node_modules/
 /.vscode-test/
-*.vsix
+/git-commit-message-plus-99.99.99.vsix
 *.blend[0-9]

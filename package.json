@@ -26,7 +26,7 @@
     "compile": "tsc -p ./",
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "lint": "eslint src --ext ts",
-    "package": "vsce package",
+    "package": "vsce package --no-git-tag-version --no-update-package-json 99.99.99",
     "publish": "vsce publish",
     "pretest": "npm run compile && npm run lint",
     "test": "vscode-tmgrammar-test -g tests/support/diff.tmLanguage.json tests/unit/*.test && node ./out/test/runTest.js",

@@ -54,6 +54,7 @@ To install into VSCode:
    - Click Extensions
    - Click the ... menu in the top right corner
    - Click Install from VSIX...
+   - Pick the `99.99.99` one, that's the perpetual development version
 
 To check highlighting in VSCode: "Developer: Inspect Editor Tokens and Scopes"
 
