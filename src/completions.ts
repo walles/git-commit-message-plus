@@ -50,7 +50,6 @@ function getBranchIssueCompletion(
   completions.push(
     ...getBracketedCompletion(firstLine, position.character, issueId)
   );
-  // FIXME: completions.push(...getBracketsCompletion(firstLine, position.character, issueId));
 
   return completions;
 }
