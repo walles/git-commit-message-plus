@@ -34,9 +34,10 @@ Help for [writing good Git commit messages](https://cbea.ms/git-commit):
 ### TODO
 
 - Suggest JIRA prefix code completion based on branch name
-- Verify that the completion is active on first entering the editor. The
-  opposite would be if we'd have to type a character and then delete it again to
-  get our completion.
+- Test doing `git commit` in a `jira-123` branch, then type "j" as the first
+  letter. Verify that we get a suggestion. I have a feeling completion doesn't
+  activate properly.
+- Add a Quick fix for switching between [] and : style JIRA issue ID prefixes
 - Highlight current branch name in the Git metadata
 - Validate code formatting in CI and fail on violations
 - Fail CI on linter warnings
