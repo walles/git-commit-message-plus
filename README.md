@@ -6,9 +6,14 @@ A git commit message highlighter being nicer than the built-in one.
 
 Report issues here: <https://github.com/walles/git-commit-message-plus/issues>
 
-## Features
+## Prep
 
-Help for [writing good Git commit messages](https://cbea.ms/git-commit):
+[Set VSCode as your Git commit
+editor](https://code.visualstudio.com/docs/sourcecontrol/overview#_vs-code-as-git-editor).
+Then when you `git commit`, you'll be supported in [writing good Git commit
+messages](https://cbea.ms/git-commit).
+
+## Features
 
 - Highlight file names and what's happening to them
 - Quick Fixes for certain diagnostics
