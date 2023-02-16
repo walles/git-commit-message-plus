@@ -60,6 +60,7 @@ function getColonCompletion(
   issueId: string
 ): vscode.CompletionItem[] {
   const issueIdColon = issueId + ": ";
+  const bracketedIssueId = `[${issueId}] `;
 
   if (firstLine.length === 0) {
     return [completion(issueIdColon, 0, 0)];
@@ -78,7 +79,10 @@ function getColonCompletion(
       return [];
     }
 
-    return [completion(issueIdColon, 0, typedSoFar.length - 1)];
+    return [
+      completion(issueIdColon, 0, typedSoFar.length - 1),
+      completion(bracketedIssueId, 0, typedSoFar.length - 1),
+    ];
   }
 
   return [];
