@@ -2,8 +2,8 @@ import * as vscode from "vscode";
 import * as utils from "./utils";
 import GitCommitCodeActionProvider from "./quickfix";
 import getJiraDiagnostics from "./jira";
-import { GitExtension } from "./git";
 import GitCommitCompletionsProvider from "./completions";
+import getCurrentGitBranch from "./getgitbranch";
 
 const preferSubjectLineLength = 50;
 const maxSubjectLineLength = 72;
@@ -27,7 +27,7 @@ export let gitBranch: string | undefined = undefined;
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
   diagnosticCollection =
     vscode.languages.createDiagnosticCollection("git-commit-message");
   context.subscriptions.push(diagnosticCollection);
@@ -66,14 +66,14 @@ export function activate(context: vscode.ExtensionContext) {
   if (vscode.window.activeTextEditor) {
     const editor = vscode.window.activeTextEditor;
     if (editor && editor.document.languageId === "git-commit") {
-      gitBranch = getCurrentGitBranch(editor.document.uri);
+      gitBranch = await getCurrentGitBranch(editor.document.uri);
       doLinting(editor.document);
     }
   }
   vscode.window.onDidChangeActiveTextEditor(
-    (editor) => {
+    async (editor) => {
       if (editor && editor.document.languageId === "git-commit") {
-        gitBranch = getCurrentGitBranch(editor.document.uri);
+        gitBranch = await getCurrentGitBranch(editor.document.uri);
         doLinting(editor.document);
       }
     },
@@ -85,44 +85,6 @@ export function activate(context: vscode.ExtensionContext) {
 // This method is called when your extension is deactivated
 export function deactivate() {
   console.log("Git Commit Message Plus says good bye!");
-}
-
-function getCurrentGitBranch(docUri: vscode.Uri): string | undefined {
-  console.debug("Git branch requested for document", docUri);
-
-  const extension = vscode.extensions.getExtension<GitExtension>("vscode.git");
-  if (!extension) {
-    console.warn("Git extension not available");
-    return undefined;
-  }
-  if (!extension.isActive) {
-    console.warn("Git extension not active");
-    return undefined;
-  }
-
-  // "1" == "Get version 1 of the API". Version one seems to be the latest when I
-  // type this.
-  const git = extension.exports.getAPI(1);
-  const repository = git.getRepository(docUri);
-  if (!repository) {
-    console.warn("No Git repository for current document", docUri);
-    return undefined;
-  }
-
-  const currentBranch = repository.state.HEAD;
-  if (!currentBranch) {
-    console.warn("No HEAD branch for current document", docUri);
-    return undefined;
-  }
-
-  const branchName = currentBranch.name;
-  if (!branchName) {
-    console.warn("Current branch has no name", docUri, currentBranch);
-    return undefined;
-  }
-
-  console.debug("Current branch name", branchName);
-  return branchName;
 }
 
 function doLinting(doc: vscode.TextDocument) {
