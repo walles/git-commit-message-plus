@@ -18,8 +18,6 @@ messages](https://cbea.ms/git-commit).
 - Highlight file names and what's happening to them
 - Quick Fixes for certain diagnostics
 - Inform about `git commit -v` if it isn't being used
-- `git commit -v` diff highlighting [even when running `git` in
-  not-English](https://github.com/textmate/git.tmbundle/issues/60).
 - Code completion for JIRA issue IDs based on branch name
 - Diagnostics for:
   - \> 50 characters subject lines
