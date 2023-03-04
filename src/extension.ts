@@ -277,15 +277,20 @@ function getNoDiffDiagnostic(doc: vscode.TextDocument): vscode.Diagnostic[] {
 }
 
 function setVerboseCommitCommand() {
-  // FIXME: git config --global commit.verbose true
-  //
-  // For inspiration, see getCurrentGitBranchFromGit()
-  Write code here
+  // Set command line verbose-commits-by-default
+  try {
+    await execFile("git", ["config", "--global", "commit.verbose"]);
+  } catch (e) {
+    // FIXME: Save this text and report it at the end of this function
+    console.warn("Git config invocation failed", e);
+  }
 
   // FIXME: Globally set the git.verboseCommit preference to true. Or send the
   // user there to check the box themselves?
   //
   // For inspiration, see the "Verbose Git Commits Disabled" test
+
+  // FIXME: If either of ^ failed raise an exception
 }
 
 // Exports for testing
