@@ -119,6 +119,25 @@ function createEnableGitVerboseCommitFix(
   doc: vscode.TextDocument,
   userPosition: vscode.Range | vscode.Selection
 ): vscode.CodeAction[] {
+  if (doc.lineCount < 2) {
+    return [];
+  }
+
+  if (userPosition.start.line != doc.lineCount - 1) {
+    // We're not on the last line, nothing to fix
+    return [];
+  }
+
+  // Invariant: We're at the last line of the document
+
+  const previousLine = doc.lineAt(doc.lineCount - 2).text;
+  if (!previousLine.startsWith("#")) {
+    // Previous line is not a comment, probably a diff, nothing to fix
+    return [];
+  }
+
+  FIXME: Create a fix here!
+
   return [];
 }
 
