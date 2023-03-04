@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { gitBranch, setGitVerboseCommandId } from "./extension";
+import { gitBranch, setVerboseCommitCommandId } from "./extension";
 import { createBranchIssueIdFix, createUpcaseJiraIdFix } from "./jira";
 import * as utils from "./utils";
 
@@ -141,7 +141,7 @@ function createEnableGitVerboseCommitFix(
     vscode.CodeActionKind.QuickFix
   );
   fix.command = {
-    command: setGitVerboseCommandId,
+    command: setVerboseCommitCommandId,
     title: "FIXME: Will this ever be visible in the UI?",
   };
 

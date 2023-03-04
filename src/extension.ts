@@ -5,7 +5,7 @@ import getJiraDiagnostics from "./jira";
 import GitCommitCompletionsProvider from "./completions";
 import getCurrentGitBranch from "./getgitbranch";
 
-export const setGitVerboseCommandId =
+export const setVerboseCommitCommandId =
   "git-commit-message-plus.setVerboseGitCommits";
 
 /** Global variable updated on switching to new editors */
@@ -54,9 +54,10 @@ export async function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand(setGitVerboseCommandId, () => {
-      FIXME: Add code here
-    })
+    vscode.commands.registerCommand(
+      setVerboseCommitCommandId,
+      setVerboseCommitCommand
+    )
   );
 
   context.subscriptions.push(
@@ -273,6 +274,10 @@ function getNoDiffDiagnostic(doc: vscode.TextDocument): vscode.Diagnostic[] {
       undefined
     ),
   ];
+}
+
+function setVerboseCommitCommand() {
+  FIXME: Add code here
 }
 
 // Exports for testing
