@@ -136,9 +136,13 @@ function createEnableGitVerboseCommitFix(
     return [];
   }
 
-  FIXME: Create a fix here!
+  const fix = new vscode.CodeAction(
+    "Enable verbose Git commits",
+    vscode.CodeActionKind.QuickFix
+  );
+  fix.command = enableVerboseGitCommits; // FIXME: <-- Where do we get this command from?
 
-  return [];
+  return [fix];
 }
 
 // Exports for testing
