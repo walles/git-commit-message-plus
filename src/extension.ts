@@ -5,6 +5,12 @@ import getJiraDiagnostics from "./jira";
 import GitCommitCompletionsProvider from "./completions";
 import getCurrentGitBranch from "./getgitbranch";
 
+export const setGitVerboseCommandId =
+  "git-commit-message-plus.setVerboseGitCommits";
+
+/** Global variable updated on switching to new editors */
+export let gitBranch: string | undefined = undefined;
+
 const preferSubjectLineLength = 50;
 const maxSubjectLineLength = 72;
 const subjectLineLengthUrl = vscode.Uri.parse(
@@ -21,9 +27,6 @@ const secondLineBlankUrl = vscode.Uri.parse(
 );
 
 let diagnosticCollection: vscode.DiagnosticCollection;
-
-// Global variable updated on switching to new editors
-export let gitBranch: string | undefined = undefined;
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -50,14 +53,21 @@ export async function activate(context: vscode.ExtensionContext) {
     )
   );
 
-  const documentChangeListener = vscode.workspace.onDidChangeTextDocument(
-    (event) => {
-      doLinting(event.document);
-    },
-    null,
-    context.subscriptions
+  context.subscriptions.push(
+    vscode.commands.registerCommand(setGitVerboseCommandId, () => {
+      FIXME: Add code here
+    })
   );
-  context.subscriptions.push(documentChangeListener);
+
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeTextDocument(
+      (event) => {
+        doLinting(event.document);
+      },
+      null,
+      context.subscriptions
+    )
+  );
 
   // Call the listeners on initilization for current active text editor
   //

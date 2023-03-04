@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { gitBranch } from "./extension";
+import { gitBranch, setGitVerboseCommandId } from "./extension";
 import { createBranchIssueIdFix, createUpcaseJiraIdFix } from "./jira";
 import * as utils from "./utils";
 
@@ -140,7 +140,10 @@ function createEnableGitVerboseCommitFix(
     "Enable verbose Git commits",
     vscode.CodeActionKind.QuickFix
   );
-  fix.command = enableVerboseGitCommits; // FIXME: <-- Where do we get this command from?
+  fix.command = {
+    command: setGitVerboseCommandId,
+    title: "FIXME: Will this ever be visible in the UI?",
+  };
 
   return [fix];
 }
