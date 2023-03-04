@@ -3,6 +3,7 @@ import { assertEditAction, createTextDocument } from "./common";
 
 import * as quickfix from "../../quickfix";
 import * as utils from "../../utils";
+import { ConfigurationTarget, workspace } from "vscode";
 
 suite("Quick Fix", () => {
   suite("Capitalize subject line", () => {
@@ -152,8 +153,10 @@ suite("Quick Fix", () => {
         "",
       ]);
 
-      // FIXME: Disable Verbose Git Commits, otherwise we shouldn't get any
-      // quick fix
+      // Disable Verbose Git Commits, otherwise we shouldn't get any quick fix
+      await workspace
+        .getConfiguration("git")
+        .update("verboseCommit", false, ConfigurationTarget.WorkspaceFolder);
 
       const codeActions = quickfix._private.createEnableGitVerboseCommitFix(
         withoutDiff,
@@ -176,8 +179,10 @@ suite("Quick Fix", () => {
         "",
       ]);
 
-      // FIXME: Enable Verbose Git Commits, otherwise we should get the quick
-      // fix
+      // Enable Verbose Git Commits, otherwise we should get the quick fix
+      await workspace
+        .getConfiguration("git")
+        .update("verboseCommit", true, ConfigurationTarget.WorkspaceFolder);
 
       const codeActions = quickfix._private.createEnableGitVerboseCommitFix(
         withoutDiff,
@@ -194,8 +199,10 @@ suite("Quick Fix", () => {
         "",
       ]);
 
-      // FIXME: Disable Verbose Git Commits, otherwise we shouldn't get any
-      // quick fix
+      // Disable Verbose Git Commits, otherwise we shouldn't get any quick fix
+      await workspace
+        .getConfiguration("git")
+        .update("verboseCommit", false, ConfigurationTarget.WorkspaceFolder);
 
       const codeActions = quickfix._private.createEnableGitVerboseCommitFix(
         withoutDiff,
