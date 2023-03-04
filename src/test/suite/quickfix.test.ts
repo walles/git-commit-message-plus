@@ -156,7 +156,7 @@ suite("Quick Fix", () => {
       // Disable Verbose Git Commits, otherwise we shouldn't get any quick fix
       await workspace
         .getConfiguration("git")
-        .update("verboseCommit", false, ConfigurationTarget.WorkspaceFolder);
+        .update("verboseCommit", false, ConfigurationTarget.Global);
 
       const codeActions = quickfix._private.createEnableGitVerboseCommitFix(
         withoutDiff,
@@ -165,7 +165,7 @@ suite("Quick Fix", () => {
 
       // FIXME: Verify the code action points back to the right diagnostic
 
-      assert.equal(codeActions.length, 1);
+      assert.equal(codeActions.length, 1, "Exactly one Quick Fix expected");
       const action = codeActions[0];
       assert.equal(action.title, "Enable Verbose Git Commits in VSCode");
 
@@ -182,7 +182,7 @@ suite("Quick Fix", () => {
       // Enable Verbose Git Commits, otherwise we should get the quick fix
       await workspace
         .getConfiguration("git")
-        .update("verboseCommit", true, ConfigurationTarget.WorkspaceFolder);
+        .update("verboseCommit", true, ConfigurationTarget.Global);
 
       const codeActions = quickfix._private.createEnableGitVerboseCommitFix(
         withoutDiff,
@@ -202,7 +202,7 @@ suite("Quick Fix", () => {
       // Disable Verbose Git Commits, otherwise we shouldn't get any quick fix
       await workspace
         .getConfiguration("git")
-        .update("verboseCommit", false, ConfigurationTarget.WorkspaceFolder);
+        .update("verboseCommit", false, ConfigurationTarget.Global);
 
       const codeActions = quickfix._private.createEnableGitVerboseCommitFix(
         withoutDiff,
