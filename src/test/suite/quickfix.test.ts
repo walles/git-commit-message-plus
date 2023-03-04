@@ -143,4 +143,66 @@ suite("Quick Fix", () => {
       assert.deepEqual(actual, []);
     });
   });
+
+  suite("Enable VSCode Verbose Git Commits Setting", () => {
+    test("Verbose Git Commits Disabled", async () => {
+      const withoutDiff = await createTextDocument([
+        "Fnord the Blorgs before releasing them",
+        "# Git: bla bla",
+        "",
+      ]);
+
+      // FIXME: Disable Verbose Git Commits, otherwise we shouldn't get any
+      // quick fix
+
+      const codeActions = quickfix._private.createEnableGitVerboseCommitFix(
+        withoutDiff,
+        utils.createRange(2, 0, 0)
+      );
+
+      // FIXME: Verify the code action points back to the right diagnostic
+
+      assert.equal(codeActions.length, 1);
+      const action = codeActions[0];
+      assert.equal(action.title, "Enable Verbose Git Commits in VSCode");
+
+      assert.equal(!!action.command, true);
+    });
+
+    test("Verbose Git Commits Enabled", async () => {
+      const withoutDiff = await createTextDocument([
+        "Fnord the Blorgs before releasing them",
+        "# Git: bla bla",
+        "",
+      ]);
+
+      // FIXME: Enable Verbose Git Commits, otherwise we should get the quick
+      // fix
+
+      const codeActions = quickfix._private.createEnableGitVerboseCommitFix(
+        withoutDiff,
+        utils.createRange(2, 0, 0)
+      );
+
+      assert.equal(codeActions.length, 0);
+    });
+
+    test("In the Wrong Place", async () => {
+      const withoutDiff = await createTextDocument([
+        "Fnord the Blorgs before releasing them",
+        "# Git: bla bla",
+        "",
+      ]);
+
+      // FIXME: Disable Verbose Git Commits, otherwise we shouldn't get any
+      // quick fix
+
+      const codeActions = quickfix._private.createEnableGitVerboseCommitFix(
+        withoutDiff,
+        utils.createRange(1, 0, 0)
+      );
+
+      assert.equal(codeActions.length, 0);
+    });
+  });
 });

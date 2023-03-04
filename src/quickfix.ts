@@ -22,6 +22,7 @@ export default class GitCommitCodeActionProvider
     returnMe.push(...createRemoveTrailingPunctuationFix(doc, range));
     returnMe.push(...createBranchIssueIdFix(gitBranch, doc, range));
     returnMe.push(...createUpcaseJiraIdFix(doc, range));
+    returnMe.push(...createEnableGitVerboseCommitFix(doc, range));
 
     return returnMe;
   }
@@ -114,10 +115,18 @@ function createRemoveTrailingPunctuationFix(
   return [fix];
 }
 
+function createEnableGitVerboseCommitFix(
+  doc: vscode.TextDocument,
+  userPosition: vscode.Range | vscode.Selection
+): vscode.CodeAction[] {
+  return [];
+}
+
 // Exports for testing
 //
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
   createUpcaseFirstSubjectCharFix,
   createRemoveTrailingPunctuationFix,
+  createEnableGitVerboseCommitFix,
 };
