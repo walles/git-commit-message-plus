@@ -4,6 +4,7 @@ import { assertEditAction, createTextDocument } from "./common";
 import * as quickfix from "../../quickfix";
 import * as utils from "../../utils";
 import { ConfigurationTarget, workspace } from "vscode";
+import { setVerboseCommitCommandId } from "../../extension";
 
 suite("Quick Fix", () => {
   suite("Capitalize subject line", () => {
@@ -167,9 +168,7 @@ suite("Quick Fix", () => {
 
       assert.equal(codeActions.length, 1, "Exactly one Quick Fix expected");
       const action = codeActions[0];
-      assert.equal(action.title, "Enable Verbose Git Commits in VSCode");
-
-      assert.equal(!!action.command, true);
+      assert.equal(action.command?.command, setVerboseCommitCommandId);
     });
 
     test("Verbose Git Commits Enabled", async () => {

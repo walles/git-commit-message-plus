@@ -40,7 +40,7 @@ messages](https://cbea.ms/git-commit).
 ### TODO
 
 - Only warn about missing `git commit -v` in `COMMIT_EDITMSG` files, not in
-  others
+  others. Both for the Quick Fix and the Diagnostic.
 - Highlight current branch name in the Git metadata
 - Validate code formatting in CI and fail on violations
 - Fail CI on linter warnings
