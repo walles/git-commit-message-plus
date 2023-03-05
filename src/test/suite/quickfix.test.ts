@@ -184,7 +184,11 @@ suite("Quick Fix", () => {
       const verboseCommitsEnabledFromVsCode = await workspace
         .getConfiguration("git")
         .get("verboseCommit");
-      assert.equal(verboseCommitsEnabledFromVsCode, true);
+      assert.equal(
+        verboseCommitsEnabledFromVsCode,
+        true,
+        "Verbose Git commits in VSCode"
+      );
 
       // Verify git is configured for verbose commits
       const { stdout } = await execFile("git", [
@@ -193,7 +197,11 @@ suite("Quick Fix", () => {
         "commit.verbose",
       ]);
       const verboseCommitsEnabledFromGit = stdout.trim();
-      assert.equal(verboseCommitsEnabledFromGit, true);
+      assert.equal(
+        verboseCommitsEnabledFromGit,
+        true,
+        "Verbose Git commits in Git"
+      );
     });
 
     test("Verbose Git Commits Enabled", async () => {
@@ -213,7 +221,11 @@ suite("Quick Fix", () => {
         utils.createRange(2, 0, 0)
       );
 
-      assert.equal(codeActions.length, 0);
+      assert.equal(
+        codeActions.length,
+        0,
+        "Code actions count with verbose commits already enabled"
+      );
     });
 
     test("In the Wrong Place", async () => {
