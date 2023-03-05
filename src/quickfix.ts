@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { gitBranch, setVerboseCommitCommandId } from "./extension";
 import { createBranchIssueIdFix, createUpcaseJiraIdFix } from "./jira";
+import { isVerboseCommitsEnabled } from "./setverbosecommits";
 import * as utils from "./utils";
 
 // Inspired by:
@@ -13,16 +14,16 @@ export default class GitCommitCodeActionProvider
     vscode.CodeActionKind.QuickFix,
   ];
 
-  public provideCodeActions(
+  public async provideCodeActions(
     doc: vscode.TextDocument,
     range: vscode.Range | vscode.Selection
-  ): vscode.CodeAction[] {
+  ): Promise<vscode.CodeAction[]> {
     const returnMe: vscode.CodeAction[] = [];
     returnMe.push(...createUpcaseFirstSubjectCharFix(doc, range));
     returnMe.push(...createRemoveTrailingPunctuationFix(doc, range));
     returnMe.push(...createBranchIssueIdFix(gitBranch, doc, range));
     returnMe.push(...createUpcaseJiraIdFix(doc, range));
-    returnMe.push(...createEnableGitVerboseCommitFix(doc, range));
+    returnMe.push(...(await createEnableGitVerboseCommitFix(doc, range)));
 
     return returnMe;
   }
@@ -115,10 +116,10 @@ function createRemoveTrailingPunctuationFix(
   return [fix];
 }
 
-function createEnableGitVerboseCommitFix(
+async function createEnableGitVerboseCommitFix(
   doc: vscode.TextDocument,
   userPosition: vscode.Range | vscode.Selection
-): vscode.CodeAction[] {
+): Promise<vscode.CodeAction[]> {
   if (doc.lineCount < 2) {
     return [];
   }
@@ -133,6 +134,11 @@ function createEnableGitVerboseCommitFix(
   const previousLine = doc.lineAt(doc.lineCount - 2).text;
   if (!previousLine.startsWith("#")) {
     // Previous line is not a comment, probably a diff, nothing to fix
+    return [];
+  }
+
+  if (await isVerboseCommitsEnabled()) {
+    // Already enabled, we can't do anything
     return [];
   }
 

@@ -21,21 +21,21 @@ export async function setVerboseCommitCommand() {
  * Check whether there's something we can change to make verbose commits more
  * likely.
  *
- * Basically, if this function returns false then setVerboseCommitCommand()
- * won't have any effect.
+ * Basically, if this function returns true then setVerboseCommitCommand() won't
+ * have any effect.
  */
-export async function canSetVerboseCommits(): Promise<boolean> {
+export async function isVerboseCommitsEnabled(): Promise<boolean> {
   if (!doesVsCodeDoVerboseCommits()) {
     // VSCode setting can be updated
-    return true;
+    return false;
   }
   if (!(await doesGitDoVerboseCommits())) {
     // Git setting can be updated
-    return true;
+    return false;
   }
 
-  // No setting can be updated
-  return false;
+  // Yes, fully enabled
+  return true;
 }
 
 export async function doesGitDoVerboseCommits(): Promise<boolean> {

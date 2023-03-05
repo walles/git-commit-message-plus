@@ -9,6 +9,7 @@ import { setVerboseCommitCommandId } from "../../extension";
 import {
   doesGitDoVerboseCommits,
   doesVsCodeDoVerboseCommits,
+  isVerboseCommitsEnabled,
 } from "../../setverbosecommits";
 
 suite("Quick Fix", () => {
@@ -164,10 +165,11 @@ suite("Quick Fix", () => {
         .getConfiguration("git")
         .update("verboseCommit", false, ConfigurationTarget.Global);
 
-      const codeActions = quickfix._private.createEnableGitVerboseCommitFix(
-        withoutDiff,
-        utils.createRange(2, 0, 0)
-      );
+      const codeActions =
+        await quickfix._private.createEnableGitVerboseCommitFix(
+          withoutDiff,
+          utils.createRange(2, 0, 0)
+        );
 
       // FIXME: Verify the code action points back to the right diagnostic
 
@@ -193,6 +195,8 @@ suite("Quick Fix", () => {
         true,
         "Verbose Git commits in Git"
       );
+
+      assert.equal(await isVerboseCommitsEnabled(), true);
     });
 
     test("Verbose Git Commits Enabled", async () => {
@@ -207,10 +211,11 @@ suite("Quick Fix", () => {
         .getConfiguration("git")
         .update("verboseCommit", true, ConfigurationTarget.Global);
 
-      const codeActions = quickfix._private.createEnableGitVerboseCommitFix(
-        withoutDiff,
-        utils.createRange(2, 0, 0)
-      );
+      const codeActions =
+        await quickfix._private.createEnableGitVerboseCommitFix(
+          withoutDiff,
+          utils.createRange(2, 0, 0)
+        );
 
       assert.equal(
         codeActions.length,
@@ -231,10 +236,11 @@ suite("Quick Fix", () => {
         .getConfiguration("git")
         .update("verboseCommit", false, ConfigurationTarget.Global);
 
-      const codeActions = quickfix._private.createEnableGitVerboseCommitFix(
-        withoutDiff,
-        utils.createRange(1, 0, 0)
-      );
+      const codeActions =
+        await quickfix._private.createEnableGitVerboseCommitFix(
+          withoutDiff,
+          utils.createRange(1, 0, 0)
+        );
 
       assert.equal(codeActions.length, 0);
     });
