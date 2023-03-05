@@ -181,9 +181,9 @@ suite("Quick Fix", () => {
       await vscode.commands.executeCommand(action.command!.command);
 
       // Verify VSCode verbose commits are now enabled
-      const verboseCommitsEnabledFromVsCode = await workspace
-        .getConfiguration("git")
-        .get("verboseCommit");
+      const verboseCommitsEnabledFromVsCode = workspace
+        .getConfiguration()
+        .get<boolean>("git.verboseCommit");
       assert.equal(
         verboseCommitsEnabledFromVsCode,
         true,

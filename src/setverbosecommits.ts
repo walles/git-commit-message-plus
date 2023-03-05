@@ -13,6 +13,6 @@ export default async function setVerboseCommitCommand() {
     // Tell VSCode to do verbose commits
     vscode.workspace
       .getConfiguration("git")
-      .update("verboseCommit", false, vscode.ConfigurationTarget.Global),
+      .update("verboseCommit", true, vscode.ConfigurationTarget.Global),
   ]);
 }

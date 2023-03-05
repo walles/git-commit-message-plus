@@ -41,6 +41,8 @@ messages](https://cbea.ms/git-commit).
 
 - Only warn about missing `git commit -v` in `COMMIT_EDITMSG` files, not in
   others. Both for the Quick Fix and the Diagnostic.
+- Only provide the verbose-commits Quick Fix when it can actually change
+  something, either `.gitconfig` or VSCode settings
 - Highlight current branch name in the Git metadata
 - Disable `@typescript-eslint/no-non-null-assertion` in `*.test.*` files, or in
   the whole `suite` directory
