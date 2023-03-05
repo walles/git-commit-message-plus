@@ -4,12 +4,12 @@ import { assertEditAction, createTextDocument } from "./common";
 import * as quickfix from "../../quickfix";
 import * as utils from "../../utils";
 import * as vscode from "vscode";
-import * as child_process from "child_process";
-import * as util from "util";
 import { ConfigurationTarget, workspace } from "vscode";
 import { setVerboseCommitCommandId } from "../../extension";
-
-const execFile = util.promisify(child_process.execFile);
+import {
+  doesGitDoVerboseCommits,
+  doesVsCodeDoVerboseCommits,
+} from "../../setverbosecommits";
 
 suite("Quick Fix", () => {
   suite("Capitalize subject line", () => {
@@ -181,25 +181,16 @@ suite("Quick Fix", () => {
       await vscode.commands.executeCommand(action.command!.command);
 
       // Verify VSCode verbose commits are now enabled
-      const verboseCommitsEnabledFromVsCode = workspace
-        .getConfiguration()
-        .get<boolean>("git.verboseCommit");
+
       assert.equal(
-        verboseCommitsEnabledFromVsCode,
+        doesVsCodeDoVerboseCommits(),
         true,
         "Verbose Git commits in VSCode"
       );
 
-      // Verify git is configured for verbose commits
-      const { stdout } = await execFile("git", [
-        "config",
-        "--global",
-        "commit.verbose",
-      ]);
-      const verboseCommitsEnabledFromGit = stdout.trim();
       assert.equal(
-        verboseCommitsEnabledFromGit,
-        "true",
+        await doesGitDoVerboseCommits(),
+        true,
         "Verbose Git commits in Git"
       );
     });

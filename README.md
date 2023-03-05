@@ -43,6 +43,8 @@ messages](https://cbea.ms/git-commit).
   others. Both for the Quick Fix and the Diagnostic.
 - Only provide the verbose-commits Quick Fix when it can actually change
   something, either `.gitconfig` or VSCode settings
+- Consider the tests for no-diffs for both diagnostics and quick fixes. Are we
+  really testing for comment-line followed by an empty line?
 - Highlight current branch name in the Git metadata
 - Disable `@typescript-eslint/no-non-null-assertion` in `*.test.*` files, or in
   the whole `suite` directory

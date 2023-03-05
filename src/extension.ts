@@ -4,7 +4,7 @@ import GitCommitCodeActionProvider from "./quickfix";
 import getJiraDiagnostics from "./jira";
 import GitCommitCompletionsProvider from "./completions";
 import getCurrentGitBranch from "./getgitbranch";
-import setVerboseCommitCommand from "./setverbosecommits";
+import { setVerboseCommitCommand } from "./setverbosecommits";
 
 export const setVerboseCommitCommandId =
   "git-commit-message-plus.setVerboseGitCommits";
