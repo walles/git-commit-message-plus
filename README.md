@@ -42,6 +42,8 @@ messages](https://cbea.ms/git-commit).
 - Only warn about missing `git commit -v` in `COMMIT_EDITMSG` files, not in
   others. Both for the Quick Fix and the Diagnostic.
 - Highlight current branch name in the Git metadata
+- Disable `@typescript-eslint/no-non-null-assertion` in `*.test.*` files, or in
+  the whole `suite` directory
 - Validate code formatting in CI and fail on violations
 - Fail CI on linter warnings
 - Move all tests under the same top subdirectory

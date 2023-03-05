@@ -3,6 +3,7 @@ import { assertEditAction, createTextDocument } from "./common";
 
 import * as quickfix from "../../quickfix";
 import * as utils from "../../utils";
+import * as vscode from "vscode";
 import { ConfigurationTarget, workspace } from "vscode";
 import { setVerboseCommitCommandId } from "../../extension";
 
@@ -169,6 +170,17 @@ suite("Quick Fix", () => {
       assert.equal(codeActions.length, 1, "Exactly one Quick Fix expected");
       const action = codeActions[0];
       assert.equal(action.command?.command, setVerboseCommitCommandId);
+
+      // Execute the command
+      //
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      await vscode.commands.executeCommand(action.command!.command);
+
+      // Verify VSCode verbose commits are now enabled
+      const verboseCommitsEnabled = await workspace
+        .getConfiguration("git")
+        .get("verboseCommit");
+      assert.equal(verboseCommitsEnabled, true);
     });
 
     test("Verbose Git Commits Enabled", async () => {
