@@ -4,8 +4,12 @@ import { assertEditAction, createTextDocument } from "./common";
 import * as quickfix from "../../quickfix";
 import * as utils from "../../utils";
 import * as vscode from "vscode";
+import * as child_process from "child_process";
+import * as util from "util";
 import { ConfigurationTarget, workspace } from "vscode";
 import { setVerboseCommitCommandId } from "../../extension";
+
+const execFile = util.promisify(child_process.execFile);
 
 suite("Quick Fix", () => {
   suite("Capitalize subject line", () => {
@@ -177,10 +181,19 @@ suite("Quick Fix", () => {
       await vscode.commands.executeCommand(action.command!.command);
 
       // Verify VSCode verbose commits are now enabled
-      const verboseCommitsEnabled = await workspace
+      const verboseCommitsEnabledFromVsCode = await workspace
         .getConfiguration("git")
         .get("verboseCommit");
-      assert.equal(verboseCommitsEnabled, true);
+      assert.equal(verboseCommitsEnabledFromVsCode, true);
+
+      // Verify git is configured for verbose commits
+      const { stdout } = await execFile("git", [
+        "config",
+        "--global",
+        "commit.verbose",
+      ]);
+      const verboseCommitsEnabledFromGit = stdout.trim();
+      assert.equal(verboseCommitsEnabledFromGit, true);
     });
 
     test("Verbose Git Commits Enabled", async () => {
