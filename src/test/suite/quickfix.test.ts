@@ -199,7 +199,7 @@ suite("Quick Fix", () => {
       const verboseCommitsEnabledFromGit = stdout.trim();
       assert.equal(
         verboseCommitsEnabledFromGit,
-        true,
+        "true",
         "Verbose Git commits in Git"
       );
     });
