@@ -159,7 +159,7 @@ suite("Quick Fix", () => {
   suite("Enable VSCode Verbose Git Commits Setting", () => {
     for (const vsCodeVerbosity of [false, true]) {
       for (const gitVerbosity of [false, true, undefined]) {
-        test(`Starting with Git: ${gitVerbosity} and VSCode: ${vsCodeVerbosity}`, async () => {
+        test(`Initial verbosity: Git=${gitVerbosity} VSCode=${vsCodeVerbosity}`, async () => {
           // Set initial VSCode verbosity
           await workspace
             .getConfiguration("git")
@@ -182,7 +182,7 @@ suite("Quick Fix", () => {
               "config",
               "--global",
               "commit.verbose",
-              "true",
+              `${gitVerbosity}`,
             ]);
           }
 

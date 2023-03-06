@@ -38,6 +38,13 @@ export async function isVerboseCommitsEnabled(): Promise<boolean> {
   return true;
 }
 
+export function doesVsCodeDoVerboseCommits(): boolean {
+  return (
+    vscode.workspace.getConfiguration().get<boolean>("git.verboseCommit") ===
+    true
+  );
+}
+
 export async function doesGitDoVerboseCommits(): Promise<boolean> {
   try {
     const { stdout } = await execFile("git", [
@@ -54,11 +61,4 @@ export async function doesGitDoVerboseCommits(): Promise<boolean> {
     );
     return false;
   }
-}
-
-export function doesVsCodeDoVerboseCommits(): boolean {
-  return (
-    vscode.workspace.getConfiguration().get<boolean>("git.verboseCommit") ===
-    true
-  );
 }
