@@ -39,12 +39,21 @@ export async function isVerboseCommitsEnabled(): Promise<boolean> {
 }
 
 export async function doesGitDoVerboseCommits(): Promise<boolean> {
-  const { stdout } = await execFile("git", [
-    "config",
-    "--global",
-    "commit.verbose",
-  ]);
-  return stdout.trim() == "true";
+  try {
+    const { stdout } = await execFile("git", [
+      "config",
+      "--global",
+      "commit.verbose",
+    ]);
+    return stdout.trim() == "true";
+  } catch (e) {
+    // This usually means "commit.verbose" isn't set. And it defaults to off.
+    console.debug(
+      "Asking git for commit.verbose value failed, assuming it's off",
+      e
+    );
+    return false;
+  }
 }
 
 export function doesVsCodeDoVerboseCommits(): boolean {
