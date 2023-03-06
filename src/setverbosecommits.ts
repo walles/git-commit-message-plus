@@ -1,7 +1,7 @@
-import * as child_process from "child_process";
-import * as util from "util";
 import * as vscode from "vscode";
 
+import * as child_process from "child_process";
+import * as util from "util";
 const execFile = util.promisify(child_process.execFile);
 
 /** Tell both Git and VSCode that commit messages should contain diffs */

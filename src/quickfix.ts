@@ -148,7 +148,7 @@ async function createEnableGitVerboseCommitFix(
   );
   fix.command = {
     command: setVerboseCommitCommandId,
-    title: "FIXME: Will this ever be visible in the UI?",
+    title: "If you see this string in the UI, please open a ticket!",
   };
 
   return [fix];

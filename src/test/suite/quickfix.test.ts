@@ -12,6 +12,10 @@ import {
   isVerboseCommitsEnabled,
 } from "../../setverbosecommits";
 
+import * as child_process from "child_process";
+import * as util from "util";
+const execFile = util.promisify(child_process.execFile);
+
 suite("Quick Fix", () => {
   suite("Capitalize subject line", () => {
     test("Simple example", async () => {
@@ -153,76 +157,82 @@ suite("Quick Fix", () => {
   });
 
   suite("Enable VSCode Verbose Git Commits Setting", () => {
-    test("Verbose Git Commits Disabled", async () => {
-      const withoutDiff = await createTextDocument([
-        "Fnord the Blorgs before releasing them",
-        "# Git: bla bla",
-        "",
-      ]);
+    for (const vsCodeVerbosity of [false, true]) {
+      for (const gitVerbosity of [false, true, undefined]) {
+        test(`Starting with Git: ${gitVerbosity} and VSCode: ${vsCodeVerbosity}`, async () => {
+          // Set initial VSCode verbosity
+          await workspace
+            .getConfiguration("git")
+            .update(
+              "verboseCommit",
+              vsCodeVerbosity,
+              ConfigurationTarget.Global
+            );
 
-      // Disable Verbose Git Commits, otherwise we shouldn't get any quick fix
-      await workspace
-        .getConfiguration("git")
-        .update("verboseCommit", false, ConfigurationTarget.Global);
+          // Set initial Git verbosity
+          if (gitVerbosity === undefined) {
+            await execFile("git", [
+              "config",
+              "--unset",
+              "--global",
+              "commit.verbose",
+            ]);
+          } else {
+            await execFile("git", [
+              "config",
+              "--global",
+              "commit.verbose",
+              "true",
+            ]);
+          }
 
-      const codeActions =
-        await quickfix._private.createEnableGitVerboseCommitFix(
-          withoutDiff,
-          utils.createRange(2, 0, 0)
-        );
+          const withoutDiff = await createTextDocument([
+            "Fnord the Blorgs before releasing them",
+            "# Git: bla bla",
+            "",
+          ]);
 
-      // FIXME: Verify the code action points back to the right diagnostic
+          const codeActions =
+            await quickfix._private.createEnableGitVerboseCommitFix(
+              withoutDiff,
+              utils.createRange(2, 0, 0)
+            );
 
-      assert.equal(codeActions.length, 1, "Exactly one Quick Fix expected");
-      const action = codeActions[0];
-      assert.equal(action.command?.command, setVerboseCommitCommandId);
+          if (gitVerbosity && vsCodeVerbosity) {
+            // Already there, no Quick Fix expected
+            assert.equal(codeActions.length, 0);
+            return;
+          }
 
-      // Execute the command
-      //
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      await vscode.commands.executeCommand(action.command!.command);
+          // FIXME: Verify the code action points back to the right diagnostic
 
-      // Verify VSCode verbose commits are now enabled
+          assert.equal(codeActions.length, 1, "Exactly one Quick Fix expected");
+          const action = codeActions[0];
+          assert.equal(action.command?.command, setVerboseCommitCommandId);
 
-      assert.equal(
-        doesVsCodeDoVerboseCommits(),
-        true,
-        "Verbose Git commits in VSCode"
-      );
+          // Execute the command
+          //
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          await vscode.commands.executeCommand(action.command!.command);
 
-      assert.equal(
-        await doesGitDoVerboseCommits(),
-        true,
-        "Verbose Git commits in Git"
-      );
+          // Verify VSCode verbose commits are now enabled
 
-      assert.equal(await isVerboseCommitsEnabled(), true);
-    });
+          assert.equal(
+            doesVsCodeDoVerboseCommits(),
+            true,
+            "Verbose Git commits in VSCode"
+          );
 
-    test("Verbose Git Commits Enabled", async () => {
-      const withoutDiff = await createTextDocument([
-        "Fnord the Blorgs before releasing them",
-        "# Git: bla bla",
-        "",
-      ]);
+          assert.equal(
+            await doesGitDoVerboseCommits(),
+            true,
+            "Verbose Git commits in Git"
+          );
 
-      // Enable Verbose Git Commits, otherwise we should get the quick fix
-      await workspace
-        .getConfiguration("git")
-        .update("verboseCommit", true, ConfigurationTarget.Global);
-
-      const codeActions =
-        await quickfix._private.createEnableGitVerboseCommitFix(
-          withoutDiff,
-          utils.createRange(2, 0, 0)
-        );
-
-      assert.equal(
-        codeActions.length,
-        0,
-        "Code actions count with verbose commits already enabled"
-      );
-    });
+          assert.equal(await isVerboseCommitsEnabled(), true);
+        });
+      }
+    }
 
     test("In the Wrong Place", async () => {
       const withoutDiff = await createTextDocument([
