@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
-import { gitBranch } from "./extension";
+import { gitBranch, setVerboseCommitCommandId } from "./extension";
 import { createBranchIssueIdFix, createUpcaseJiraIdFix } from "./jira";
+import { isVerboseCommitsEnabled } from "./setverbosecommits";
 import * as utils from "./utils";
 
 // Inspired by:
@@ -13,15 +14,16 @@ export default class GitCommitCodeActionProvider
     vscode.CodeActionKind.QuickFix,
   ];
 
-  public provideCodeActions(
+  public async provideCodeActions(
     doc: vscode.TextDocument,
     range: vscode.Range | vscode.Selection
-  ): vscode.CodeAction[] {
+  ): Promise<vscode.CodeAction[]> {
     const returnMe: vscode.CodeAction[] = [];
     returnMe.push(...createUpcaseFirstSubjectCharFix(doc, range));
     returnMe.push(...createRemoveTrailingPunctuationFix(doc, range));
     returnMe.push(...createBranchIssueIdFix(gitBranch, doc, range));
     returnMe.push(...createUpcaseJiraIdFix(doc, range));
+    returnMe.push(...(await createEnableGitVerboseCommitFix(doc, range)));
 
     return returnMe;
   }
@@ -114,10 +116,49 @@ function createRemoveTrailingPunctuationFix(
   return [fix];
 }
 
+async function createEnableGitVerboseCommitFix(
+  doc: vscode.TextDocument,
+  userPosition: vscode.Range | vscode.Selection
+): Promise<vscode.CodeAction[]> {
+  if (doc.lineCount < 2) {
+    return [];
+  }
+
+  if (userPosition.start.line != doc.lineCount - 1) {
+    // We're not on the last line, nothing to fix
+    return [];
+  }
+
+  // Invariant: We're at the last line of the document
+
+  const previousLine = doc.lineAt(doc.lineCount - 2).text;
+  if (!previousLine.startsWith("#")) {
+    // Previous line is not a comment, probably a diff, nothing to fix
+    return [];
+  }
+
+  if (await isVerboseCommitsEnabled()) {
+    // Already enabled, we can't do anything
+    return [];
+  }
+
+  const fix = new vscode.CodeAction(
+    "Enable verbose Git commits",
+    vscode.CodeActionKind.QuickFix
+  );
+  fix.command = {
+    command: setVerboseCommitCommandId,
+    title: "If you see this string in the UI, please open a ticket!",
+  };
+
+  return [fix];
+}
+
 // Exports for testing
 //
 // Ref: https://stackoverflow.com/a/65422568/473672
 export const _private = {
   createUpcaseFirstSubjectCharFix,
   createRemoveTrailingPunctuationFix,
+  createEnableGitVerboseCommitFix,
 };

@@ -17,7 +17,7 @@ messages](https://cbea.ms/git-commit).
 
 - Highlight file names and what's happening to them
 - Quick Fixes for certain diagnostics
-- Inform about `git commit -v` if it isn't being used
+- Inform about `git commit -v` if it isn't being used (with Quick Fix)
 - Code completion for JIRA issue IDs based on branch name
 - Diagnostics for:
   - \> 50 characters subject lines
@@ -39,6 +39,14 @@ messages](https://cbea.ms/git-commit).
 
 ### TODO
 
+- Only warn about missing `git commit -v` in `COMMIT_EDITMSG` files, not in
+  others. Both for the Quick Fix and the Diagnostic.
+- When a user opens a `COMMIT_EDITMESSAGE` file and verbose commits are not
+  enabled, open a popup in the bottom right corner offering a fix-it button
+- Consider the tests for no-diffs for both diagnostics and quick fixes. Are we
+  really testing for comment-line followed by an empty line at the end?
+- Disable `@typescript-eslint/no-non-null-assertion` in `*.test.*` files, or in
+  the whole `suite` directory
 - Highlight current branch name in the Git metadata
 - Validate code formatting in CI and fail on violations
 - Fail CI on linter warnings
