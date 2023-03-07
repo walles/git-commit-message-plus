@@ -67,8 +67,11 @@ To install into VSCode:
 
 To check highlighting in VSCode: "Developer: Inspect Editor Tokens and Scopes"
 
-To publish a new version:
+### To publish a new version:
 
-```
-npm run publish
-```
+1. Bump the `"version"` in [package.json](package.json)
+1. `npm install` to get that version into `package-lock.json` as well
+1. Commit the version bump ^
+1. `git push`
+1. `git tag NEW-VERSION-NUMBER && git push --tags`
+1. `npm run publish`
