@@ -2,18 +2,21 @@ import * as assert from "assert";
 import { createTextDocument } from "./common";
 
 import * as vscode from "vscode";
-import * as extension from "../../extension";
+import * as diagnostics from "../../diagnostics";
 import * as utils from "../../utils";
 
 suite("Git Commit Message Plus", () => {
   test("Empty Commit Message", async () => {
     const empty = await createTextDocument([]);
-    assert.deepStrictEqual(extension._private.getDiagnostics(empty), []);
+    assert.deepStrictEqual(diagnostics._private.getDiagnostics(empty), []);
   });
 
   test("Subject but no metadata", async () => {
     const subjectOnly = await createTextDocument(["Subject line"]);
-    assert.deepStrictEqual(extension._private.getDiagnostics(subjectOnly), []);
+    assert.deepStrictEqual(
+      diagnostics._private.getDiagnostics(subjectOnly),
+      []
+    );
   });
 
   test("Good Commit Message", async () => {
@@ -23,12 +26,12 @@ suite("Git Commit Message Plus", () => {
       "Before this change, the splurgs sometimes died and had to be zonkered by",
       "the Guardians.",
     ]);
-    assert.deepStrictEqual(extension._private.getDiagnostics(message), []);
+    assert.deepStrictEqual(diagnostics._private.getDiagnostics(message), []);
   });
 
   test("First line 50 chars", () => {
     assert.deepStrictEqual(
-      extension._private.getFirstLine50Diagnostic("x".repeat(50)),
+      diagnostics._private.getFirstLine50Diagnostic("x".repeat(50)),
       []
     );
   });
@@ -41,20 +44,20 @@ suite("Git Commit Message Plus", () => {
       `Try keeping the subject line to at most 50 characters`,
       vscode.DiagnosticSeverity.Warning,
       {
-        target: extension._private.subjectLineLengthUrl,
+        target: diagnostics._private.subjectLineLengthUrl,
         value: "Subject Line Length",
       }
     );
 
     assert.deepStrictEqual(
-      extension._private.getFirstLine50Diagnostic("x".repeat(51)),
+      diagnostics._private.getFirstLine50Diagnostic("x".repeat(51)),
       [expected]
     );
   });
 
   test("First line 72 chars", () => {
     assert.deepStrictEqual(
-      extension._private.getFirstLine72Diagnostic("x".repeat(72)),
+      diagnostics._private.getFirstLine72Diagnostic("x".repeat(72)),
       []
     );
   });
@@ -67,13 +70,13 @@ suite("Git Commit Message Plus", () => {
       `Keep the subject line to at most 72 characters`,
       vscode.DiagnosticSeverity.Error,
       {
-        target: extension._private.subjectLineLengthUrl,
+        target: diagnostics._private.subjectLineLengthUrl,
         value: "Subject Line Length",
       }
     );
 
     assert.deepStrictEqual(
-      extension._private.getFirstLine72Diagnostic("x".repeat(73)),
+      diagnostics._private.getFirstLine72Diagnostic("x".repeat(73)),
       [expected]
     );
   });
@@ -86,13 +89,13 @@ suite("Git Commit Message Plus", () => {
       `Do not end the subject line with a period`,
       vscode.DiagnosticSeverity.Error,
       {
-        target: extension._private.subjectLinePunctuationUrl,
+        target: diagnostics._private.subjectLinePunctuationUrl,
         value: "Subject Line Punctuation",
       }
     );
 
     assert.deepStrictEqual(
-      extension._private.getFirstLinePunctuationDiagnostic("Hello."),
+      diagnostics._private.getFirstLinePunctuationDiagnostic("Hello."),
       [expected]
     );
   });
@@ -105,13 +108,13 @@ suite("Git Commit Message Plus", () => {
       `Do not end the subject line with an ellipsis`,
       vscode.DiagnosticSeverity.Error,
       {
-        target: extension._private.subjectLinePunctuationUrl,
+        target: diagnostics._private.subjectLinePunctuationUrl,
         value: "Subject Line Punctuation",
       }
     );
 
     assert.deepStrictEqual(
-      extension._private.getFirstLinePunctuationDiagnostic("Hello..."),
+      diagnostics._private.getFirstLinePunctuationDiagnostic("Hello..."),
       [expected]
     );
   });
@@ -124,13 +127,13 @@ suite("Git Commit Message Plus", () => {
       `Do not end the subject line with an exclamation mark`,
       vscode.DiagnosticSeverity.Error,
       {
-        target: extension._private.subjectLinePunctuationUrl,
+        target: diagnostics._private.subjectLinePunctuationUrl,
         value: "Subject Line Punctuation",
       }
     );
 
     assert.deepStrictEqual(
-      extension._private.getFirstLinePunctuationDiagnostic("Hello!"),
+      diagnostics._private.getFirstLinePunctuationDiagnostic("Hello!"),
       [expected]
     );
   });
@@ -143,13 +146,13 @@ suite("Git Commit Message Plus", () => {
       `First line should start with a Capital Letter`,
       vscode.DiagnosticSeverity.Error,
       {
-        target: extension._private.subjectLineCapitalizationUrl,
+        target: diagnostics._private.subjectLineCapitalizationUrl,
         value: "Subject Line Capitalization",
       }
     );
 
     assert.deepStrictEqual(
-      extension._private.getFirstLineCapsDiagnostic("hello"),
+      diagnostics._private.getFirstLineCapsDiagnostic("hello"),
       [expected]
     );
   });
@@ -162,13 +165,13 @@ suite("Git Commit Message Plus", () => {
       `First line should start with a Capital Letter`,
       vscode.DiagnosticSeverity.Error,
       {
-        target: extension._private.subjectLineCapitalizationUrl,
+        target: diagnostics._private.subjectLineCapitalizationUrl,
         value: "Subject Line Capitalization",
       }
     );
 
     assert.deepStrictEqual(
-      extension._private.getFirstLineCapsDiagnostic(
+      diagnostics._private.getFirstLineCapsDiagnostic(
         "[JIRA-123] first line not capitalized"
       ),
       [expected]
@@ -183,13 +186,13 @@ suite("Git Commit Message Plus", () => {
       `First line should start with a Capital Letter`,
       vscode.DiagnosticSeverity.Error,
       {
-        target: extension._private.subjectLineCapitalizationUrl,
+        target: diagnostics._private.subjectLineCapitalizationUrl,
         value: "Subject Line Capitalization",
       }
     );
 
     assert.deepStrictEqual(
-      extension._private.getFirstLineCapsDiagnostic(
+      diagnostics._private.getFirstLineCapsDiagnostic(
         "jira-123: first line not capitalized"
       ),
       [expected]
@@ -197,12 +200,15 @@ suite("Git Commit Message Plus", () => {
   });
 
   test("Empty second line", () => {
-    assert.deepStrictEqual(extension._private.getSecondLineDiagnostic(""), []);
+    assert.deepStrictEqual(
+      diagnostics._private.getSecondLineDiagnostic(""),
+      []
+    );
   });
 
   test("Comment on second line", () => {
     assert.deepStrictEqual(
-      extension._private.getSecondLineDiagnostic(
+      diagnostics._private.getSecondLineDiagnostic(
         "# This line is commented out"
       ),
       []
@@ -217,13 +223,13 @@ suite("Git Commit Message Plus", () => {
       `Leave the second line blank`,
       vscode.DiagnosticSeverity.Error,
       {
-        target: extension._private.secondLineBlankUrl,
+        target: diagnostics._private.secondLineBlankUrl,
         value: "Blank Second Line",
       }
     );
 
     assert.deepStrictEqual(
-      extension._private.getSecondLineDiagnostic("Hello"),
+      diagnostics._private.getSecondLineDiagnostic("Hello"),
       [expected]
     );
   });
@@ -245,7 +251,7 @@ suite("Git Commit Message Plus", () => {
     );
 
     assert.deepStrictEqual(
-      extension._private.getNoDiffDiagnostic(withoutDiff),
+      diagnostics._private.getNoDiffDiagnostic(withoutDiff),
       [expected]
     );
   });
