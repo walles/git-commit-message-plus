@@ -15,7 +15,6 @@ messages](https://cbea.ms/git-commit).
 
 ## Features
 
-- Highlight file names and what's happening to them
 - Quick Fixes for certain diagnostics
 - Inform about `git commit -v` if it isn't being used (with Quick Fix)
 - Code completion for JIRA issue IDs based on branch name
