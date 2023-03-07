@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as utils from "./utils";
+import * as path from "path";
 import GitCommitCodeActionProvider from "./quickfix";
 import getJiraDiagnostics from "./jira";
 import GitCommitCompletionsProvider from "./completions";
@@ -122,6 +123,9 @@ function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
   if (doc.lineCount >= 2) {
     const secondLine = doc.lineAt(1).text;
     returnMe.push(...getSecondLineDiagnostic(secondLine));
+  }
+
+  if (path.basename(doc.fileName) === "COMMIT_EDITMSG") {
     returnMe.push(...getNoDiffDiagnostic(doc));
   }
 
@@ -270,7 +274,7 @@ function getNoDiffDiagnostic(doc: vscode.TextDocument): vscode.Diagnostic[] {
       doc.lineCount - 1, // Place diagnostic on the last line
       0,
       doc.lineAt(doc.lineCount - 1).text.length,
-      "Run `git commit -v` to see diffs here",
+      "Use `git commit -v` to see diffs here",
       vscode.DiagnosticSeverity.Information,
       undefined
     ),

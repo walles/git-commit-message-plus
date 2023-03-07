@@ -1,8 +1,9 @@
 import * as vscode from "vscode";
+import * as path from "path";
+import * as utils from "./utils";
 import { gitBranch, setVerboseCommitCommandId } from "./extension";
 import { createBranchIssueIdFix, createUpcaseJiraIdFix } from "./jira";
 import { isVerboseCommitsEnabled } from "./setverbosecommits";
-import * as utils from "./utils";
 
 // Inspired by:
 // https://github.com/microsoft/vscode-extension-samples/blob/main/code-actions-sample/src/extension.ts
@@ -23,7 +24,10 @@ export default class GitCommitCodeActionProvider
     returnMe.push(...createRemoveTrailingPunctuationFix(doc, range));
     returnMe.push(...createBranchIssueIdFix(gitBranch, doc, range));
     returnMe.push(...createUpcaseJiraIdFix(doc, range));
-    returnMe.push(...(await createEnableGitVerboseCommitFix(doc, range)));
+
+    if (path.basename(doc.fileName) === "COMMIT_EDITMSG") {
+      returnMe.push(...(await createEnableGitVerboseCommitFix(doc, range)));
+    }
 
     return returnMe;
   }

@@ -39,8 +39,6 @@ messages](https://cbea.ms/git-commit).
 
 ### TODO
 
-- Only warn about missing `git commit -v` in `COMMIT_EDITMSG` files, not in
-  others. Both for the Quick Fix and the Diagnostic.
 - When a user opens a `COMMIT_EDITMESSAGE` file and verbose commits are not
   enabled, open a popup in the bottom right corner offering a fix-it button
 - Consider the tests for no-diffs for both diagnostics and quick fixes. Are we

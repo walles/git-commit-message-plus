@@ -239,7 +239,7 @@ suite("Git Commit Message Plus", () => {
       2,
       0,
       withoutDiff.lineAt(2).text.length,
-      "Run `git commit -v` to see diffs here",
+      "Use `git commit -v` to see diffs here",
       vscode.DiagnosticSeverity.Information,
       undefined
     );
