@@ -6,11 +6,7 @@ import * as utils from "../../utils";
 import * as vscode from "vscode";
 import { ConfigurationTarget, workspace } from "vscode";
 import { setVerboseCommitCommandId } from "../../extension";
-import {
-  doesGitDoVerboseCommits,
-  doesVsCodeDoVerboseCommits,
-  isVerboseCommitsEnabled,
-} from "../../setverbosecommits";
+import * as verbosecommits from "../../verbosecommits";
 
 import * as child_process from "child_process";
 import * as util from "util";
@@ -218,18 +214,18 @@ suite("Quick Fix", () => {
           // Verify VSCode verbose commits are now enabled
 
           assert.equal(
-            doesVsCodeDoVerboseCommits(),
+            verbosecommits.doesVsCodeDoVerboseCommits(),
             true,
             "Verbose Git commits in VSCode"
           );
 
           assert.equal(
-            await doesGitDoVerboseCommits(),
+            await verbosecommits.doesGitDoVerboseCommits(),
             true,
             "Verbose Git commits in Git"
           );
 
-          assert.equal(await isVerboseCommitsEnabled(), true);
+          assert.equal(await verbosecommits.isEnabled(), true);
         });
       }
     }

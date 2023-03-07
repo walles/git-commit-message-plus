@@ -5,7 +5,7 @@ import * as util from "util";
 const execFile = util.promisify(child_process.execFile);
 
 /** Tell both Git and VSCode that commit messages should contain diffs */
-export async function setVerboseCommitCommand() {
+export async function enable() {
   return Promise.all([
     // Set command line verbose-commits-by-default
     execFile("git", ["config", "--global", "commit.verbose", "true"]),
@@ -21,10 +21,9 @@ export async function setVerboseCommitCommand() {
  * Check whether there's something we can change to make verbose commits more
  * likely.
  *
- * Basically, if this function returns true then setVerboseCommitCommand() won't
- * have any effect.
+ * Basically, if this function returns true then enable() won't have any effect.
  */
-export async function isVerboseCommitsEnabled(): Promise<boolean> {
+export async function isEnabled(): Promise<boolean> {
   if (!doesVsCodeDoVerboseCommits()) {
     // VSCode setting can be updated
     return false;

@@ -3,7 +3,7 @@ import * as path from "path";
 import * as utils from "./utils";
 import { gitBranch, setVerboseCommitCommandId } from "./extension";
 import { createBranchIssueIdFix, createUpcaseJiraIdFix } from "./jira";
-import { isVerboseCommitsEnabled } from "./setverbosecommits";
+import * as verbosecommits from "./verbosecommits";
 
 // Inspired by:
 // https://github.com/microsoft/vscode-extension-samples/blob/main/code-actions-sample/src/extension.ts
@@ -141,7 +141,7 @@ async function createEnableGitVerboseCommitFix(
     return [];
   }
 
-  if (await isVerboseCommitsEnabled()) {
+  if (await verbosecommits.isEnabled()) {
     // Already enabled, we can't do anything
     return [];
   }

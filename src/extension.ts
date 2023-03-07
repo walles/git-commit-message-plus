@@ -2,8 +2,9 @@ import * as vscode from "vscode";
 import GitCommitCodeActionProvider from "./quickfix";
 import GitCommitCompletionsProvider from "./completions";
 import getCurrentGitBranch from "./getgitbranch";
-import { setVerboseCommitCommand } from "./setverbosecommits";
+import * as verbosecommits from "./verbosecommits";
 import { getDiagnostics } from "./diagnostics";
+import { displayVerboseDiffMessage } from "./messages";
 
 export const setVerboseCommitCommandId =
   "git-commit-message-plus.setVerboseGitCommits";
@@ -41,7 +42,7 @@ export async function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand(
       setVerboseCommitCommandId,
-      setVerboseCommitCommand
+      verbosecommits.enable
     )
   );
 
@@ -55,6 +56,13 @@ export async function activate(context: vscode.ExtensionContext) {
     )
   );
 
+  // Show informational toast about doing verbose Git commits
+  vscode.workspace.onDidOpenTextDocument(
+    displayVerboseDiffMessage,
+    null,
+    context.subscriptions
+  );
+
   // Call the listeners on initilization for current active text editor
   //
   // Inspiration from here:
@@ -64,6 +72,7 @@ export async function activate(context: vscode.ExtensionContext) {
     if (editor && editor.document.languageId === "git-commit") {
       gitBranch = await getCurrentGitBranch(editor.document.uri);
       doLinting(editor.document);
+      displayVerboseDiffMessage(editor.document);
     }
   }
   vscode.window.onDidChangeActiveTextEditor(

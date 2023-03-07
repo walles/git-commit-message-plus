@@ -39,8 +39,6 @@ messages](https://cbea.ms/git-commit).
 
 ### TODO
 
-- When a user opens a `COMMIT_EDITMESSAGE` file and verbose commits are not
-  enabled, open a popup in the bottom right corner offering a fix-it button
 - Consider the tests for no-diffs for both diagnostics and quick fixes. Are we
   really testing for comment-line followed by an empty line at the end?
 - Disable `@typescript-eslint/no-non-null-assertion` in `*.test.*` files, or in
