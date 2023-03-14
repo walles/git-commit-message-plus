@@ -62,6 +62,16 @@ suite("JIRA Prefix Warnings", () => {
       [expected]
     );
   });
+
+  test("JIRA-123: No branch issue ID", () => {
+    assert.deepStrictEqual(
+      jira._private.getJiraBranchIdMismatchDiagnostic(
+        "holly-molly-polly",
+        "JIRA-123: No branch issue ID"
+      ),
+      []
+    );
+  });
 });
 
 suite("Quick Fix", () => {
@@ -139,6 +149,17 @@ suite("Quick Fix", () => {
     await assertEditAction(actual, "Set issue ID from branch: JIRA-234", doc, [
       "[JIRA-234] Should match branch issue ID",
     ]);
+  });
+
+  test("[JIRA-123] No branch issue ID", async () => {
+    const doc = await createTextDocument(["[JIRA-123] No branch issue ID"]);
+    const actual = jira._private.createBranchIssueIdFix(
+      "tom-dick-and-harry",
+      doc,
+      utils.createRange(0, 5, 5)
+    );
+
+    assert.deepEqual(actual, []);
   });
 
   test("[JIRA-234] Already matching the branch issue ID", async () => {

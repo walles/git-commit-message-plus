@@ -67,6 +67,10 @@ function getJiraBranchIdMismatchDiagnostic(
   }
 
   const branchIssueId = utils.getJiraIssueIdFromBranchName(gitBranch);
+  if (!branchIssueId) {
+    // No issue ID in the branch name, never mind
+    return [];
+  }
   if (docIssueId.id.toUpperCase() === branchIssueId) {
     // Text and branch match, done!
     return [];
