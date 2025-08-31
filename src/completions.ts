@@ -45,25 +45,26 @@ function getBranchIssueCompletion(
 
   const completions: vscode.CompletionItem[] = [];
   completions.push(
-    ...getColonCompletion(firstLine, position.character, issueId),
+    ...getInitialCompletion(firstLine, position.character, issueId),
   );
   completions.push(
-    ...getBracketedCompletion(firstLine, position.character, issueId),
+    ...getCompletionInitialBracket(firstLine, position.character, issueId),
   );
 
   return completions;
 }
 
-function getColonCompletion(
+function getInitialCompletion(
   firstLine: string,
   cursorPosition: number,
   issueId: string,
 ): vscode.CompletionItem[] {
   const issueIdColon = issueId + ": ";
+  const issueIdSpace = issueId + " ";
   const bracketedIssueId = `[${issueId}] `;
 
   if (firstLine.length === 0) {
-    return [completion(issueIdColon, 0, 0)];
+    return [completion(issueIdSpace, 0, 0), completion(issueIdColon, 0, 0)];
   }
 
   if (cursorPosition !== firstLine.length) {
@@ -80,6 +81,7 @@ function getColonCompletion(
     }
 
     return [
+      completion(issueIdSpace, 0, typedSoFar.length - 1),
       completion(issueIdColon, 0, typedSoFar.length - 1),
       completion(bracketedIssueId, 0, typedSoFar.length - 1),
     ];
@@ -88,7 +90,7 @@ function getColonCompletion(
   return [];
 }
 
-function getBracketedCompletion(
+function getCompletionInitialBracket(
   firstLine: string,
   cursorPosition: number,
   issueId: string,

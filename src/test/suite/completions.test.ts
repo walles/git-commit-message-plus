@@ -27,19 +27,23 @@ function testLine(line: string, expectedCompletions: vscode.CompletionItem[]) {
 
 suite("JIRA Issue ID Completions From Branch Name", () => {
   testLine("|", [
+    completions.completion("JIRA-123 ", 0, 0),
     completions.completion("JIRA-123: ", 0, 0),
     completions.completion("[JIRA-123] ", 0, 0),
   ]);
 
   testLine("jir|", [
+    completions.completion("JIRA-123 ", 0, 2),
     completions.completion("JIRA-123: ", 0, 2),
     completions.completion("[JIRA-123] ", 0, 2),
   ]);
   testLine("JIR|", [
+    completions.completion("JIRA-123 ", 0, 2),
     completions.completion("JIRA-123: ", 0, 2),
     completions.completion("[JIRA-123] ", 0, 2),
   ]);
   testLine("jira-123|", [
+    completions.completion("JIRA-123 ", 0, 7),
     completions.completion("JIRA-123: ", 0, 7),
     completions.completion("[JIRA-123] ", 0, 7),
   ]);
