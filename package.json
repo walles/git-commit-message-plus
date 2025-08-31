@@ -45,7 +45,14 @@
         "scopeName": "text.git-commit",
         "path": "./syntaxes/git-commit.tmLanguage.json"
       }
-    ]
+    ],
+    "configurationDefaults": {
+      "[git-commit]": {
+        "editor.rulers": [
+          72
+        ]
+      }
+    }
   },
   "activationEvents": [
     "onLanguage:git-commit"
