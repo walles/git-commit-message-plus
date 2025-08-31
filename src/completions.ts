@@ -7,7 +7,7 @@ export default class GitCommitCompletionsProvider
 {
   provideCompletionItems(
     document: vscode.TextDocument,
-    position: vscode.Position
+    position: vscode.Position,
   ): vscode.ProviderResult<
     vscode.CompletionItem[] | vscode.CompletionList<vscode.CompletionItem>
   > {
@@ -18,7 +18,7 @@ export default class GitCommitCompletionsProvider
   }
 
   resolveCompletionItem?(
-    item: vscode.CompletionItem
+    item: vscode.CompletionItem,
   ): vscode.ProviderResult<vscode.CompletionItem> {
     // This method intentionally left blank. Until further notice.
     return item;
@@ -28,7 +28,7 @@ export default class GitCommitCompletionsProvider
 function getBranchIssueCompletion(
   doc: vscode.TextDocument,
   position: vscode.Position,
-  branch: string
+  branch: string,
 ): vscode.CompletionItem[] {
   if (position.line != 0) {
     return [];
@@ -45,10 +45,10 @@ function getBranchIssueCompletion(
 
   const completions: vscode.CompletionItem[] = [];
   completions.push(
-    ...getColonCompletion(firstLine, position.character, issueId)
+    ...getColonCompletion(firstLine, position.character, issueId),
   );
   completions.push(
-    ...getBracketedCompletion(firstLine, position.character, issueId)
+    ...getBracketedCompletion(firstLine, position.character, issueId),
   );
 
   return completions;
@@ -57,7 +57,7 @@ function getBranchIssueCompletion(
 function getColonCompletion(
   firstLine: string,
   cursorPosition: number,
-  issueId: string
+  issueId: string,
 ): vscode.CompletionItem[] {
   const issueIdColon = issueId + ": ";
   const bracketedIssueId = `[${issueId}] `;
@@ -91,7 +91,7 @@ function getColonCompletion(
 function getBracketedCompletion(
   firstLine: string,
   cursorPosition: number,
-  issueId: string
+  issueId: string,
 ): vscode.CompletionItem[] {
   const bracketedIssueId = `[${issueId}] `;
 
@@ -115,7 +115,7 @@ function getBracketedCompletion(
   const typedSoFar = firstLine.substring(0, cursorPosition);
   const bracketedIssueIdPrefix = bracketedIssueId.substring(
     0,
-    typedSoFar.length
+    typedSoFar.length,
   );
 
   if (typedSoFar.toLowerCase() == bracketedIssueIdPrefix.toLowerCase()) {
@@ -132,15 +132,15 @@ function getBracketedCompletion(
 export function completion(
   label: string,
   startColumn: number,
-  endColumn: number
+  endColumn: number,
 ): vscode.CompletionItem {
   const returnMe = new vscode.CompletionItem(
     label,
-    vscode.CompletionItemKind.Text
+    vscode.CompletionItemKind.Text,
   );
   returnMe.range = new vscode.Range(
     new vscode.Position(0, startColumn),
-    new vscode.Position(0, endColumn)
+    new vscode.Position(0, endColumn),
   );
   return returnMe;
 }

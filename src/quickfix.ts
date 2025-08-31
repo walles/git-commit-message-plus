@@ -17,7 +17,7 @@ export default class GitCommitCodeActionProvider
 
   public async provideCodeActions(
     doc: vscode.TextDocument,
-    range: vscode.Range | vscode.Selection
+    range: vscode.Range | vscode.Selection,
   ): Promise<vscode.CodeAction[]> {
     const returnMe: vscode.CodeAction[] = [];
     returnMe.push(...createUpcaseFirstSubjectCharFix(doc, range));
@@ -35,7 +35,7 @@ export default class GitCommitCodeActionProvider
 
 function createUpcaseFirstSubjectCharFix(
   doc: vscode.TextDocument,
-  userPosition: vscode.Range | vscode.Selection
+  userPosition: vscode.Range | vscode.Selection,
 ): vscode.CodeAction[] {
   if (doc.lineCount < 1) {
     return [];
@@ -46,7 +46,7 @@ function createUpcaseFirstSubjectCharFix(
   const fixRange = utils.createRange(
     0,
     jiraIssueId.firstIndexAfter,
-    jiraIssueId.firstIndexAfter + 1
+    jiraIssueId.firstIndexAfter + 1,
   );
 
   if (!fixRange.contains(userPosition)) {
@@ -67,7 +67,7 @@ function createUpcaseFirstSubjectCharFix(
 
   const fix = new vscode.CodeAction(
     "Capitalize subject line",
-    vscode.CodeActionKind.QuickFix
+    vscode.CodeActionKind.QuickFix,
   );
   fix.edit = new vscode.WorkspaceEdit();
   fix.edit.replace(doc.uri, fixRange, firstChar.toUpperCase());
@@ -76,7 +76,7 @@ function createUpcaseFirstSubjectCharFix(
 
 function createRemoveTrailingPunctuationFix(
   doc: vscode.TextDocument,
-  userPosition: vscode.Range | vscode.Selection
+  userPosition: vscode.Range | vscode.Selection,
 ): vscode.CodeAction[] {
   const firstLine = doc.lineAt(0).text;
   if (firstLine.length < 1) {
@@ -104,7 +104,7 @@ function createRemoveTrailingPunctuationFix(
   const fixRange = utils.createRange(
     0,
     trailingPunctuationStartIndex,
-    firstLine.length
+    firstLine.length,
   );
   if (!fixRange.contains(userPosition)) {
     // Not in the right place
@@ -113,7 +113,7 @@ function createRemoveTrailingPunctuationFix(
 
   const fix = new vscode.CodeAction(
     "Remove trailing punctuation",
-    vscode.CodeActionKind.QuickFix
+    vscode.CodeActionKind.QuickFix,
   );
   fix.edit = new vscode.WorkspaceEdit();
   fix.edit.replace(doc.uri, fixRange, "");
@@ -122,7 +122,7 @@ function createRemoveTrailingPunctuationFix(
 
 async function createEnableGitVerboseCommitFix(
   doc: vscode.TextDocument,
-  userPosition: vscode.Range | vscode.Selection
+  userPosition: vscode.Range | vscode.Selection,
 ): Promise<vscode.CodeAction[]> {
   if (doc.lineCount < 2) {
     return [];
@@ -148,7 +148,7 @@ async function createEnableGitVerboseCommitFix(
 
   const fix = new vscode.CodeAction(
     "Enable verbose Git commits",
-    vscode.CodeActionKind.QuickFix
+    vscode.CodeActionKind.QuickFix,
   );
   fix.command = {
     command: setVerboseCommitCommandId,

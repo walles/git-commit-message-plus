@@ -2,7 +2,7 @@ import * as assert from "assert";
 import * as vscode from "vscode";
 
 export async function createTextDocument(
-  contents: string[]
+  contents: string[],
 ): Promise<vscode.TextDocument> {
   return await vscode.workspace.openTextDocument({
     content: contents.join("\n"),
@@ -18,7 +18,7 @@ export async function assertEditAction(
   codeActions: vscode.CodeAction[],
   expectedTitle: string,
   doc: vscode.TextDocument,
-  expectedLinesAfterApply: string[]
+  expectedLinesAfterApply: string[],
 ) {
   assert.equal(codeActions.length, 1, "Expected exactly one code action");
 

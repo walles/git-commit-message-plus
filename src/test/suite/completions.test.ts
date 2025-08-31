@@ -13,14 +13,14 @@ function testLine(line: string, expectedCompletions: vscode.CompletionItem[]) {
     const cursorPosition = line.indexOf("|");
     assert.ok(
       cursorPosition >= 0,
-      "Must put a | in the line to mark the cursor position"
+      "Must put a | in the line to mark the cursor position",
     );
 
     const withoutCursorMarker = line.replace("|", "");
 
     assert.deepEqual(
       await getCompletion(withoutCursorMarker, cursorPosition),
-      expectedCompletions
+      expectedCompletions,
     );
   });
 }
@@ -70,7 +70,7 @@ suite("JIRA Issue ID Completions From Branch Name", () => {
 
 async function getCompletion(
   firstLine: string,
-  position: number
+  position: number,
 ): Promise<vscode.CompletionItem[]> {
   const doc = await createTextDocument([firstLine]);
   const pos = new vscode.Position(0, position);

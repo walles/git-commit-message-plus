@@ -7,7 +7,7 @@ import * as util from "util";
 const execFile = util.promisify(child_process.execFile);
 
 export default async function getCurrentGitBranch(
-  docUri: vscode.Uri
+  docUri: vscode.Uri,
 ): Promise<string | undefined> {
   return (
     getCurrentGitBranchFromVscode(docUri) ||
@@ -55,7 +55,7 @@ function getCurrentGitBranchFromVscode(docUri: vscode.Uri): string | undefined {
 }
 
 async function getCurrentGitBranchFromGit(
-  docUri: vscode.Uri
+  docUri: vscode.Uri,
 ): Promise<string | undefined> {
   console.debug("Git branch requested from Git for document", docUri);
 
@@ -73,7 +73,7 @@ async function getCurrentGitBranchFromGit(
       ["rev-parse", "--abbrev-ref", "HEAD"],
       {
         cwd: docDirectory,
-      }
+      },
     );
 
     const branchName = stdout.trim();

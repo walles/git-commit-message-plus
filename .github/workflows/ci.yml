@@ -10,9 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 18.x
-    - run: npm install
-    - run: xvfb-run -a npm test
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: npm ci
+      - run: npm run compile
+      - run: npm run lint
+      - run: xvfb-run -a npm test

@@ -16,7 +16,7 @@ export async function displayVerboseDiffMessage(doc: vscode.TextDocument) {
 
   const decision = await vscode.window.showInformationMessage(
     "Use verbose Git commits to see diffs while typing your commit message",
-    "Enable verbose commits"
+    "Enable verbose commits",
   );
   if (decision === undefined) {
     return;

@@ -3,11 +3,11 @@ import * as utils from "./utils";
 import * as extension from "./extension";
 
 const jiraCapsUrl = vscode.Uri.parse(
-  "https://confluence.atlassian.com/adminjiraserver/changing-the-project-key-format-938847081.html"
+  "https://confluence.atlassian.com/adminjiraserver/changing-the-project-key-format-938847081.html",
 );
 
 export default function getJiraDiagnostics(
-  doc: vscode.TextDocument
+  doc: vscode.TextDocument,
 ): vscode.Diagnostic[] {
   if (doc.lineCount < 1) {
     return [];
@@ -18,7 +18,7 @@ export default function getJiraDiagnostics(
 
   returnMe.push(...getJiraCapsDiagnostic(firstLine));
   returnMe.push(
-    ...getJiraBranchIdMismatchDiagnostic(extension.gitBranch, firstLine)
+    ...getJiraBranchIdMismatchDiagnostic(extension.gitBranch, firstLine),
   );
 
   return returnMe;
@@ -48,14 +48,14 @@ function getJiraCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
       {
         value: "JIRA issue ID format",
         target: jiraCapsUrl,
-      }
+      },
     ),
   ];
 }
 
 function getJiraBranchIdMismatchDiagnostic(
   gitBranch: string | undefined,
-  firstLine: string
+  firstLine: string,
 ): vscode.Diagnostic[] {
   const docIssueId = utils.findJiraIssueId(firstLine);
   if (docIssueId.id === "") {
@@ -83,14 +83,14 @@ function getJiraBranchIdMismatchDiagnostic(
       docIssueId.startIndex + docIssueId.id.length,
       `JIRA issue ID should match the branch name: ${branchIssueId}`,
       vscode.DiagnosticSeverity.Error,
-      undefined
+      undefined,
     ),
   ];
 }
 
 export function createUpcaseJiraIdFix(
   doc: vscode.TextDocument,
-  userPosition: vscode.Range | vscode.Selection
+  userPosition: vscode.Range | vscode.Selection,
 ): vscode.CodeAction[] {
   if (doc.lineCount < 1) {
     return [];
@@ -101,7 +101,7 @@ export function createUpcaseJiraIdFix(
   const fixRange = utils.createRange(
     0,
     issue.startIndex,
-    issue.startIndex + issue.id.length
+    issue.startIndex + issue.id.length,
   );
 
   if (!fixRange.contains(userPosition)) {
@@ -117,7 +117,7 @@ export function createUpcaseJiraIdFix(
 
   const fix = new vscode.CodeAction(
     "Convert JIRA issue ID to CAPS",
-    vscode.CodeActionKind.QuickFix
+    vscode.CodeActionKind.QuickFix,
   );
   fix.edit = new vscode.WorkspaceEdit();
   fix.edit.replace(doc.uri, fixRange, upcased);
@@ -127,7 +127,7 @@ export function createUpcaseJiraIdFix(
 export function createBranchIssueIdFix(
   branchName: string | undefined,
   doc: vscode.TextDocument,
-  userPosition: vscode.Range | vscode.Selection
+  userPosition: vscode.Range | vscode.Selection,
 ): vscode.CodeAction[] {
   if (!branchName) {
     return [];
@@ -156,7 +156,7 @@ export function createBranchIssueIdFix(
   const fixRange = utils.createRange(
     0,
     docIssue.startIndex,
-    docIssue.startIndex + docIssue.id.length
+    docIssue.startIndex + docIssue.id.length,
   );
 
   if (!fixRange.contains(userPosition)) {
@@ -166,7 +166,7 @@ export function createBranchIssueIdFix(
 
   const fix = new vscode.CodeAction(
     `Set issue ID from branch: ${branchIssue}`,
-    vscode.CodeActionKind.QuickFix
+    vscode.CodeActionKind.QuickFix,
   );
   fix.edit = new vscode.WorkspaceEdit();
   fix.edit.replace(doc.uri, fixRange, branchIssue);

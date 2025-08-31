@@ -15,7 +15,7 @@ suite("Git Commit Message Plus", () => {
     const subjectOnly = await createTextDocument(["Subject line"]);
     assert.deepStrictEqual(
       diagnostics._private.getDiagnostics(subjectOnly),
-      []
+      [],
     );
   });
 
@@ -32,7 +32,7 @@ suite("Git Commit Message Plus", () => {
   test("First line 50 chars", () => {
     assert.deepStrictEqual(
       diagnostics._private.getFirstLine50Diagnostic("x".repeat(50)),
-      []
+      [],
     );
   });
 
@@ -46,19 +46,19 @@ suite("Git Commit Message Plus", () => {
       {
         target: diagnostics._private.subjectLineLengthUrl,
         value: "Subject Line Length",
-      }
+      },
     );
 
     assert.deepStrictEqual(
       diagnostics._private.getFirstLine50Diagnostic("x".repeat(51)),
-      [expected]
+      [expected],
     );
   });
 
   test("First line 72 chars", () => {
     assert.deepStrictEqual(
       diagnostics._private.getFirstLine72Diagnostic("x".repeat(72)),
-      []
+      [],
     );
   });
 
@@ -72,12 +72,12 @@ suite("Git Commit Message Plus", () => {
       {
         target: diagnostics._private.subjectLineLengthUrl,
         value: "Subject Line Length",
-      }
+      },
     );
 
     assert.deepStrictEqual(
       diagnostics._private.getFirstLine72Diagnostic("x".repeat(73)),
-      [expected]
+      [expected],
     );
   });
 
@@ -91,12 +91,12 @@ suite("Git Commit Message Plus", () => {
       {
         target: diagnostics._private.subjectLinePunctuationUrl,
         value: "Subject Line Punctuation",
-      }
+      },
     );
 
     assert.deepStrictEqual(
       diagnostics._private.getFirstLinePunctuationDiagnostic("Hello."),
-      [expected]
+      [expected],
     );
   });
 
@@ -110,12 +110,12 @@ suite("Git Commit Message Plus", () => {
       {
         target: diagnostics._private.subjectLinePunctuationUrl,
         value: "Subject Line Punctuation",
-      }
+      },
     );
 
     assert.deepStrictEqual(
       diagnostics._private.getFirstLinePunctuationDiagnostic("Hello..."),
-      [expected]
+      [expected],
     );
   });
 
@@ -129,12 +129,12 @@ suite("Git Commit Message Plus", () => {
       {
         target: diagnostics._private.subjectLinePunctuationUrl,
         value: "Subject Line Punctuation",
-      }
+      },
     );
 
     assert.deepStrictEqual(
       diagnostics._private.getFirstLinePunctuationDiagnostic("Hello!"),
-      [expected]
+      [expected],
     );
   });
 
@@ -148,12 +148,12 @@ suite("Git Commit Message Plus", () => {
       {
         target: diagnostics._private.subjectLineCapitalizationUrl,
         value: "Subject Line Capitalization",
-      }
+      },
     );
 
     assert.deepStrictEqual(
       diagnostics._private.getFirstLineCapsDiagnostic("hello"),
-      [expected]
+      [expected],
     );
   });
 
@@ -167,14 +167,14 @@ suite("Git Commit Message Plus", () => {
       {
         target: diagnostics._private.subjectLineCapitalizationUrl,
         value: "Subject Line Capitalization",
-      }
+      },
     );
 
     assert.deepStrictEqual(
       diagnostics._private.getFirstLineCapsDiagnostic(
-        "[JIRA-123] first line not capitalized"
+        "[JIRA-123] first line not capitalized",
       ),
-      [expected]
+      [expected],
     );
   });
 
@@ -188,30 +188,30 @@ suite("Git Commit Message Plus", () => {
       {
         target: diagnostics._private.subjectLineCapitalizationUrl,
         value: "Subject Line Capitalization",
-      }
+      },
     );
 
     assert.deepStrictEqual(
       diagnostics._private.getFirstLineCapsDiagnostic(
-        "jira-123: first line not capitalized"
+        "jira-123: first line not capitalized",
       ),
-      [expected]
+      [expected],
     );
   });
 
   test("Empty second line", () => {
     assert.deepStrictEqual(
       diagnostics._private.getSecondLineDiagnostic(""),
-      []
+      [],
     );
   });
 
   test("Comment on second line", () => {
     assert.deepStrictEqual(
       diagnostics._private.getSecondLineDiagnostic(
-        "# This line is commented out"
+        "# This line is commented out",
       ),
-      []
+      [],
     );
   });
 
@@ -225,12 +225,12 @@ suite("Git Commit Message Plus", () => {
       {
         target: diagnostics._private.secondLineBlankUrl,
         value: "Blank Second Line",
-      }
+      },
     );
 
     assert.deepStrictEqual(
       diagnostics._private.getSecondLineDiagnostic("Hello"),
-      [expected]
+      [expected],
     );
   });
 
@@ -247,12 +247,12 @@ suite("Git Commit Message Plus", () => {
       withoutDiff.lineAt(2).text.length,
       "Use `git commit -v` to see diffs here",
       vscode.DiagnosticSeverity.Information,
-      undefined
+      undefined,
     );
 
     assert.deepStrictEqual(
       diagnostics._private.getNoDiffDiagnostic(withoutDiff),
-      [expected]
+      [expected],
     );
   });
 });

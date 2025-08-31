@@ -24,11 +24,11 @@ export function isLower(char: string): boolean {
 export function createRange(
   line: number,
   firstColumn: number,
-  lastColumn: number
+  lastColumn: number,
 ): vscode.Range {
   return new vscode.Range(
     new vscode.Position(line, firstColumn),
-    new vscode.Position(line, lastColumn)
+    new vscode.Position(line, lastColumn),
   );
 }
 
@@ -43,7 +43,7 @@ export function createDiagnostic(
         value: string | number;
         target: vscode.Uri;
       }
-    | undefined
+    | undefined,
 ): vscode.Diagnostic {
   const range = createRange(line, columnStart, columnEnd);
   const returnMe = new vscode.Diagnostic(range, message, severity);
@@ -68,7 +68,7 @@ export function findJiraIssueId(firstLine: string): JiraIssueIdPrefix {
 }
 
 export function getJiraIssueIdFromBranchName(
-  branchName: string
+  branchName: string,
 ): string | undefined {
   const match = branchName.match(/^([a-zA-Z]+-[0-9]+)/);
   if (!match) {

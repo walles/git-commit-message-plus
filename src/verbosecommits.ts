@@ -56,7 +56,7 @@ export async function doesGitDoVerboseCommits(): Promise<boolean> {
     // This usually means "commit.verbose" isn't set. And it defaults to off.
     console.debug(
       "Asking git for commit.verbose value failed, assuming it's off",
-      e
+      e,
     );
     return false;
   }

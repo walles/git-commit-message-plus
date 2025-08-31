@@ -16,12 +16,12 @@ suite("JIRA Prefix Warnings", () => {
       {
         target: jira._private.jiraCapsUrl,
         value: "JIRA issue ID format",
-      }
+      },
     );
 
     assert.deepStrictEqual(
       jira._private.getJiraCapsDiagnostic("[Jira-123] Hello"),
-      [expected]
+      [expected],
     );
   });
 
@@ -35,12 +35,12 @@ suite("JIRA Prefix Warnings", () => {
       {
         target: jira._private.jiraCapsUrl,
         value: "JIRA issue ID format",
-      }
+      },
     );
 
     assert.deepStrictEqual(
       jira._private.getJiraCapsDiagnostic("jira-123: Hello"),
-      [expected]
+      [expected],
     );
   });
 
@@ -51,15 +51,15 @@ suite("JIRA Prefix Warnings", () => {
       8,
       `JIRA issue ID should match the branch name: JIRA-234`,
       vscode.DiagnosticSeverity.Error,
-      undefined
+      undefined,
     );
 
     assert.deepStrictEqual(
       jira._private.getJiraBranchIdMismatchDiagnostic(
         "jira-234",
-        "JIRA-123: But the branch has JIRA-234"
+        "JIRA-123: But the branch has JIRA-234",
       ),
-      [expected]
+      [expected],
     );
   });
 
@@ -67,9 +67,9 @@ suite("JIRA Prefix Warnings", () => {
     assert.deepStrictEqual(
       jira._private.getJiraBranchIdMismatchDiagnostic(
         "holly-molly-polly",
-        "JIRA-123: No branch issue ID"
+        "JIRA-123: No branch issue ID",
       ),
-      []
+      [],
     );
   });
 });
@@ -79,7 +79,7 @@ suite("Quick Fix", () => {
     const doc = await createTextDocument(["[jira-123] Should be capsed"]);
     const actual = jira._private.createUpcaseJiraIdFix(
       doc,
-      utils.createRange(0, 5, 5)
+      utils.createRange(0, 5, 5),
     );
 
     // FIXME: Verify the code action points back to the right diagnostic
@@ -93,7 +93,7 @@ suite("Quick Fix", () => {
     const doc = await createTextDocument(["jira-123: Should be capsed"]);
     const actual = jira._private.createUpcaseJiraIdFix(
       doc,
-      utils.createRange(0, 5, 5)
+      utils.createRange(0, 5, 5),
     );
 
     // FIXME: Verify the code action points back to the right diagnostic
@@ -110,7 +110,7 @@ suite("Quick Fix", () => {
     const actual = jira._private.createBranchIssueIdFix(
       "jira-234",
       doc,
-      utils.createRange(0, 5, 5)
+      utils.createRange(0, 5, 5),
     );
 
     // FIXME: Verify the code action points back to the right diagnostic
@@ -127,7 +127,7 @@ suite("Quick Fix", () => {
     const actual = jira._private.createBranchIssueIdFix(
       "jira-234",
       doc,
-      utils.createRange(0, 5, 5)
+      utils.createRange(0, 5, 5),
     );
 
     // Nothing to change
@@ -141,7 +141,7 @@ suite("Quick Fix", () => {
     const actual = jira._private.createBranchIssueIdFix(
       "jira-234",
       doc,
-      utils.createRange(0, 5, 5)
+      utils.createRange(0, 5, 5),
     );
 
     // FIXME: Verify the code action points back to the right diagnostic
@@ -156,7 +156,7 @@ suite("Quick Fix", () => {
     const actual = jira._private.createBranchIssueIdFix(
       "tom-dick-and-harry",
       doc,
-      utils.createRange(0, 5, 5)
+      utils.createRange(0, 5, 5),
     );
 
     assert.deepEqual(actual, []);
@@ -169,7 +169,7 @@ suite("Quick Fix", () => {
     const actual = jira._private.createBranchIssueIdFix(
       "jira-234",
       doc,
-      utils.createRange(0, 5, 5)
+      utils.createRange(0, 5, 5),
     );
 
     // Nothing to change
@@ -183,7 +183,7 @@ suite("Quick Fix", () => {
     const actual = jira._private.createBranchIssueIdFix(
       "jira-234",
       doc,
-      utils.createRange(0, 5, 5)
+      utils.createRange(0, 5, 5),
     );
 
     // Nothing to change, let createUpcaseJiraIdFix() take care of this case

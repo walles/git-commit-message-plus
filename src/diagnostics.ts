@@ -6,16 +6,16 @@ import getJiraDiagnostics from "./jira";
 const preferSubjectLineLength = 50;
 const maxSubjectLineLength = 72;
 const subjectLineLengthUrl = vscode.Uri.parse(
-  "https://cbea.ms/git-commit/#limit-50"
+  "https://cbea.ms/git-commit/#limit-50",
 );
 const subjectLinePunctuationUrl = vscode.Uri.parse(
-  "https://cbea.ms/git-commit/#end"
+  "https://cbea.ms/git-commit/#end",
 );
 const subjectLineCapitalizationUrl = vscode.Uri.parse(
-  "https://cbea.ms/git-commit/#capitalize"
+  "https://cbea.ms/git-commit/#capitalize",
 );
 const secondLineBlankUrl = vscode.Uri.parse(
-  "https://cbea.ms/git-commit/#separate"
+  "https://cbea.ms/git-commit/#separate",
 );
 
 export function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
@@ -57,7 +57,7 @@ function getFirstLine50Diagnostic(firstLine: string): vscode.Diagnostic[] {
       {
         target: subjectLineLengthUrl,
         value: "Subject Line Length",
-      }
+      },
     ),
   ];
 }
@@ -74,7 +74,7 @@ function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
       firstLine.length,
       `Keep the subject line to at most ${maxSubjectLineLength} characters`,
       vscode.DiagnosticSeverity.Error,
-      { target: subjectLineLengthUrl, value: "Subject Line Length" }
+      { target: subjectLineLengthUrl, value: "Subject Line Length" },
     ),
   ];
 }
@@ -82,7 +82,7 @@ function getFirstLine72Diagnostic(firstLine: string): vscode.Diagnostic[] {
 function getFirstLinePunctuationDiagnosticHelper(
   firstLine: string,
   badSuffix: string,
-  suffixDescription: string
+  suffixDescription: string,
 ): vscode.Diagnostic | null {
   if (!firstLine.endsWith(badSuffix)) {
     return null;
@@ -94,12 +94,12 @@ function getFirstLinePunctuationDiagnosticHelper(
     firstLine.length,
     "Do not end the subject line with " + suffixDescription,
     vscode.DiagnosticSeverity.Error,
-    { target: subjectLinePunctuationUrl, value: "Subject Line Punctuation" }
+    { target: subjectLinePunctuationUrl, value: "Subject Line Punctuation" },
   );
 }
 
 function getFirstLinePunctuationDiagnostic(
-  firstLine: string
+  firstLine: string,
 ): vscode.Diagnostic[] {
   const d =
     getFirstLinePunctuationDiagnosticHelper(firstLine, "...", "an ellipsis") ||
@@ -107,7 +107,7 @@ function getFirstLinePunctuationDiagnostic(
     getFirstLinePunctuationDiagnosticHelper(
       firstLine,
       "!",
-      "an exclamation mark"
+      "an exclamation mark",
     );
   if (d != null) {
     return [d];
@@ -133,7 +133,7 @@ function getFirstLineCapsDiagnostic(firstLine: string): vscode.Diagnostic[] {
         {
           target: subjectLineCapitalizationUrl,
           value: "Subject Line Capitalization",
-        }
+        },
       ),
     ];
   }
@@ -157,7 +157,7 @@ function getSecondLineDiagnostic(secondLine: string): vscode.Diagnostic[] {
       secondLine.length,
       "Leave the second line blank",
       vscode.DiagnosticSeverity.Error,
-      { target: secondLineBlankUrl, value: "Blank Second Line" }
+      { target: secondLineBlankUrl, value: "Blank Second Line" },
     ),
   ];
 }
@@ -186,7 +186,7 @@ function getNoDiffDiagnostic(doc: vscode.TextDocument): vscode.Diagnostic[] {
       doc.lineAt(doc.lineCount - 1).text.length,
       "Use `git commit -v` to see diffs here",
       vscode.DiagnosticSeverity.Information,
-      undefined
+      undefined,
     ),
   ];
 }

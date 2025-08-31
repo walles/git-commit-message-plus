@@ -20,7 +20,7 @@ suite("Quick Fix", () => {
       ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
         doc,
-        utils.createRange(0, 0, 0)
+        utils.createRange(0, 0, 0),
       );
 
       // FIXME: Verify the code action points back to the right diagnostic
@@ -36,7 +36,7 @@ suite("Quick Fix", () => {
       ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
         doc,
-        utils.createRange(0, 1, 1)
+        utils.createRange(0, 1, 1),
       );
 
       await assertEditAction(actual, "Capitalize subject line", doc, [
@@ -50,7 +50,7 @@ suite("Quick Fix", () => {
       ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
         doc,
-        utils.createRange(0, 0, 1)
+        utils.createRange(0, 0, 1),
       );
 
       await assertEditAction(actual, "Capitalize subject line", doc, [
@@ -64,7 +64,7 @@ suite("Quick Fix", () => {
       ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
         doc,
-        utils.createRange(0, 2, 2)
+        utils.createRange(0, 2, 2),
       );
       assert.deepEqual(actual, []);
     });
@@ -75,7 +75,7 @@ suite("Quick Fix", () => {
       ]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
         doc,
-        utils.createRange(0, 0, 2)
+        utils.createRange(0, 0, 2),
       );
       assert.deepEqual(actual, []);
     });
@@ -84,7 +84,7 @@ suite("Quick Fix", () => {
       const doc = await createTextDocument(["[JIRA-123] with JIRA prefix"]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
         doc,
-        utils.createRange(0, 11, 11)
+        utils.createRange(0, 11, 11),
       );
 
       // FIXME: Verify the code action points back to the right diagnostic
@@ -98,7 +98,7 @@ suite("Quick Fix", () => {
       const doc = await createTextDocument(["JIRA-123: with JIRA prefix"]);
       const actual = quickfix._private.createUpcaseFirstSubjectCharFix(
         doc,
-        utils.createRange(0, 10, 10)
+        utils.createRange(0, 10, 10),
       );
 
       // FIXME: Verify the code action points back to the right diagnostic
@@ -116,7 +116,7 @@ suite("Quick Fix", () => {
       ]);
       const actual = quickfix._private.createRemoveTrailingPunctuationFix(
         doc,
-        utils.createRange(0, 37, 37)
+        utils.createRange(0, 37, 37),
       );
 
       // FIXME: Verify the code action points back to the right diagnostic
@@ -132,7 +132,7 @@ suite("Quick Fix", () => {
       ]);
       const actual = quickfix._private.createRemoveTrailingPunctuationFix(
         doc,
-        utils.createRange(0, 38, 38)
+        utils.createRange(0, 38, 38),
       );
 
       await assertEditAction(actual, "Remove trailing punctuation", doc, [
@@ -146,7 +146,7 @@ suite("Quick Fix", () => {
       ]);
       const actual = quickfix._private.createRemoveTrailingPunctuationFix(
         doc,
-        utils.createRange(0, 36, 36)
+        utils.createRange(0, 36, 36),
       );
       assert.deepEqual(actual, []);
     });
@@ -162,7 +162,7 @@ suite("Quick Fix", () => {
             .update(
               "verboseCommit",
               vsCodeVerbosity,
-              ConfigurationTarget.Global
+              ConfigurationTarget.Global,
             );
 
           // Set initial Git verbosity
@@ -191,7 +191,7 @@ suite("Quick Fix", () => {
           const codeActions =
             await quickfix._private.createEnableGitVerboseCommitFix(
               withoutDiff,
-              utils.createRange(2, 0, 0)
+              utils.createRange(2, 0, 0),
             );
 
           if (gitVerbosity && vsCodeVerbosity) {
@@ -207,8 +207,6 @@ suite("Quick Fix", () => {
           assert.equal(action.command?.command, setVerboseCommitCommandId);
 
           // Execute the command
-          //
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           await vscode.commands.executeCommand(action.command!.command);
 
           // Verify VSCode verbose commits are now enabled
@@ -216,13 +214,13 @@ suite("Quick Fix", () => {
           assert.equal(
             verbosecommits.doesVsCodeDoVerboseCommits(),
             true,
-            "Verbose Git commits in VSCode"
+            "Verbose Git commits in VSCode",
           );
 
           assert.equal(
             await verbosecommits.doesGitDoVerboseCommits(),
             true,
-            "Verbose Git commits in Git"
+            "Verbose Git commits in Git",
           );
 
           assert.equal(await verbosecommits.isEnabled(), true);
@@ -245,7 +243,7 @@ suite("Quick Fix", () => {
       const codeActions =
         await quickfix._private.createEnableGitVerboseCommitFix(
           withoutDiff,
-          utils.createRange(1, 0, 0)
+          utils.createRange(1, 0, 0),
         );
 
       assert.equal(codeActions.length, 0);

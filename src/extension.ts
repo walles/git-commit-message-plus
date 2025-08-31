@@ -28,22 +28,22 @@ export async function activate(context: vscode.ExtensionContext) {
       {
         providedCodeActionKinds:
           GitCommitCodeActionProvider.providedCodeActionKinds,
-      }
-    )
+      },
+    ),
   );
 
   context.subscriptions.push(
     vscode.languages.registerCompletionItemProvider(
       "git-commit",
-      new GitCommitCompletionsProvider()
-    )
+      new GitCommitCompletionsProvider(),
+    ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
       setVerboseCommitCommandId,
-      verbosecommits.enable
-    )
+      verbosecommits.enable,
+    ),
   );
 
   context.subscriptions.push(
@@ -52,15 +52,15 @@ export async function activate(context: vscode.ExtensionContext) {
         doLinting(event.document);
       },
       null,
-      context.subscriptions
-    )
+      context.subscriptions,
+    ),
   );
 
   // Show informational toast about doing verbose Git commits
   vscode.workspace.onDidOpenTextDocument(
     displayVerboseDiffMessage,
     null,
-    context.subscriptions
+    context.subscriptions,
   );
 
   // Call the listeners on initilization for current active text editor
@@ -83,7 +83,7 @@ export async function activate(context: vscode.ExtensionContext) {
       }
     },
     null,
-    context.subscriptions
+    context.subscriptions,
   );
 }
 
