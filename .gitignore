@@ -1,4 +1,5 @@
 /out/
+/dist/
 /node_modules/
 /.vscode-test/
 /git-commit-message-plus-99.99.99.vsix

@@ -2,3 +2,13 @@
 .vscode-test/**
 **/*.blend*
 **/test*/
+
+# Source:
+# https://code.visualstudio.com/api/working-with-extensions/bundling-extension#publishing
+.vscode
+node_modules
+out/
+src/
+tsconfig.json
+webpack.config.js
+esbuild.js
