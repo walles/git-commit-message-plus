@@ -14,7 +14,7 @@ const webpack = require('webpack')
 
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
 
-function createExtensionConfig ({ target, output, plugins }) {
+function createExtensionConfig ({ target, output }) {
   return {
     target,
     entry: './src/extension.ts',
@@ -44,8 +44,7 @@ function createExtensionConfig ({ target, output, plugins }) {
           ]
         }
       ]
-    },
-    plugins: plugins || []
+    }
   }
 }
 
@@ -56,8 +55,7 @@ const nodeExtensionConfig = createExtensionConfig({
     filename: 'extension.js',
     libraryTarget: 'commonjs2',
     devtoolModuleFilenameTemplate: '../[resource-path]'
-  },
-  plugins: []
+  }
 })
 
 const webExtensionConfig = createExtensionConfig({
@@ -67,12 +65,7 @@ const webExtensionConfig = createExtensionConfig({
     path: path.join(__dirname, './dist/web'),
     libraryTarget: 'commonjs',
     devtoolModuleFilenameTemplate: '../../[resource-path]'
-  },
-  plugins: [
-    new webpack.ProvidePlugin({
-      process: 'process/browser'
-    })
-  ]
+  }
 })
 
 module.exports = [webExtensionConfig, nodeExtensionConfig]
