@@ -1,20 +1,41 @@
+/* global require */
+
+/* eslint-disable @typescript-eslint/no-require-imports */
 import * as vscode from "vscode";
 
-import * as child_process from "child_process";
-import * as util from "util";
-const execFile = util.promisify(child_process.execFile);
+import * as utils from "./utils";
+
+// Set up execFile on desktop only
+type ExecFileType = (
+  cmd: string,
+  args: string[],
+) => Promise<{ stdout: string; stderr: string }>;
+let execFile: ExecFileType | undefined;
+if (utils.isDesktopContext()) {
+  const nodeUtil = require("util");
+  const child_process = require("child_process");
+  execFile = nodeUtil.promisify(child_process.execFile) as ExecFileType;
+}
 
 /** Tell both Git and VSCode that commit messages should contain diffs */
 export async function enable() {
-  return Promise.all([
-    // Set command line verbose-commits-by-default
-    execFile("git", ["config", "--global", "commit.verbose", "true"]),
+  const promises = [];
 
-    // Tell VSCode to do verbose commits
+  // Set command line verbose-commits-by-default only on desktop
+  if (execFile) {
+    promises.push(
+      execFile("git", ["config", "--global", "commit.verbose", "true"]),
+    );
+  }
+
+  // Tell VSCode to do verbose commits
+  promises.push(
     vscode.workspace
       .getConfiguration("git")
       .update("verboseCommit", true, vscode.ConfigurationTarget.Global),
-  ]);
+  );
+
+  return Promise.all(promises);
 }
 
 /**
@@ -45,6 +66,11 @@ export function doesVsCodeDoVerboseCommits(): boolean {
 }
 
 export async function doesGitDoVerboseCommits(): Promise<boolean> {
+  if (!execFile) {
+    // Not desktop context, can't check git config, report that it doesn't need
+    // changing
+    return true;
+  }
   try {
     const { stdout } = await execFile("git", [
       "config",

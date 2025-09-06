@@ -27,7 +27,10 @@ function createExtensionConfig ({ target, output, plugins }) {
       mainFields: ['browser', 'module', 'main'],
       extensions: ['.ts'],
       alias: {},
-      fallback: {}
+      fallback: {
+        util: false,
+        child_process: false
+      }
     },
     module: {
       rules: [

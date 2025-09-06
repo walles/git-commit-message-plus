@@ -112,3 +112,10 @@ export function dirname(filePath: string): string {
   parts.pop();
   return parts.join("/");
 }
+
+/**
+ * Returns true if running in desktop VS Code (Node.js context), false otherwise (web context).
+ */
+export function isDesktopContext(): boolean {
+  return typeof process !== "undefined" && !!process.versions?.node;
+}
