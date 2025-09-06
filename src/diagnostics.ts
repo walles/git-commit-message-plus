@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import * as utils from "./utils";
-import * as path from "path";
+// ...existing code...
 import getJiraDiagnostics from "./jira";
 
 const preferSubjectLineLength = 50;
@@ -35,7 +35,7 @@ export function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
     returnMe.push(...getSecondLineDiagnostic(secondLine));
   }
 
-  if (path.basename(doc.fileName) === "COMMIT_EDITMSG") {
+  if (utils.basename(doc.fileName) === "COMMIT_EDITMSG") {
     returnMe.push(...getNoDiffDiagnostic(doc));
   }
 

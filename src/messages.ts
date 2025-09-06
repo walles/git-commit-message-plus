@@ -1,10 +1,10 @@
 import * as vscode from "vscode";
-import * as path from "path";
 import * as verbosecommits from "./verbosecommits";
+import * as utils from "./utils";
 
 /** Show informational toast about doing verbose Git commits */
 export async function displayVerboseDiffMessage(doc: vscode.TextDocument) {
-  if (path.basename(doc.fileName) !== "COMMIT_EDITMSG") {
+  if (utils.basename(doc.fileName) !== "COMMIT_EDITMSG") {
     // We only like one kind of files
     return;
   }

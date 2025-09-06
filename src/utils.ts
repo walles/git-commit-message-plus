@@ -89,3 +89,26 @@ export function getJiraIssueIdFromBranchName(
 
   return undefined;
 }
+
+/**
+ * Returns the last portion of a path, handling both / and \ separators.
+ * Equivalent to Node's path.basename, but works in browser and cross-platform.
+ * @param filePath - The full file path.
+ * @returns The file name portion of the path.
+ */
+export function basename(filePath: string): string {
+  const parts = filePath.split(/[/]+/);
+  return parts.pop() || "";
+}
+
+/**
+ * Returns the directory portion of a path, handling both / and \ separators.
+ * Equivalent to Node's path.dirname, but works in browser and cross-platform.
+ * @param filePath - The full file path.
+ * @returns The directory portion of the path.
+ */
+export function dirname(filePath: string): string {
+  const parts = filePath.split(/[/]+/);
+  parts.pop();
+  return parts.join("/");
+}

@@ -1,10 +1,10 @@
 import * as vscode from "vscode";
 import * as git from "./git";
-import * as path from "path";
 import * as child_process from "child_process";
-import * as util from "util";
+import * as nodeUtil from "util";
+import * as utils from "./utils";
 
-const execFile = util.promisify(child_process.execFile);
+const execFile = nodeUtil.promisify(child_process.execFile);
 
 export default async function getCurrentGitBranch(
   docUri: vscode.Uri,
@@ -65,7 +65,7 @@ async function getCurrentGitBranchFromGit(
   }
 
   const docWithAbsolutePath = docUri.fsPath;
-  const docDirectory = path.dirname(docWithAbsolutePath);
+  const docDirectory = utils.dirname(docWithAbsolutePath);
 
   try {
     const { stdout } = await execFile(
