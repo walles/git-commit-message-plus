@@ -16,6 +16,12 @@ suite("Utils", () => {
       id: "jira-123",
     });
 
+    assert.deepStrictEqual(utils.findJiraIssueId("jira-123 Hello"), {
+      startIndex: 0,
+      firstIndexAfter: 9,
+      id: "jira-123",
+    });
+
     assert.deepStrictEqual(utils.findJiraIssueId("Hello"), {
       startIndex: 0,
       firstIndexAfter: 0,

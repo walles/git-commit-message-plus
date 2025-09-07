@@ -4,6 +4,9 @@
 
 import * as vscode from "vscode";
 
+/** JIRA-123 */
+const jiraPrefixUndecorated = /^()([a-zA-Z]{2,}-[0-9]+) +/;
+
 /** JIRA-123: */
 const jiraPrefixWithColon = /^()([a-zA-Z]{2,}-[0-9]+): +/;
 
@@ -56,7 +59,10 @@ export function createDiagnostic(
 }
 
 export function findJiraIssueId(firstLine: string): JiraIssueIdPrefix {
-  let match = firstLine.match(jiraPrefixWithColon);
+  let match = firstLine.match(jiraPrefixUndecorated);
+  if (!match) {
+    match = firstLine.match(jiraPrefixWithColon);
+  }
   if (!match) {
     match = firstLine.match(jiraPrefixWithBrackets);
   }
