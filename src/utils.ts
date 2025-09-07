@@ -1,3 +1,7 @@
+/* global require */
+
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 import * as vscode from "vscode";
 
 /** JIRA-123: */
@@ -89,3 +93,39 @@ export function getJiraIssueIdFromBranchName(
 
   return undefined;
 }
+
+/**
+ * Returns the directory portion of a path, handling both / and \ separators.
+ * Equivalent to Node's path.dirname, but works in browser and cross-platform.
+ * @param filePath - The full file path.
+ * @returns The directory portion of the path.
+ */
+export function dirname(filePath: string): string {
+  // First, remove any trailing / or \
+  filePath = filePath.replace(/[\\/]+$/, "");
+
+  const parts = filePath.split(/[\\/]+/);
+  parts.pop();
+  return parts.join("/");
+}
+
+/**
+ * Returns true if running in desktop VS Code (Node.js context), false otherwise (web context).
+ */
+export function isDesktopContext(): boolean {
+  return typeof process !== "undefined" && !!process.versions?.node;
+}
+
+// Set up execFile on desktop only. On web it will be undefined.
+type ExecFileType = (
+  cmd: string,
+  args: string[],
+  options?: { cwd?: string },
+) => Promise<{ stdout: string; stderr: string }>;
+let execFile: ExecFileType | undefined;
+if (isDesktopContext()) {
+  const nodeUtil = require("util");
+  const child_process = require("child_process");
+  execFile = nodeUtil.promisify(child_process.execFile) as ExecFileType;
+}
+export { execFile };

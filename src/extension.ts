@@ -85,6 +85,17 @@ export async function activate(context: vscode.ExtensionContext) {
     null,
     context.subscriptions,
   );
+
+  const api = {
+    /**
+     * Exposed for testing purposes.
+     */
+    get gitBranch() {
+      return gitBranch;
+    },
+  };
+
+  return api;
 }
 
 // This method is called when your extension is deactivated

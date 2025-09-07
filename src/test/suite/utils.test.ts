@@ -50,4 +50,14 @@ suite("Utils", () => {
       undefined,
     );
   });
+
+  test("Our dirname works on Windows as well", () => {
+    assert.strictEqual(utils.dirname("/foo/bar/baz.txt"), "/foo/bar");
+    assert.strictEqual(utils.dirname("foo/bar/baz.txt"), "foo/bar");
+    assert.strictEqual(utils.dirname("baz.txt"), "");
+    assert.strictEqual(utils.dirname("/foo/bar/"), "/foo");
+    assert.strictEqual(utils.dirname("C:/foo/bar/baz.txt"), "C:/foo/bar");
+    assert.strictEqual(utils.dirname("C:/foo/bar/"), "C:/foo");
+    assert.strictEqual(utils.dirname("baz.txt"), "");
+  });
 });

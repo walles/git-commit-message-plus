@@ -1,5 +1,4 @@
 import * as vscode from "vscode";
-import * as path from "path";
 import * as utils from "./utils";
 import { gitBranch, setVerboseCommitCommandId } from "./extension";
 import { createBranchIssueIdFix, createUpcaseJiraIdFix } from "./jira";
@@ -25,7 +24,7 @@ export default class GitCommitCodeActionProvider
     returnMe.push(...createBranchIssueIdFix(gitBranch, doc, range));
     returnMe.push(...createUpcaseJiraIdFix(doc, range));
 
-    if (path.basename(doc.fileName) === "COMMIT_EDITMSG") {
+    if (doc.fileName.endsWith("COMMIT_EDITMSG")) {
       returnMe.push(...(await createEnableGitVerboseCommitFix(doc, range)));
     }
 

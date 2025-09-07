@@ -6,53 +6,61 @@
 'use strict'
 
 const path = require('path')
-const webpack = require('webpack')
 
-/**@type {import('webpack').Configuration}*/
-const config = {
-  target: 'node', // "webworker" for web or "node" for desktop
+/** @typedef {import('webpack').Configuration} WebpackConfig **/
 
-  entry: './src/extension.ts', // the entry point of this extension, 📖 -> https://webpack.js.org/configuration/entry-context/
+function createExtensionConfig ({ target, output }) {
+  return {
+    target,
+    entry: './src/extension.ts',
+    output,
+    devtool: 'source-map',
+    externals: {
+      vscode: 'commonjs vscode' // the vscode-module is created on-the-fly and must be excluded. Add other modules that cannot be webpack'ed, 📖 -> https://webpack.js.org/configuration/externals/
+    },
+    resolve: {
+      mainFields: ['browser', 'module', 'main'],
+      extensions: ['.ts'],
+      alias: {},
+      fallback: {
+        util: false,
+        child_process: false
+      }
+    },
+    module: {
+      rules: [
+        {
+          test: /\.ts$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'ts-loader'
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+
+const nodeExtensionConfig = createExtensionConfig({
+  target: 'node',
   output: {
-    // the bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
     path: path.resolve(__dirname, 'dist'),
     filename: 'extension.js',
     libraryTarget: 'commonjs2',
     devtoolModuleFilenameTemplate: '../[resource-path]'
-  },
-  devtool: 'source-map',
-  externals: {
-    vscode: 'commonjs vscode' // the vscode-module is created on-the-fly and must be excluded. Add other modules that cannot be webpack'ed, 📖 -> https://webpack.js.org/configuration/externals/
-  },
-  resolve: {
-    // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
-    mainFields: ['browser', 'module', 'main'], // look for `browser` entry point in imported node modules
-    extensions: ['.ts'],
-    alias: {
-      // provides alternate implementation for node module and source files
-    },
-    fallback: {
-      // Webpack 5 no longer polyfills Node.js core modules automatically.
-      // see https://webpack.js.org/configuration/resolve/#resolvefallback
-      // for the list of Node.js core module polyfills.
-      path: false,
-      child_process: false,
-      util: false
-      // add other Node.js modules as needed
-    }
-  },
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'ts-loader'
-          }
-        ]
-      }
-    ]
   }
-}
-module.exports = config
+})
+
+const webExtensionConfig = createExtensionConfig({
+  target: 'webworker',
+  output: {
+    filename: 'extension.js',
+    path: path.join(__dirname, './dist/web'),
+    libraryTarget: 'commonjs',
+    devtoolModuleFilenameTemplate: '../../[resource-path]'
+  }
+})
+
+module.exports = [webExtensionConfig, nodeExtensionConfig]

@@ -2,5 +2,6 @@
 /dist/
 /node_modules/
 /.vscode-test/
+/.vscode-test-web/
 /git-commit-message-plus-99.99.99.vsix
 *.blend[0-9]
