@@ -6,11 +6,6 @@
 'use strict'
 
 const path = require('path')
-const webpack = require('webpack')
-
-{
-  require.resolve('assert')
-}
 
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
 
