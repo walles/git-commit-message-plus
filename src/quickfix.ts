@@ -24,7 +24,7 @@ export default class GitCommitCodeActionProvider
     returnMe.push(...createBranchIssueIdFix(gitBranch, doc, range));
     returnMe.push(...createUpcaseJiraIdFix(doc, range));
 
-    if (utils.basename(doc.fileName) === "COMMIT_EDITMSG") {
+    if (doc.fileName.endsWith("COMMIT_EDITMSG")) {
       returnMe.push(...(await createEnableGitVerboseCommitFix(doc, range)));
     }
 

@@ -35,7 +35,7 @@ export function getDiagnostics(doc: vscode.TextDocument): vscode.Diagnostic[] {
     returnMe.push(...getSecondLineDiagnostic(secondLine));
   }
 
-  if (utils.basename(doc.fileName) === "COMMIT_EDITMSG") {
+  if (doc.fileName.endsWith("COMMIT_EDITMSG")) {
     returnMe.push(...getNoDiffDiagnostic(doc));
   }
 
