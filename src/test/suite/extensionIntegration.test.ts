@@ -16,6 +16,13 @@ suite("Extension Integration", () => {
       .toString()
       .trim();
 
+    if (!expectedBranch) {
+      console.log(
+        "Skipping test: Not on any git branch. Happens with GitHub Actions.",
+      );
+      return;
+    }
+
     const commitMessage = path.join(__dirname, "COMMIT_EDITMSG");
     fs.writeFileSync(commitMessage, "For testing\n\nThese are some words.\n");
 
