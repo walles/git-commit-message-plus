@@ -61,7 +61,7 @@ const nodeExtensionConfig = createExtensionConfig({
 const webExtensionConfig = createExtensionConfig({
   target: 'webworker',
   output: {
-    filename: '[name].js',
+    filename: 'extension.js',
     path: path.join(__dirname, './dist/web'),
     libraryTarget: 'commonjs',
     devtoolModuleFilenameTemplate: '../../[resource-path]'

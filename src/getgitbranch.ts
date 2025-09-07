@@ -1,10 +1,6 @@
 import * as vscode from "vscode";
 import * as git from "./git";
-import * as child_process from "child_process";
-import * as nodeUtil from "util";
 import * as utils from "./utils";
-
-const execFile = nodeUtil.promisify(child_process.execFile);
 
 export default async function getCurrentGitBranch(
   docUri: vscode.Uri,
@@ -62,6 +58,11 @@ function getCurrentGitBranchFromVscode(docUri: vscode.Uri): string | undefined {
 async function getCurrentGitBranchFromGit(
   docUri: vscode.Uri,
 ): Promise<string | undefined> {
+  if (!utils.execFile) {
+    // Not desktop context, can't run git
+    return undefined;
+  }
+
   console.debug("Git branch requested from Git for document", docUri);
 
   if (docUri.scheme != "file") {
@@ -73,9 +74,13 @@ async function getCurrentGitBranchFromGit(
   const docDirectory = utils.dirname(docWithAbsolutePath);
 
   try {
-    const { stdout } = await execFile("git", ["branch", "--show-current"], {
-      cwd: docDirectory,
-    });
+    const { stdout } = await utils.execFile!(
+      "git",
+      ["branch", "--show-current"],
+      {
+        cwd: docDirectory,
+      },
+    );
 
     const branchName = stdout.trim();
     if (!branchName) {

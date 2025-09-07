@@ -22,6 +22,11 @@
   "license": "MIT",
   "publisher": "walles",
   "main": "./dist/extension",
+  "browser": "./dist/web/extension.js",
+  "extensionKind": [
+    "workspace",
+    "web"
+  ],
   "scripts": {
     "compile": "webpack --mode development",
     "check-types": "tsc --noEmit",
@@ -31,7 +36,7 @@
     "publish": "vsce publish",
     "compile-tests": "tsc -p . --outDir out",
     "pretest": "npm run compile && npm run compile-tests && npm run lint",
-    "test": "vscode-tmgrammar-test -g tests/support/diff.tmLanguage.json tests/unit/*.test && node ./out/test/runTest.js",
+    "test": "vscode-tmgrammar-test -g tests/support/diff.tmLanguage.json tests/unit/*.test && node ./out/test/runTest.js && npx @vscode/test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=./out/test/suite-web/index.js",
     "vscode:prepublish": "npm run package",
     "watch": "webpack --mode development --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
@@ -69,6 +74,7 @@
     "@typescript-eslint/eslint-plugin": "^8.41.0",
     "@typescript-eslint/parser": "^8.41.0",
     "@vscode/test-electron": "^2.5.2",
+    "@vscode/test-web": "^0.0.73",
     "@vscode/vsce": "^3.6.0",
     "esbuild": "^0.25.9",
     "eslint": "^9.34.0",

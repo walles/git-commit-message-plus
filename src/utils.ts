@@ -1,3 +1,7 @@
+/* global require */
+
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 import * as vscode from "vscode";
 
 /** JIRA-123: */
@@ -119,3 +123,17 @@ export function dirname(filePath: string): string {
 export function isDesktopContext(): boolean {
   return typeof process !== "undefined" && !!process.versions?.node;
 }
+
+// Set up execFile on desktop only. On web it will be undefined.
+type ExecFileType = (
+  cmd: string,
+  args: string[],
+  options?: { cwd?: string },
+) => Promise<{ stdout: string; stderr: string }>;
+let execFile: ExecFileType | undefined;
+if (isDesktopContext()) {
+  const nodeUtil = require("util");
+  const child_process = require("child_process");
+  execFile = nodeUtil.promisify(child_process.execFile) as ExecFileType;
+}
+export { execFile };
