@@ -89,6 +89,14 @@
     "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1"
   },
+  "exclude": [
+    ".gitignore",
+    "eslint.config.js",
+    ".github",
+    "images/COMMIT_EDITMSG",
+    "images/README.md",
+    "images/screenshot.png"
+  ],
   "engines": {
     "vscode": "^1.103.0"
   }
