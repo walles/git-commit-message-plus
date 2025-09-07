@@ -40,11 +40,7 @@ messages](https://cbea.ms/git-commit).
 
 - Consider the tests for no-diffs for both diagnostics and quick fixes. Are we
   really testing for comment-line followed by an empty line at the end?
-- Disable `@typescript-eslint/no-non-null-assertion` in `*.test.*` files, or in
-  the whole `suite` directory
 - Highlight current branch name in the Git metadata
-- Validate code formatting in CI and fail on violations
-- Fail CI on linter warnings
 - Move all tests under the same top subdirectory
 
 ## Development
