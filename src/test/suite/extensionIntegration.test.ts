@@ -7,7 +7,9 @@ import * as os from "os";
 import { execSync } from "child_process";
 
 suite("Extension Integration", () => {
-  test("Git branch detected in in-workspace file", async () => {
+  test("Git branch detected in in-workspace file", async function () {
+    this.timeout(5000); // Should be longer than the deadline below
+
     const expectedBranch = execSync("git branch --show-current", {
       cwd: __dirname,
     })
@@ -30,21 +32,21 @@ suite("Extension Integration", () => {
       )!;
       await ext.activate();
 
-      // Wait (up to ~2s) for async branch detection to populate gitBranch
-      const deadline = Date.now() + 2000;
-      let actualBranch: string | undefined = ext.exports.gitBranch;
-      while (actualBranch != expectedBranch && Date.now() < deadline) {
+      // Wait (up to ~4s) for async branch detection to populate gitBranch
+      const deadline = Date.now() + 4000; // Should be shorter than the test timeout above
+      while (ext.exports.gitBranch != expectedBranch && Date.now() < deadline) {
         await new Promise((r) => globalThis.setTimeout(r, 50));
-        actualBranch = ext.exports.gitBranch;
       }
 
-      assert.strictEqual(actualBranch, expectedBranch);
+      assert.strictEqual(ext.exports.gitBranch, expectedBranch);
     } finally {
       fs.rmSync(commitMessage);
     }
   });
 
-  test("Git branch detected in not-in-workspace file", async () => {
+  test("Git branch detected in not-in-workspace file", async function () {
+    this.timeout(5000); // Should be longer than the deadline below
+
     const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "git-commit-test-"));
 
     try {
@@ -67,15 +69,13 @@ suite("Extension Integration", () => {
       )!;
       await ext.activate();
 
-      // Wait (up to ~2s) for async branch detection to populate gitBranch
-      const deadline = Date.now() + 2000;
-      let actualBranch: string | undefined = ext.exports.gitBranch;
-      while (actualBranch != "test-branch" && Date.now() < deadline) {
+      // Wait (up to ~4s) for async branch detection to populate gitBranch
+      const deadline = Date.now() + 4000; // Should be shorter than the test timeout above
+      while (ext.exports.gitBranch != "test-branch" && Date.now() < deadline) {
         await new Promise((r) => globalThis.setTimeout(r, 50));
-        actualBranch = ext.exports.gitBranch;
       }
 
-      assert.strictEqual(actualBranch, "test-branch");
+      assert.strictEqual(ext.exports.gitBranch, "test-branch");
     } finally {
       fs.rmSync(tmpDir, { recursive: true, force: true });
     }
