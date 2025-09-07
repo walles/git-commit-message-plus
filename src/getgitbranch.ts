@@ -9,10 +9,15 @@ const execFile = nodeUtil.promisify(child_process.execFile);
 export default async function getCurrentGitBranch(
   docUri: vscode.Uri,
 ): Promise<string | undefined> {
-  return (
+  const branch =
     getCurrentGitBranchFromVscode(docUri) ||
-    (await getCurrentGitBranchFromGit(docUri))
-  );
+    (await getCurrentGitBranchFromGit(docUri));
+
+  if (docUri.scheme == "file" && !branch) {
+    console.warn("No Git branch found for document", docUri);
+  }
+
+  return branch;
 }
 
 function getCurrentGitBranchFromVscode(docUri: vscode.Uri): string | undefined {
@@ -34,19 +39,19 @@ function getCurrentGitBranchFromVscode(docUri: vscode.Uri): string | undefined {
   const git = extension.exports.getAPI(1);
   const repository = git.getRepository(docUri);
   if (!repository) {
-    console.warn("No Git repository for current document", docUri);
+    console.debug("No vscode Git repository for current document", docUri);
     return undefined;
   }
 
   const currentBranch = repository.state.HEAD;
   if (!currentBranch) {
-    console.warn("No HEAD branch for current document", docUri);
+    console.debug("No vscode HEAD branch for current document", docUri);
     return undefined;
   }
 
   const branchName = currentBranch.name;
   if (!branchName) {
-    console.warn("Current branch has no name", docUri, currentBranch);
+    console.warn("Current vscode branch has no name", docUri, currentBranch);
     return undefined;
   }
 
@@ -74,14 +79,18 @@ async function getCurrentGitBranchFromGit(
 
     const branchName = stdout.trim();
     if (!branchName) {
-      console.warn("No git branch found", docUri, branchName);
+      console.warn(
+        `No git branch found in ${docDirectory}`,
+        docUri,
+        branchName,
+      );
       return undefined;
     }
 
     console.debug("Git: Current branch name", branchName);
     return branchName;
   } catch (e) {
-    console.warn("Git invocation failed", docUri, e);
+    console.warn(`Git invocation failed in ${docDirectory}`, docUri, e);
     return undefined;
   }
 }
