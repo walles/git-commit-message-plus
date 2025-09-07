@@ -68,13 +68,9 @@ async function getCurrentGitBranchFromGit(
   const docDirectory = utils.dirname(docWithAbsolutePath);
 
   try {
-    const { stdout } = await execFile(
-      "git",
-      ["rev-parse", "--abbrev-ref", "HEAD"],
-      {
-        cwd: docDirectory,
-      },
-    );
+    const { stdout } = await execFile("git", ["branch", "--show-current"], {
+      cwd: docDirectory,
+    });
 
     const branchName = stdout.trim();
     if (!branchName) {
