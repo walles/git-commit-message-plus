@@ -70,3 +70,12 @@ To check highlighting in VSCode: "Developer: Inspect Editor Tokens and Scopes"
 1. `git push`
 1. `git tag NEW-VERSION-NUMBER && git push --tags`
 1. `npm run publish`
+
+If `npm run publish` fails with "Access Denied: The Personal Access Token used
+has expired.":
+
+1. Go to [Azure DevOps](https://dev.azure.com/) and click your profile icon
+   (User settings) -> **Personal access tokens**.
+1. Create a new token with the organization set to `All accessible organizations` and the scope set to `Marketplace` / `Manage`.
+1. Run `npx vsce login walles` and paste the new PAT before trying the publish
+   command again.
